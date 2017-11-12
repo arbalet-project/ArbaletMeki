@@ -16,21 +16,25 @@ On utilise le constructeur :
 
 ### Début d'une animation
 
-		int setup(int x, int y, int loops)
+	int setup(int x, int y, int loops)
 
 Paramètres :
-	int x - largeur du mur
-	int y - hauteur du mur
-	int loops - le nombre de tours de boucle conseillés
+
+int x - largeur du mur
+
+int y - hauteur du mur
+
+int loops - le nombre de tours de boucle conseillés
 
 Retour :
-	int loops - le nombre de tours de boucle que vous souhaitez. Essayez de donner une valeur la plus proche possible de la valeur du paramètre loop. Le séquenceur essaiera de vous donner le nombre que vous retournez, mais il est possible que le séquenceur arrête l'animation en cours.
+
+int loops - le nombre de tours de boucle que vous souhaitez. Essayez de donner une valeur la plus proche possible de la valeur du paramètre loop. Le séquenceur essaiera de vous donner le nombre que vous retournez, mais il est possible que le séquenceur arrête l'animation en cours.
 
 ### Boucle
 
 Il est interdit d'utiliser un appel de la fonction loop pour plusieurs itérations de l'animation. UN APPEL = UNE ITÉRATION.
 
-		void loop()
+	void loop()
 
 # Comment utiliser GIT ?
 
@@ -40,16 +44,16 @@ Petit tutoriel rapide (et sans profondeur) pour ceux qui n'ont jamais utilisé G
 
 ### Créer votre compte git (différent du compte github !)
 
-		git config --global user.name "Votre pseudo"
-		git config --global user.email "Votre@mail.com"
+	git config --global user.name "Votre pseudo"
+	git config --global user.email "Votre@mail.com"
 
 ### Récupérer le projet
 
-		git clone https://github.com/CLOVIS-AI/arbalet_v1.git
+	git clone https://github.com/CLOVIS-AI/arbalet_v1.git
 
 ### Mettre à jour la version locale
 
-		git pull
+	git pull
 
 ## Faire des mises à jour
 
@@ -59,18 +63,18 @@ Git fonctionne en deux étapes :
 
 ### Ajouter un nouveau fichier au projet
 
-		git add CHEMIN_VERS_LE_FICHIER
+	git add CHEMIN_VERS_LE_FICHIER
 
 ### Mettre à jour un fichier déjà créé dans le projet
 
-		git commit -m 'DESCRIPTION_DE_LA_MISE_A_JOUR'
+	git commit -m 'DESCRIPTION_DE_LA_MISE_A_JOUR'
 
 ### Mettre à jour tous les fichiers
 
-		git commit -am 'DESCRIPTION_DE_LA_MISE_A_JOUR'
+	git commit -am 'DESCRIPTION_DE_LA_MISE_A_JOUR'
 
 ### Envoyer les mises à jour au serveur
 
 Puisque le repo est stocké sur GitHub, vous aurez besoin d'un compte sur GitHub pour effectuer cette commande.
 
-		git push
+	git push
