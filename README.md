@@ -1,4 +1,7 @@
 # Architecture logicielle
+# Séance du 16/11: cette page est obsolète
+# Page à mettre à jour par l'équipe architecture logicielle
+# La page à jour pour le 16/11 est [dans le dossier des animations](animations)
 
 Les caractéristiques de base de chaque animation seront précisées par une interface.
 
