@@ -147,13 +147,15 @@ int *value;
 int *sens;
 float *hue_expos;
 
+float hue1, hue2;
+
 void setupLineaire(){
   value = (int*)malloc(300*sizeof(int));
   sens = (int*)malloc(300*sizeof(int));
   hue_expos = (float*)malloc(300*sizeof(float));
   
-  float hue1 = random(0, 10)/10.0;
-  float hue2 = random(0, 10)/10.0;
+  hue1 = random(0, 10)/10.0;
+  hue2 = random(0, 10)/10.0;
   
   for(int i = 0; i < strip.numPixels(); ++i){
       value[i] = random(0, 256);
@@ -180,6 +182,7 @@ void loopLineaire(){
     value[i] = min(255, max(0, value[i] + sens[i]));
     if(value[i] == 0) {
         sens[i] = 1;
+        hue_expos[i] = random(0, 2) == 0? hue1 : hue2;
     }
     else if(value[i] == 255) {
       sens[i] = -1;
