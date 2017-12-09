@@ -145,18 +145,21 @@ void destroyRoueDesCouleurs() {
 /***************************************************************** Lineaire *******************************************************/
 int *value;
 int *sens;
-float hues[4] = {0.9, 0.83, 0.23, 0.1};
-float hue_expo;
+float *hue_expos;
 
 void setupLineaire(){
   value = (int*)malloc(300*sizeof(int));
   sens = (int*)malloc(300*sizeof(int));
-  hue_expo = hues[random(0, 4)];
+  hue_expos = (float*)malloc(300*sizeof(float));
+  
+  float hue1 = random(0, 10)/10.0;
+  float hue2 = random(0, 10)/10.0;
   
   for(int i = 0; i < strip.numPixels(); ++i){
       value[i] = random(0, 256);
       sens[i] = random(0, 2) == 0 ? 1 : -1;
-      strip.setPixelColor(i, hueToRGB(hue_expo, 1.0, value[i]));
+      hue_expos[i] = random(0, 2) == 0? hue1 : hue2;
+      strip.setPixelColor(i, hueToRGB(hue_expos[i], 1.0, value[i]));
   }
   fadeInLineaire();
 }
@@ -165,7 +168,7 @@ void fadeInLineaire() {
   for(int step = 0; step<100; ++step) {
     for(int i = 0; i < strip.numPixels(); ++i){
       int fade_value = value[i]*step/100;
-      strip.setPixelColor(i, hueToRGB(hue_expo, 1.0, fade_value/255.0));
+      strip.setPixelColor(i, hueToRGB(hue_expos[i], 1.0, fade_value/255.0));
     }
     strip.show();
     delay(20);
@@ -181,7 +184,7 @@ void loopLineaire(){
     else if(value[i] == 255) {
       sens[i] = -1;
     }
-    strip.setPixelColor(i, hueToRGB(hue_expo, 1.0, value[i]/255.0));
+    strip.setPixelColor(i, hueToRGB(hue_expos[i], 1.0, value[i]/255.0));
   }
   strip.show();
   delay(20);
