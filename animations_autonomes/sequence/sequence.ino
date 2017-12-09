@@ -142,13 +142,13 @@ void destroyRoueDesCouleurs() {
     free(hue);
 }
 
-/***************************************************************** EXPONENTIELLES *******************************************************/
+/***************************************************************** Lineaire *******************************************************/
 int *value;
 int *sens;
 float hues[4] = {0.9, 0.83, 0.23, 0.1};
 float hue_expo;
 
-void setupExponentielles(){
+void setupLineaire(){
   value = (int*)malloc(300*sizeof(int));
   sens = (int*)malloc(300*sizeof(int));
   hue_expo = hues[random(0, 4)];
@@ -158,10 +158,10 @@ void setupExponentielles(){
       sens[i] = random(0, 2) == 0 ? 1 : -1;
       strip.setPixelColor(i, hueToRGB(hue_expo, 1.0, value[i]));
   }
-  fadeInExponentielles();
+  fadeInLineaire();
 }
 
-void fadeInExponentielles() {
+void fadeInLineaire() {
   for(int step = 0; step<100; ++step) {
     for(int i = 0; i < strip.numPixels(); ++i){
       int fade_value = value[i]*step/100;
@@ -172,7 +172,7 @@ void fadeInExponentielles() {
   }
 }
 
-void loopExponentielles(){
+void loopLineaire(){
   for(int i = 0; i < strip.numPixels(); ++i){
     value[i] = min(255, max(0, value[i] + sens[i]));
     if(value[i] == 0) {
@@ -187,7 +187,7 @@ void loopExponentielles(){
   delay(20);
 }
 
-void destroyExponentielles() {
+void destroyLineaire() {
   free(value); 
   free(sens);
 }
@@ -197,7 +197,8 @@ void destroyExponentielles() {
 void setup() {
   strip.begin();
   strip.show();
-  
+  randomSeed(analogRead(0));
+
 #if DEBUG_SERIAL
   while(!Serial);
   Serial.begin(9600);
@@ -216,7 +217,7 @@ void setupAnimation(int animation) {
 #endif
   switch(animation) {
     case 0:
-      setupExponentielles();
+      setupLineaire();
       break;
     case 1:
       setupRoueDesCouleurs();
@@ -227,7 +228,7 @@ void setupAnimation(int animation) {
 void loopAnimation(int animation) {
   switch(animation) {
     case 0:
-      loopExponentielles();
+      loopLineaire();
       break;
     case 1:
       loopRoueDesCouleurs();
@@ -242,7 +243,7 @@ void destroyAnimation(int animation) {
 #endif
   switch(animation) {
     case 0:
-      destroyExponentielles();
+      destroyLineaire();
       break;
     case 1:
       destroyRoueDesCouleurs();
