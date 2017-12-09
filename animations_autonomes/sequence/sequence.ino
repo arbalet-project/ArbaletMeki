@@ -1,6 +1,8 @@
+#include <avr/wdt.h>
 #include "Adafruit_WS2801.h"
-#include "SPI.h" // Comment out this line if using Trinket or Gemma
+#include "SPI.h"
 
+#define DEBUG_SERIAL 1
 
 Adafruit_WS2801 strip = Adafruit_WS2801(300);
 unsigned long DURATION_ANIMATION_MS = 10000;
@@ -70,7 +72,9 @@ uint32_t hueToRGB(float h, float s=1.0, float v=1.0) {
 }
 
 void fadeOut() {
+#if DEBUG_SERIAL
   Serial.println("Fading out");
+#endif
   for(int step=100; step>0; --step) {
     for (int i = 0; i < strip.numPixels(); ++i)
     {
@@ -143,14 +147,23 @@ void destroyRoueDesCouleurs() {
 void setup() {
   strip.begin();
   strip.show();
+  
+#if DEBUG_SERIAL
   while(!Serial);
   Serial.begin(9600);
+  Serial.println("Booting");
+#endif
+
   setupAnimation(0);
 }
 
 void setupAnimation(int animation) {
+#if DEBUG_SERIAL
   Serial.print("Setting up animation ");
   Serial.println(animation);
+  Serial.print("Walltime = ");
+  Serial.println(millis());
+#endif
   switch(animation) {
     case 0:
       setupRoueDesCouleurs();
@@ -173,8 +186,10 @@ void loopAnimation(int animation) {
 }
 
 void destroyAnimation(int animation) {
+#if DEBUG_SERIAL
   Serial.print("Destroying animation ");
   Serial.println(animation);
+#endif
   switch(animation) {
     case 0:
       destroyRoueDesCouleurs();
@@ -187,6 +202,16 @@ void destroyAnimation(int animation) {
 
 void loop() {
   unsigned long time = millis();
+  
+  if(time > 4300000) {
+    // Gérer le cas improbable où l'exécution dure plus de 50 jours
+    // Overflow de millis()
+    // Rebooter par déclenchement du chien de garde
+    fadeOut();
+    wdt_enable(WDTO_15MS);
+    while(1);
+  }
+  
   if(time > last_animation_switch + DURATION_ANIMATION_MS) {
     last_animation_switch = time;
     fadeOut();
