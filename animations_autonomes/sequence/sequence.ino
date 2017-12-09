@@ -5,7 +5,7 @@
 #define DEBUG_SERIAL 1
 
 Adafruit_WS2801 strip = Adafruit_WS2801(300);
-unsigned long DURATION_ANIMATION_MS = 10000;
+unsigned long DURATION_ANIMATION_MS = 4*60000;
 int NUM_ANIMATIONS = 2;
 unsigned long last_animation_switch = 0;
 int current_animation = 0;
