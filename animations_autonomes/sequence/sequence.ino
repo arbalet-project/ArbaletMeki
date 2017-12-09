@@ -121,7 +121,7 @@ void loopRoueDesCouleurs()
 {
   for (int i = 0; i < strip.numPixels(); i++)
   {
-    hue[i] += 0.004;
+    hue[i] += 0.001;
     if (hue[i] >= 1)
     {
       hue[i] = 0;
@@ -134,7 +134,7 @@ void loopRoueDesCouleurs()
   }
 
   strip.show();
-  delay(100);
+  delay(50);
 }
 
 void destroyRoueDesCouleurs() {
