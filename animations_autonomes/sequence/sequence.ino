@@ -193,6 +193,7 @@ void loopLineaire(){
 void destroyLineaire() {
   free(value); 
   free(sens);
+  free(hue_expos);
 }
 
 /***************************************************************** ENTRY POINT *******************************************************/
