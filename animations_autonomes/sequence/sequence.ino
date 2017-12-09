@@ -143,39 +143,52 @@ void destroyRoueDesCouleurs() {
 }
 
 /***************************************************************** EXPONENTIELLES *******************************************************/
-
-boolean *sens; 
+int *value;
+int *sens;
 
 void setupExponentielles(){
-  sens = (boolean*)malloc(300*sizeof(boolean));
+  value = (int*)malloc(300*sizeof(int));
+  sens = (int*)malloc(300*sizeof(int));
   randomSeed(analogRead(0));
-  for(int i = 0; i < 300; ++i){
-    uint8_t t = random(0, 256);
-    strip.setPixelColor(i, t, t, 255);
-    sens[i] = random(0, 2) == 0;
+  
+  for(int i = 0; i < strip.numPixels(); ++i){
+      value[i] = random(0, 256);
+      sens[i] = random(0, 2) == 0 ? 1 : -1;
+      strip.setPixelColor(i, hueToRGB(0.6, 1.0, value[i]));
   }
-  strip.show();
+  fadeInExponentielles();
+}
+
+void fadeInExponentielles() {
+  for(int step = 0; step<100; ++step) {
+    for(int i = 0; i < strip.numPixels(); ++i){
+      int fade_value = value[i]*step/100;
+      strip.setPixelColor(i, hueToRGB(0.6, 1.0, fade_value/255.0));
+    }
+    strip.show();
+    delay(20);
+  }
 }
 
 void loopExponentielles(){
-  for(int i = 0; i < 300; ++i){
-    uint32_t color = strip.getPixelColor(i) >> 16;
-    uint32_t c = color + (sens[i] ? 1 : -1) * random(0, color/5+5);
-    if(c > 250){
-      sens[i] = false;
-      c = 250;
-    }else if(c < 10){
-      sens[i] = true;
-      c = 10;
+  for(int i = 0; i < strip.numPixels(); ++i){
+    value[i] = min(255, max(0, value[i] + sens[i]));
+    if(value[i] == 0) {
+        sens[i] = 1;
     }
-    strip.setPixelColor(i, c, c, c+100 < 255 ? c+100 : 255);
+    else if(value[i] == 255) {
+      sens[i] = -1;
+    }
+    strip.setPixelColor(i, hueToRGB(0.6, 1.0, value[i]/255.0));
   }
+    Serial.println(value[0]/255.0);
   strip.show();
   delay(20);
 }
 
 void destroyExponentielles() {
-  free(sens); 
+  free(value); 
+  free(sens);
 }
 
 /***************************************************************** ENTRY POINT *******************************************************/
