@@ -142,6 +142,42 @@ void destroyRoueDesCouleurs() {
     free(hue);
 }
 
+/***************************************************************** EXPONENTIELLES *******************************************************/
+
+boolean *sens; 
+
+void setupExponentielles(){
+  sens = (boolean*)malloc(300*sizeof(boolean));
+  randomSeed(analogRead(0));
+  for(int i = 0; i < 300; ++i){
+    uint8_t t = random(0, 256);
+    strip.setPixelColor(i, t, t, 255);
+    sens[i] = random(0, 2) == 0;
+  }
+  strip.show();
+}
+
+void loopExponentielles(){
+  for(int i = 0; i < 300; ++i){
+    uint32_t color = strip.getPixelColor(i) >> 16;
+    uint32_t c = color + (sens[i] ? 1 : -1) * random(0, color/5+5);
+    if(c > 250){
+      sens[i] = false;
+      c = 250;
+    }else if(c < 10){
+      sens[i] = true;
+      c = 10;
+    }
+    strip.setPixelColor(i, c, c, c+100 < 255 ? c+100 : 255);
+  }
+  strip.show();
+  delay(20);
+}
+
+void destroyExponentielles() {
+  free(sens); 
+}
+
 /***************************************************************** ENTRY POINT *******************************************************/
 
 void setup() {
@@ -166,7 +202,7 @@ void setupAnimation(int animation) {
 #endif
   switch(animation) {
     case 0:
-      setupRoueDesCouleurs();
+      setupExponentielles();
       break;
     case 1:
       setupRoueDesCouleurs();
@@ -177,7 +213,7 @@ void setupAnimation(int animation) {
 void loopAnimation(int animation) {
   switch(animation) {
     case 0:
-      loopRoueDesCouleurs();
+      loopExponentielles();
       break;
     case 1:
       loopRoueDesCouleurs();
@@ -192,7 +228,7 @@ void destroyAnimation(int animation) {
 #endif
   switch(animation) {
     case 0:
-      destroyRoueDesCouleurs();
+      destroyExponentielles();
       break;
     case 1:
       destroyRoueDesCouleurs();
