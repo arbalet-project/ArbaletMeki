@@ -5,8 +5,8 @@
 #define DEBUG_SERIAL 1
 
 Adafruit_WS2801 strip = Adafruit_WS2801(300);
-unsigned long DURATION_ANIMATION_MS = 4*60000;
-int NUM_ANIMATIONS = 2;
+unsigned long DURATION_ANIMATION_MS = 30000;
+int NUM_ANIMATIONS = 3;
 unsigned long last_animation_switch = 0;
 int current_animation = 0;
 
@@ -142,6 +142,49 @@ void destroyRoueDesCouleurs() {
     free(hue);
 }
 
+
+/***************************************************************** ALLUMAGE AU HASARD *******************************************************/
+
+void fadeInAuHasard() {
+  for(int value=0; value<100; value++) {
+    for (int i = 0; i < strip.numPixels(); i++)
+    {
+      strip.setPixelColor(i, hueToRGB(hue[i], 1.0, value/100.0)); 
+    }
+    strip.show();
+    delay(50);
+  }
+}
+
+void setupAuHasard()  {
+    hue = (float*)malloc(300*sizeof(float));
+   for (int i = 0; i < strip.numPixels(); i++)  //Initialise tout le mur dans une meme couleur pour que toutes les leds soient allumées
+    {
+      hue[i]=random(250,300)/360.0;
+     strip.setPixelColor(i, hueToRGB(hue[i])); //bleu    
+    }
+    strip.show();   
+   
+}
+
+void loopAuHasard()  //fonction qui doit piocher au hasard une led et l'allumer d'une couleur au hasard // version actuelle a des defauts, toutes les leds s'allume d'un coup et non une a une
+{
+  int i;
+  for (int j = 0; j < 4; j++) //j=le nombre de pixels a changer en meme temps
+    {
+    i = random(0,strip.numPixels());
+    hue[i]=random(0,100)/360.0;
+    strip.setPixelColor(i, hueToRGB(hue[i]));    //choisi une led au hasard et la change dans une couleur au hasard
+    }
+    strip.show();
+    delay(100); //rapidité du changement de couleur
+      
+}
+
+void destroyAuHasard() {
+    free(hue);
+}
+
 /***************************************************************** Lineaire *******************************************************/
 int *value;
 int *sens;
@@ -223,22 +266,28 @@ void setupAnimation(int animation) {
   Serial.println(millis());
 #endif
   switch(animation) {
-    case 0:
+    case 2:
       setupLineaire();
       break;
     case 1:
       setupRoueDesCouleurs();
       break;
+     case 0:
+     setupAuHasard();
+     break;
   }
 }
 
 void loopAnimation(int animation) {
   switch(animation) {
-    case 0:
+    case 2:
       loopLineaire();
       break;
     case 1:
       loopRoueDesCouleurs();
+      break;
+    case 0:
+      loopAuHasard(); //tous le mur dans une meme couleur puis chaque led au hasard change de couleur
       break;
   }
 }
@@ -249,12 +298,15 @@ void destroyAnimation(int animation) {
   Serial.println(animation);
 #endif
   switch(animation) {
-    case 0:
+    case 2:
       destroyLineaire();
       break;
     case 1:
       destroyRoueDesCouleurs();
       break;
+    case 0:
+      destroyAuHasard();
+    break;  
   }
 }
 
