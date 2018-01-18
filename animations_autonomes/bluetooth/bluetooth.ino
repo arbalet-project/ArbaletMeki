@@ -86,10 +86,10 @@ void setup()
   // Configuration du bluetooth  
  
   Serial1.begin(9600);  //57600
-  // delay(500);  
-  // Serial1.print("AT+VERSION");  //Demande le N° de version
-  // delay(1000);  
-  // Serial1.print("\n");  
+  delay(500);  
+  Serial1.print("AT+NAMEArbalet_St_Jean");
+  delay(500);  
+  Serial.println("Bluetooth is up!");  
 }  
 int trouver(String list[]){
   boolean trouver = false;
