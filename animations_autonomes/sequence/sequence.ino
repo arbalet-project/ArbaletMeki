@@ -1,4 +1,5 @@
 #include <avr/wdt.h>
+#include <EEPROM.h>
 #include "Adafruit_WS2801.h"
 #include "SPI.h"
 
@@ -126,6 +127,27 @@ int calculer(int ligne, int colonne) {
         break;
 
     }
+}
+
+
+/******************* Lecture/écriture EEPROM ******************/
+void write_int_EEPROM(int addr, unsigned long value) {
+  byte b[4];
+  memcpy(b, &value, sizeof value);
+  for(int i=0; i<4; ++i) EEPROM.write(i+addr, b[i]);
+}
+
+unsigned long read_int_EEPROM(int addr) {
+  byte b[4];
+  for(int i=0; i<4; ++i) b[i] = EEPROM.read(i+addr);
+  unsigned long output;
+  memcpy(&output, b, sizeof output);
+  return output;
+}
+
+void increment_int_EEPROM(int addr) {
+   unsigned long i = read_int_EEPROM(addr);
+   write_int_EEPROM(addr, i+1);
 }
 
 /***************************************************************** ROUE DES COULEURS *******************************************************/
