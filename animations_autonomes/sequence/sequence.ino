@@ -338,8 +338,9 @@ void updateBluetoothCommands() {
 #include "tetris_letters.h"
 #include "tetris_pieces.h"
 
-byte (*pieces)[4][4];
-byte (*piecesGenerated)[4][4];
+// TODO Store the constants below in Flash memory
+const byte pieces[19][4][4] = {O1, Z1,Z2, S1,S2, I1,I2, J1,J2,J3,J4, L1,L2,L3,L4, T1,T2,T3,T4};
+const byte piecesGenerated[7][4][4] = {O1, Z1, S1, I1, J1, L1, T1};
 
 byte currentPieceIndex;        // stores current piece index: from 0 to 18
 byte currentPieceRotatedIndex; // stores the index of the rotated version of the current piece
@@ -641,10 +642,6 @@ void setupTetris() {
   fastDrop= false;
   generatePiece();
    
-  // Storing these constants below in Flash memory
-  const PROGMEM byte pieces[19][4][4] = {O1, Z1,Z2, S1,S2, I1,I2, J1,J2,J3,J4, L1,L2,L3,L4, T1,T2,T3,T4};
-  const PROGMEM byte piecesGenerated[7][4][4] = {O1, Z1, S1, I1, J1, L1, T1};
-
 }
 
 void destroyTetris() {
