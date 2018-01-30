@@ -7,7 +7,7 @@
 
 Adafruit_WS2801 strip = Adafruit_WS2801(300);
 unsigned long DURATION_ANIMATION_MS = 30000;
-int NUM_ANIMATIONS = 4;
+int NUM_ANIMATIONS = 3;
 unsigned long last_animation_switch = 0;
 int current_animation = 0;
 boolean isGame = false;
@@ -197,7 +197,6 @@ void loopRoueDesCouleurs()
 }
 
 void destroyRoueDesCouleurs() {
-    fadeOut();
     free(hue);
 }
 
@@ -320,7 +319,7 @@ String list[10];
 boolean commands[10] = {false, false, false, false, false, false, false, false, false, false};
 
 void setupBluetooth() {
-  Serial1.begin(9600);
+  Serial1.begin(115200);
   Serial1.setTimeout(10);
   
   list[0] = "Right_u";
@@ -341,19 +340,33 @@ void resetBluetoothCommands() {
   } 
 }
 
-void updateBluetoothCommands() {
-  String s = Serial1.readString();
-  if(s.length() > 0) {
-    //s[s.length()-1] = 0;  // delete \r
-    //s[s.length()-2] = 0;  // delete \n
+boolean AnyButtonPressed() {
+   for(int i=0; i<10; ++i) {
+      if(commands[i]) return true;
+  }
+  return false;
+}
 
-    for(int i=0; i<10; ++i) {
-      if(s.startsWith(list[i])) {
-        commands[i] = true;
-        return;
+boolean ResetButtonPressed() {
+ return commands[8];
+}
+
+boolean NextGameButtonPressed() {
+ return commands[9];
+}
+
+void updateBluetoothCommands() {
+  if(Serial1.available()) {
+    String s = Serial1.readString();
+    if(s.length() > 0) {
+      for(int i=0; i<10; ++i) {
+        if(s.startsWith(list[i])) {
+          commands[i] = true;
+          return;
+        }
       }
-    }
-  } 
+    } 
+  }
 }
 
 /******************************* Tetris lui-meme ****************************/
@@ -599,14 +612,6 @@ void resetTetris() {
     fastDrop = false;
 }
 
-void checkRestartGame() {
-  if (commands[8]==true) {
-    resetTetris();
-    gameRunning = true;
-    generatePiece(); // Start with a new one
-  }
-}
-
 void checkRotate() {
   time= millis(); 
   if ((commands[2]==true || commands[4]==true || commands[5]==true || commands[6]==true || commands[7]==true)
@@ -649,7 +654,6 @@ void checkDrop() {
 }
 
 void setupTetris() {
-  setupBluetooth();
 
   //  random seed for color selection, direction selection, and food+snakehead generation  
   byte rand1=random(7);
@@ -672,13 +676,10 @@ void destroyTetris() {
 }
 
 void loopTetris() {
-  resetBluetoothCommands();
-  updateBluetoothCommands();
   checkRight();
   checkLeft();
   checkRotate();
   checkDrop();
-  checkRestartGame();
   
   displayFrame();
   currentMoveTime=millis();
@@ -774,6 +775,7 @@ void setup() {
   Serial.println("Booting");
 #endif
 
+  setupBluetooth();
   setupAnimation(0);
 }
 
@@ -785,34 +787,28 @@ void setupAnimation(int animation) {
   Serial.println(millis());
 #endif
   switch(animation) {
-    case 3:
+    case 2:
       setupTetris();
       break;
-    case 2:
+    case 1:
       setupLineaire();
       break;
-    case 1:
+    case 0:
       setupRoueDesCouleurs();
       break;
-     case 0:
-     setupAuHasard();
-     break;
   }
 }
 
 void loopAnimation(int animation) {
   switch(animation) {
-    case 3:
+    case 2:
       loopTetris();
       break;
-    case 2:
+    case 1:
       loopLineaire();
       break;
-    case 1:
-      loopRoueDesCouleurs();
-      break;
     case 0:
-      loopAuHasard(); //tous le mur dans une meme couleur puis chaque led au hasard change de couleur
+      loopRoueDesCouleurs();
       break;
   }
 }
@@ -823,26 +819,26 @@ void destroyAnimation(int animation) {
   Serial.println(animation);
 #endif
   switch(animation) {
-    case 3:
+    case 2:
       destroyTetris();
       break;
-    case 2:
+    case 1:
       destroyLineaire();
       break;
-    case 1:
+    case 0:
       destroyRoueDesCouleurs();
       break;
-    case 0:
-      destroyAuHasard();
-      break;  
   }
 }
 
+void initiateAnimationSwitch() {
+  last_animation_switch = millis();
+  fadeOut();
+  destroyAnimation(current_animation);
+}
 
 void loop() {
-  unsigned long time = millis();
-  
-  if(time > 4300000) {
+  if(millis() > 4300000) {
     // Gérer le cas improbable où l'exécution dure plus de 50 jours
     // Overflow de millis()
     // Rebooter par déclenchement du chien de garde
@@ -850,14 +846,40 @@ void loop() {
     wdt_enable(WDTO_15MS);
     while(1);
   }
-  
+    
   // Changer d'animation quand le jeu est fini si c'est un jeu ou au bout de DURATION_ANIMATION sinon
-  if((isGame == false && (time > last_animation_switch + DURATION_ANIMATION_MS)) || (isGame == true && gameRunning == false)) {
-    last_animation_switch = time;
-    fadeOut();
-    destroyAnimation(current_animation);
-    current_animation = (current_animation + 1)%NUM_ANIMATIONS;
-    setupAnimation(current_animation);
+  if(isGame == false) {
+    if(millis() > last_animation_switch + DURATION_ANIMATION_MS) {
+      initiateAnimationSwitch();
+      current_animation = (current_animation + 1)%NUM_ANIMATIONS;
+      setupAnimation(current_animation);
+    }
+    else if(AnyButtonPressed()) {
+      initiateAnimationSwitch();
+      // Drop them to some game
+      current_animation = 2;
+      setupAnimation(current_animation);
+    }
   }
+  else { // isGame == true
+    if(gameRunning == false) {
+      // They've lost
+      initiateAnimationSwitch();
+      current_animation = (current_animation + 1)%NUM_ANIMATIONS;
+      setupAnimation(current_animation);
+    }
+    else if(NextGameButtonPressed()) {
+      initiateAnimationSwitch();
+      current_animation = (current_animation + 1)%NUM_ANIMATIONS;
+      setupAnimation(current_animation);
+    }
+    else if(ResetButtonPressed()) {
+      initiateAnimationSwitch();
+      setupAnimation(current_animation);
+    }
+  }
+ 
+  resetBluetoothCommands();
+  updateBluetoothCommands();
   loopAnimation(current_animation);
 }
