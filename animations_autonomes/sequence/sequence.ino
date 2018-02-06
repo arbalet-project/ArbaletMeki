@@ -3,11 +3,14 @@
 #include "Adafruit_WS2801.h"
 #include "SPI.h"
 
+#include <StandardCplusplus.h>.
+#include <list>
+
 #define DEBUG_SERIAL 1
 
 Adafruit_WS2801 strip = Adafruit_WS2801(300);
 unsigned long DURATION_ANIMATION_MS = 30000;
-int NUM_ANIMATIONS = 3;
+int NUM_ANIMATIONS = 4;
 unsigned long last_animation_switch = 0;
 int current_animation = 0;
 boolean isGame = false;
@@ -280,7 +283,9 @@ void fadeInLineaire() {
 
 void loopLineaire(){
   for(int i = 0; i < strip.numPixels(); ++i){
-    value[i] = min(255, max(0, value[i] + sens[i]));
+    value[i] = value[i] + sens[i];
+    value[i] = value[i]>255? 255 : value[i]<0? 0: value[i];
+    //value[i] = min(255, max(0, ));
     if(value[i] == 0) {
         sens[i] = 1;
         hue_expos[i] = random(0, 2) == 0? hue1 : hue2;
@@ -760,6 +765,214 @@ void displayFrame() {
   }
   strip.show();
 }
+/***************************************************************** SNAKE **************************************************************/
+
+#define TAILLE 300
+#define LARGEUR 20
+#define HAUTEUR 15
+#define T_HAUT 8
+#define T_BAS 2
+#define T_GAUCHE 4
+#define T_DROITE 6
+
+void color_that_case(int ligne, int colonne, int r, int g, int b){
+    strip.setPixelColor(calculer(ligne,colonne), r, g, b);
+}
+
+class Position {
+    private:
+         int m_x, m_y;
+
+    public:
+		Position(int x, int y)
+		  :m_x(x),m_y(y){
+
+		}
+		void draw(){
+			color_that_case(m_x, m_y, 50, 50, 50);
+		}
+
+		void drawFruit(){
+			color_that_case(m_x, m_y, 10, 100, 10);
+		}
+
+		void eteindreCase(){
+			color_that_case(m_x, m_y, 0, 0, 0);
+		}
+		int getX(){
+			return m_x;
+		}
+		int getY(){
+			return m_y;
+		}
+		void setX(int x){
+			m_x = x;
+		}
+		void setY(int y){
+			m_y = y;
+		}
+		bool equals(Position* p){
+			return m_x == p->getX() && m_y == p->getY();
+		}
+		Position* head(int dir){
+			switch(dir){
+				case T_HAUT:    return new Position(m_x-1, m_y);
+				case T_BAS:     return new Position(m_x+1, m_y);
+				case T_GAUCHE:  return new Position(m_x, m_y-1);
+				case T_DROITE:  return new Position(m_x, m_y+1);
+				default: return new Position(0, 0);
+			}
+		}
+};
+
+int directionSnake;
+char* positionspossibles;
+std::list <Position*> snakeUtil;
+
+void nouveauFruit(){
+    int alea = random(TAILLE - snakeUtil.size());
+    int i = 0;
+    int compteur = 0;
+    boolean fini = false;
+    while(compteur <= alea && i < TAILLE && !fini){
+      if(positionspossibles[i] == 's'){
+        
+      }else if(compteur == alea){
+        positionspossibles[i] = 'f';
+        strip.setPixelColor(alea, 0, 255, 0);
+        fini = true;
+      }
+      else{
+        compteur ++;
+      }
+      i++;
+    }
+    
+}
+
+void decaler(int directionSnake){
+  
+  unsigned char x_front = snakeUtil.front()->getX();
+  unsigned char y_front = snakeUtil.front()->getY();
+  unsigned char x_back =  snakeUtil.back()->getX();
+  unsigned char y_back = snakeUtil.back()->getY();
+    
+  color_that_case(x_back,y_back,0,0,0);
+  positionspossibles[calculer(x_back,y_back)] = 'r';
+  // il faut liberer la memoire
+  free(snakeUtil.back());
+  snakeUtil.pop_back();
+  
+  switch(directionSnake){
+        case 0://gauche
+          snakeUtil.push_front(new Position(x_front,(y_front+1)%(LARGEUR+1)));
+          break;
+          
+        case 1: //droite
+          if(y_front-1 < 0)
+          {
+            snakeUtil.push_front(new Position(x_front,LARGEUR));
+          }
+          else{
+            snakeUtil.push_front(new Position(x_front,y_front-1));
+          }
+          break;
+        case 2://haut
+          snakeUtil.push_front(new Position((x_front+1)%(HAUTEUR+1),y_front));
+          break;
+          
+        case 3://bas
+          if(x_front-1 < 0)
+          {
+            snakeUtil.push_front(new Position(HAUTEUR,y_front));
+          }
+          else{
+            snakeUtil.push_front(new Position(x_front-1,y_front));
+          }
+          
+          break;
+      }
+    
+    x_front = snakeUtil.front()->getX();
+    y_front = snakeUtil.front()->getY();
+    
+    
+    if(positionspossibles[calculer(x_front,y_front)] == 'f'){
+      positionspossibles[calculer(x_front,y_front)] = 's';
+      strip.setPixelColor(calculer(x_front,y_front), 0, 0, 0);
+      snakeUtil.push_back(new Position(snakeUtil.back()->getX(),snakeUtil.back()->getY()+1));
+      positionspossibles[calculer(snakeUtil.back()->getX(),snakeUtil.back()->getY())] = 's';
+      color_that_case(snakeUtil.back()->getX(),snakeUtil.back()->getY(),255,10,0);
+      nouveauFruit();
+    }
+    else{
+      positionspossibles[calculer(x_front,y_front)] = 's';
+    
+    }
+    color_that_case(x_front,y_front,255,0,0);
+    delay(500);
+}
+
+void deplacer()
+{
+  delay(600);
+  decaler(directionSnake);
+}
+
+
+void setupSnake()  
+{  
+    
+  positionspossibles = (char*)malloc(300);
+  
+  for (int i=0;i<300;i++)
+  {
+    strip.setPixelColor(i,0,0,0);
+  }
+  for(int i = 0; i < 300; i++){
+    positionspossibles[i] = 'r';
+  }
+  
+  positionspossibles[calculer(HAUTEUR/2,5)] = 'f';
+  strip.setPixelColor(calculer(HAUTEUR/2,5), 0, 255, 0);
+  
+  
+  directionSnake = 1;
+  Position* p1 = new Position(HAUTEUR/2-2,LARGEUR/2-1);
+  Position* p2 = new Position(HAUTEUR/2-1,LARGEUR/2-1);
+  Position* p3 = new Position(HAUTEUR/2,LARGEUR/2-1);
+  
+  snakeUtil.push_front(p1);
+  snakeUtil.front()->draw();
+  snakeUtil.push_front(p2);
+  snakeUtil.front()->draw();
+  snakeUtil.push_front(p3);
+  positionspossibles[calculer(p1->getX(),p1->getY())] = 's';
+  
+  positionspossibles[calculer(p2->getX(),p2->getY())] = 's';
+  positionspossibles[calculer(p3->getX(),p3->getY())] = 's';
+  snakeUtil.front()->draw();
+  
+}  
+
+void destroySnake()
+{
+  for(int i =0; i < snakeUtil.size(); i++)
+  {
+    free(snakeUtil.back());
+    snakeUtil.pop_back();
+  }
+  
+  free(positionspossibles);
+  
+}
+
+void loopSnake()  
+{  
+
+  deplacer();
+  strip.show();  
+}  
 
 
 /***************************************************************** ENTRY POINT *******************************************************/
@@ -787,6 +1000,9 @@ void setupAnimation(int animation) {
   Serial.println(millis());
 #endif
   switch(animation) {
+    case 3:
+      setupSnake();
+      break;
     case 2:
       setupTetris();
       break;
@@ -801,6 +1017,9 @@ void setupAnimation(int animation) {
 
 void loopAnimation(int animation) {
   switch(animation) {
+    case 3:
+      loopSnake();
+      break;
     case 2:
       loopTetris();
       break;
@@ -819,6 +1038,9 @@ void destroyAnimation(int animation) {
   Serial.println(animation);
 #endif
   switch(animation) {
+    case 3:
+      destroySnake();
+      break;
     case 2:
       destroyTetris();
       break;
