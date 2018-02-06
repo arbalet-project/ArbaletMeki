@@ -916,13 +916,18 @@ void decaler(int directionSnake){
 void deplacer()
 {
   delay(600);
+  if(commands[0] == true) directionSnake = 1;
+  else if(commands[1] == true) directionSnake = 0;
+  else if(commands[2] == true) directionSnake = 2;
+  else if(commands[3] == true) directionSnake = 3;
+
   decaler(directionSnake);
 }
 
 
 void setupSnake()  
 {  
-    
+  isGame = true;
   positionspossibles = (char*)malloc(300);
   
   for (int i=0;i<300;i++)
@@ -964,7 +969,8 @@ void destroySnake()
   }
   
   free(positionspossibles);
-  
+  isGame = false;
+
 }
 
 void loopSnake()  
