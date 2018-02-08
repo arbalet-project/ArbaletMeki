@@ -12,6 +12,7 @@ Adafruit_WS2801 strip = Adafruit_WS2801(300);
 unsigned long DURATION_ANIMATION_MS = 30000;
 int NUM_ANIMATIONS = 4;
 unsigned long last_animation_switch = 0;
+unsigned long lastKeyPressed = millis();
 int current_animation = 0;
 boolean isGame = false;
 char sens_tableau = '3';
@@ -367,6 +368,11 @@ void updateBluetoothCommands() {
       for(int i=0; i<10; ++i) {
         if(s.startsWith(list[i])) {
           commands[i] = true;
+          if (lastKeyPressed+1*30*1000< millis())
+          {
+            increment_int_EEPROM(0);
+          }
+          lastKeyPressed = millis();
           return;
         }
       }
@@ -775,9 +781,10 @@ void displayFrame() {
 #define T_GAUCHE 4
 #define T_DROITE 6
 
-
+int changeInVoid;
 unsigned long lastSnakeMoveTime;
-unsigned long currentSnakeMoveTime=millis();
+unsigned long currentSnakeMoveTime;
+unsigned long timeBeginSnake;
 
 void color_that_case(int ligne, int colonne, int r, int g, int b){
     strip.setPixelColor(calculer(ligne,colonne), r, g, b);
@@ -822,7 +829,6 @@ void nouveauFruit(){
       if(positionspossibles[i] == 's'){
         i++;
       }else if(compteurNew == alea){
-        Serial.println("Je passe la");
         positionspossibles[i] = 'f';
         strip.setPixelColor(i, 0, 255, 0);
         fini = true;
@@ -835,6 +841,35 @@ void nouveauFruit(){
     }
     
 }
+void tourner_couleur(){
+  for(int i = 0; i < 300; i++){
+    if(positionspossibles[i] == 's'){
+      strip.setPixelColor(i, 0, 0, 0);
+      strip.show();
+    }
+  }
+  
+}
+void tourner_rouge(){
+  for(int j = 0; j < 300; j++){
+    if(positionspossibles[j] == 's'){
+      strip.setPixelColor(j, 255, 25, 0);
+      strip.show();
+    }
+  }
+}
+void end_snake(){
+
+  for(int k = 0; k < 5; k++){
+    tourner_couleur();
+    delay(120);
+    tourner_rouge();
+    
+  }
+  
+  
+}
+
 
 void decaler(int directionSnake){
   
@@ -842,12 +877,8 @@ void decaler(int directionSnake){
   unsigned char y_front = snakeUtil.front()->getY();
   unsigned char x_back =  snakeUtil.back()->getX();
   unsigned char y_back = snakeUtil.back()->getY();
-    
-  color_that_case(x_back,y_back,0,0,0);
-  positionspossibles[calculer(x_back,y_back)] = 'r';
-  color_that_case(x_front,y_front,100,50,0);
-  free(snakeUtil.back());
-  snakeUtil.pop_back();
+  color_that_case(x_front,y_front,255,25,0);
+  
   
   switch(directionSnake){
         case 0://gauche
@@ -887,52 +918,29 @@ void decaler(int directionSnake){
       positionspossibles[calculer(x_front,y_front)] = 's';
       
       
-      switch(directionSnake){
-        case 0://gauche
-          snakeUtil.push_front(new Position(x_front,(y_front+1)%(LARGEUR+1)));
-          break;
-          
-        case 1: //droite
-          if(y_front-1 < 0)
-          {
-            snakeUtil.push_front(new Position(x_front,LARGEUR));
-          }
-          else{
-            snakeUtil.push_front(new Position(x_front,y_front-1));
-          }
-          break;
-        case 2://haut
-          snakeUtil.push_front(new Position((x_front+1)%(HAUTEUR+1),y_front));
-          break;
-          
-        case 3://bas
-          if(x_front-1 < 0)
-          {
-            snakeUtil.push_front(new Position(HAUTEUR,y_front));
-          }
-          else{
-            snakeUtil.push_front(new Position(x_front-1,y_front));
-          }
-          
-          break;
-      }
+      
       
       strip.setPixelColor(calculer(x_front,y_front), 0, 0, 0);
-      color_that_case(x_front,y_front,100,50,0);
-      positionspossibles[calculer(x_front,y_front)] = 's';
-      color_that_case(snakeUtil.front()->getX(),snakeUtil.front()->getY(),255,0,0);
-      positionspossibles[calculer(snakeUtil.front()->getX(),snakeUtil.front()->getY())] = 's';
+      color_that_case(x_front,y_front,255,0,0);
       
       
       nouveauFruit();
-
-      compteur= compteur -10;
+      
+      if (compteur > 100){
+        compteur= compteur -10;
+      }
     }
     else if(positionspossibles[calculer(x_front,y_front)] == 's'){
+      end_snake();
       gameRunning = false;
     }
 
     else{
+      color_that_case(x_back,y_back,0,0,0);
+      positionspossibles[calculer(x_back,y_back)] = 'r';
+      color_that_case(x_front,y_front,100,50,0);
+      free(snakeUtil.back());
+      snakeUtil.pop_back();
       color_that_case(x_front,y_front,255,0,0);
       positionspossibles[calculer(x_front,y_front)] = 's';
       }
@@ -945,22 +953,22 @@ void deplacer()
 
   updateBluetoothCommands();
   
-  if(commands[0] == true){
+  if(commands[0] == true && directionSnake != 1){
     lastSnakeMoveTime = millis();
     directionSnake = 0;
   }
   
-  else if(commands[1] == true){
+  else if(commands[1] == true && directionSnake != 0){
     lastSnakeMoveTime = millis();
     directionSnake = 1;
   }
   
-  else if(commands[2] == true){
+  else if(commands[2] == true && directionSnake != 2){
     lastSnakeMoveTime = millis();
     directionSnake = 3;
   }
   
-  else if(commands[3] == true) {
+  else if(commands[3] == true && directionSnake != 3) {
     lastSnakeMoveTime = millis();
     directionSnake = 2;
   }
@@ -987,9 +995,11 @@ void setupSnake()
   
   positionspossibles[calculer(HAUTEUR/2,5)] = 'f';
   strip.setPixelColor(calculer(HAUTEUR/2,5), 0, 255, 0);
-  
+
+  changeInVoid = 0;
   lastSnakeMoveTime=millis();
   currentSnakeMoveTime = millis();
+  timeBeginSnake = millis();
   
   directionSnake = 2;
   Position* p1 = new Position(HAUTEUR/2-2,LARGEUR/2-1);
@@ -1008,36 +1018,70 @@ void setupSnake()
   positionspossibles[calculer(p3->getX(),p3->getY())] = 's';
 
   
-}  
+}
 
 void destroySnake()
 {
+  
+
   while(snakeUtil.size() > 0)
   {
     free(snakeUtil.back());
     snakeUtil.pop_back();
   }
-
   lastSnakeMoveTime = 0;
   currentSnakeMoveTime = 0;
   compteur =0;
+  changeInVoid = 0;
   
   free(positionspossibles);
   isGame = false;
 
 }
 
+long timeToWait(){
+  if(lastSnakeMoveTime == timeBeginSnake){
+    return 4500;
+  }
+  return 45000;
+  
+  
+}
 void loopSnake()  
 {  
-  if(currentSnakeMoveTime-lastSnakeMoveTime < 45000){
+  if(currentSnakeMoveTime-lastSnakeMoveTime < timeToWait()){
     currentSnakeMoveTime = millis();
+    
   }else{
+        if(lastSnakeMoveTime == timeBeginSnake && changeInVoid<4){
+        switch(directionSnake){
+        case 0://gauche
+          directionSnake = 2;
+          break;
+          
+        case 1: //droite
+          directionSnake = 3;
+          break;
+        case 2://haut
+         directionSnake = 0;
+          break;
+          
+        case 3://bas
+          directionSnake =1;          
+          break;
+      }
+            currentSnakeMoveTime = millis();
+            timeBeginSnake = millis();
+            lastSnakeMoveTime = millis();
+            changeInVoid++;
+        }else{
         gameRunning = false;
+        }
   }
   deplacer();
   strip.show();  
   delay(compteur);
-}  
+}   
 
 
 /***************************************************************** ENTRY POINT *******************************************************/
@@ -1046,6 +1090,7 @@ void setup() {
   strip.begin();
   strip.show();
   randomSeed(analogRead(0));
+
 
 #if DEBUG_SERIAL
   while(!Serial);
@@ -1122,6 +1167,10 @@ void initiateAnimationSwitch() {
   last_animation_switch = millis();
   fadeOut();
   destroyAnimation(current_animation);
+  #if DEBUG_SERIAL
+  Serial.print("Nombre d'utilisateurs: ");
+  Serial.println(read_int_EEPROM(0));
+  #endif
 }
 
 void loop() {
