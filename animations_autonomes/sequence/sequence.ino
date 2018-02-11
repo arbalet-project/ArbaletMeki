@@ -9,7 +9,7 @@
 #define DEBUG_SERIAL 1
 
 Adafruit_WS2801 strip = Adafruit_WS2801(300);
-unsigned long DURATION_ANIMATION_MS = 30000;
+unsigned long DURATION_ANIMATION_MS = 120000;
 int NUM_ANIMATIONS = 4;
 unsigned long last_animation_switch = 0;
 unsigned long lastKeyPressed = millis();
@@ -368,7 +368,7 @@ void updateBluetoothCommands() {
       for(int i=0; i<10; ++i) {
         if(s.startsWith(list[i])) {
           commands[i] = true;
-          if (lastKeyPressed+1*30*1000< millis())
+          if (lastKeyPressed + 120000UL < millis())
           {
             increment_int_EEPROM(0);
           }
@@ -1174,7 +1174,7 @@ void initiateAnimationSwitch() {
 }
 
 void loop() {
-  if(millis() > 4300000) {
+  if(millis() > 4300000UL) {
     // Gérer le cas improbable où l'exécution dure plus de 50 jours
     // Overflow de millis()
     // Rebooter par déclenchement du chien de garde
