@@ -1096,8 +1096,9 @@ void setup() {
   while(!Serial);
   Serial.begin(9600);
   Serial.println("Booting");
+  Serial.print("Nombre d'utilisateurs: ");
+  Serial.println(read_int_EEPROM(0));
 #endif
-
   setupBluetooth();
   setupAnimation(0);
 }
