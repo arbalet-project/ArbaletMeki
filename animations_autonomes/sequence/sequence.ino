@@ -3,7 +3,7 @@
 #include "Adafruit_WS2801.h"
 #include "SPI.h"
 
-#include <StandardCplusplus.h>.
+#include <StandardCplusplus.h>
 #include <list>
 
 #define DEBUG_SERIAL 1
