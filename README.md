@@ -6,3 +6,10 @@ https://vimeo.com/arbalet/saintjean
 
 [Read the students' logbook](http://talk.arbalet-project.org/t/arbalet-st-jean-en/43/).
 Want to see more? [arbalet-project.org](http://arbalet-project.org/)
+
+## Libraries
+Install these libs in your `$HOME/Arduino/libraries` or $HOME/sketchbook/libraries
+
+```
+https://github.com/maniacbug/StandardCplusplus
+```
