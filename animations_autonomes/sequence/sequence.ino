@@ -2,21 +2,72 @@
 #include <EEPROM.h>
 #include "Adafruit_WS2801.h"
 #include "SPI.h"
-
+#include <Ethernet.h>
+#include <EthernetUdp.h>
 #include <StandardCplusplus.h>
 #include <list>
 
-#define DEBUG_SERIAL 1
+#define DEBUG_SERIAL 1      
+#define PROTOCOL_VERSION 1  // Ethernet protocol version
 
 Adafruit_WS2801 strip = Adafruit_WS2801(300);
-unsigned long DURATION_ANIMATION_MS = 120000;
+const unsigned long DURATION_ANIMATION_MS = 120000UL;
+const unsigned long LIVE_TIMEOUT_MS = 5000UL;
 int NUM_ANIMATIONS = 4;
 unsigned long last_animation_switch = 0;
 unsigned long lastKeyPressed = millis();
+unsigned long lastLiveFrameReceived = 0;
+
 int current_animation = 0;
 boolean isGame = false;
+boolean isLiveControl = false;
 char sens_tableau = '3';
 
+
+/*********************************************************************** ETHERNET *************************************************************/
+
+byte mac[] = {0xDE, 0xAD, 0xBE, 0x0, 0x33, 0x47};
+IPAddress ip(192, 168, 1, 50);
+unsigned int localPort = 33407;
+
+char packetBuffer[UDP_TX_PACKET_MAX_SIZE];
+byte liveR, liveG, liveB, liveNumPixel;
+EthernetUDP Udp;
+
+int readUDPPixel() {
+  int packetSize = Udp.parsePacket();
+  if (packetSize) {
+    Udp.read(packetBuffer, UDP_TX_PACKET_MAX_SIZE);
+
+    const byte HEADER_SIZE = 5;
+    char header[HEADER_SIZE] = {'A', 'R', 'B', 'A', (char)PROTOCOL_VERSION};
+    for (int i = 0; i < HEADER_SIZE; ++i) {
+      if(header[i] != packetBuffer[i]) {
+        #if DEBUG_SERIAL
+        Serial.println("Ignoring LIVE pixel: Incorrect header or protocol version");
+        #endif
+        return 0;
+      }
+    }
+    byte packet_index = HEADER_SIZE;
+    liveNumPixel = packetBuffer[packet_index++];
+    liveR = packetBuffer[packet_index++];
+    liveG = packetBuffer[packet_index++];
+    liveB = packetBuffer[packet_index++];
+    #if DEBUG_SERIAL
+    Serial.print(liveNumPixel); Serial.print(" ");
+    Serial.print(liveR); Serial.print(" ");
+    Serial.print(liveG); Serial.print(" ");
+    Serial.println(liveB);
+    #endif
+  }
+  return packetSize;
+}
+
+void setupEthernet() {
+  Ethernet.begin(mac, ip);
+  Udp.begin(localPort);
+}
 
 /***************************************************************** OUTILS DE CONVERSION *******************************************************/
 
@@ -1100,6 +1151,7 @@ void setup() {
   Serial.println(read_int_EEPROM(0));
 #endif
   setupBluetooth();
+  setupEthernet();
   setupAnimation(0);
 }
 
@@ -1183,9 +1235,34 @@ void loop() {
     wdt_enable(WDTO_15MS);
     while(1);
   }
-    
+
+  // Check LIVE Control first
+  // During live control, the sequenced animation is not destroyed
+  int udp_frame_size = readUDPPixel();
+  if(udp_frame_size > 0) lastLiveFrameReceived = millis();
+
+  if(isLiveControl && millis() > lastLiveFrameReceived + LIVE_TIMEOUT_MS) {
+    // Leaving LIVE Control mode
+    #if DEBUG_SERIAL
+    Serial.println("Live control timeout, switching back to default animations");
+    #endif
+    isLiveControl = false;
+    last_animation_switch = 0; // Force animation switch (will cause old animation destruction + switch)
+  }
+  else if(udp_frame_size > 0) {
+    if(!isLiveControl) {
+      // Entering LIVE Control mode
+      #if DEBUG_SERIAL
+      Serial.println("Received data for LIVE Control, switching mode to LIVE");
+      #endif
+      fadeOut();
+      last_animation_switch = millis();
+    } 
+    isLiveControl = true;
+    strip.setPixelColor(liveNumPixel, liveR, liveG, liveB);
+  }
   // Changer d'animation quand le jeu est fini si c'est un jeu ou au bout de DURATION_ANIMATION sinon
-  if(isGame == false) {
+  else if(isGame == false) {
     if(millis() > last_animation_switch + DURATION_ANIMATION_MS) {
       initiateAnimationSwitch();
       current_animation = (current_animation + 1)%NUM_ANIMATIONS;
