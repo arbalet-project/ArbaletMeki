@@ -5,6 +5,7 @@ from struct import pack
 from time import sleep
 from artnet import dmx
 from os import path
+import struct
 import socket
 import sys
 import json
@@ -15,7 +16,7 @@ class Wall(Thread):
 
     def __init__(self, hardware_ip, hardware_port, hardware=True, simulator=True):
         Thread.__init__(self)
-        self.header = list(map(ord, ['A', 'R', 'B', 'A'])) + [self.PROTOCOL_VERSION]
+        self.header = bytes(list(map(ord, ['A', 'R', 'B', 'A'])) + [self.PROTOCOL_VERSION])
         self.model = Model(15, 20)
         self.ip = hardware_ip
         self.port = hardware_port
@@ -54,8 +55,8 @@ class Wall(Thread):
                     for col in range(self.model.width):
                         r, g, b = map(lambda x: min(255, max(0, int(x*255))), self.model[row][col])
                         num_pixel = self.config['mapping'][row][col]
-                        packet = [num_pixel, r, g, b]
-                        self.socket.sendto(bytes(self.header + packet), (self.ip, self.port))
+                        packet = bytes([r, g, b]) + struct.pack("!H", num_pixel)
+                        self.socket.sendto(self.header + packet, (self.ip, self.port))
 
         if self.simulator is not None:
             self.simulator.update() 

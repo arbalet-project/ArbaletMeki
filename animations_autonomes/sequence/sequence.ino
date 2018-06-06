@@ -30,8 +30,9 @@ byte mac[] = {0xDE, 0xAD, 0xBE, 0x0, 0x33, 0x47};
 IPAddress ip(192, 168, 1, 50);
 unsigned int localPort = 33407;
 
-char packetBuffer[UDP_TX_PACKET_MAX_SIZE];
-byte liveR, liveG, liveB, liveNumPixel;
+byte packetBuffer[UDP_TX_PACKET_MAX_SIZE];
+byte liveR, liveG, liveB;
+unsigned int liveNumPixel = 0;
 EthernetUDP Udp;
 
 int readUDPPixel() {
@@ -40,7 +41,7 @@ int readUDPPixel() {
     Udp.read(packetBuffer, UDP_TX_PACKET_MAX_SIZE);
 
     const byte HEADER_SIZE = 5;
-    char header[HEADER_SIZE] = {'A', 'R', 'B', 'A', (char)PROTOCOL_VERSION};
+    byte header[HEADER_SIZE] = {'A', 'R', 'B', 'A', (char)PROTOCOL_VERSION};
     for (int i = 0; i < HEADER_SIZE; ++i) {
       if(header[i] != packetBuffer[i]) {
         #if DEBUG_SERIAL
@@ -50,15 +51,22 @@ int readUDPPixel() {
       }
     }
     byte packet_index = HEADER_SIZE;
-    liveNumPixel = packetBuffer[packet_index++];
+      
     liveR = packetBuffer[packet_index++];
     liveG = packetBuffer[packet_index++];
     liveB = packetBuffer[packet_index++];
+
+    unsigned short liveNumPixels1 = 0, liveNumPixels2 = 0;
+    liveNumPixels1 = packetBuffer[packet_index++];
+    liveNumPixels2 = packetBuffer[packet_index++];
+    liveNumPixel = liveNumPixels2 | liveNumPixels1 << 8;
+    
     #if DEBUG_SERIAL
-    Serial.print(liveNumPixel); Serial.print(" ");
-    Serial.print(liveR); Serial.print(" ");
-    Serial.print(liveG); Serial.print(" ");
-    Serial.println(liveB);
+    //Serial.print(liveNumPixel); Serial.print(" ");
+    //Serial.print(liveNumPixels1); Serial.print(" "); Serial.print(liveNumPixels2); Serial.print(" ");
+    //Serial.print(liveR); Serial.print(" ");
+    //Serial.print(liveG); Serial.print(" ");
+    //Serial.println(liveB);
     #endif
   }
   return packetSize;
@@ -1292,7 +1300,8 @@ void loop() {
       setupAnimation(current_animation);
     }
   }
-  
+
+  // Run actual animation loop if any
   if(!isLiveControl) {
     resetBluetoothCommands();
     updateBluetoothCommands();
