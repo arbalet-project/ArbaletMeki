@@ -1292,8 +1292,10 @@ void loop() {
       setupAnimation(current_animation);
     }
   }
- 
-  resetBluetoothCommands();
-  updateBluetoothCommands();
-  loopAnimation(current_animation);
+  
+  if(!isLiveControl) {
+    resetBluetoothCommands();
+    updateBluetoothCommands();
+    loopAnimation(current_animation);
+  }
 }
