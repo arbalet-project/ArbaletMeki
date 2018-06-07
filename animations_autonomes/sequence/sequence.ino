@@ -72,7 +72,7 @@ int readUDPFrame() {
           //Serial.println(liveB);
         #endif
       }
-      lastLiveFrameReceived = millis();
+      if(subFrameId > 0) strip.show();
     }
   }
   return packetSize;
@@ -1253,7 +1253,6 @@ void loop() {
   // Check LIVE Control first
   // During live control, the sequenced animation is not destroyed
   int udp_frame_size = readUDPFrame();
-  if(udp_frame_size > 0) lastLiveFrameReceived = millis();
 
   if(isLiveControl && millis() > lastLiveFrameReceived + LIVE_TIMEOUT_MS) {
     // Leaving LIVE Control mode
@@ -1276,6 +1275,7 @@ void loop() {
       #endif
     } 
     isLiveControl = true;
+    lastLiveFrameReceived = millis();
   }
 
   // Regular animation management
