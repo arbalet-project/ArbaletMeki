@@ -1261,53 +1261,58 @@ void loop() {
     Serial.println("Live control timeout, switching back to default animations");
     #endif
     isLiveControl = false;
-    last_animation_switch = 0; // Force animation switch (will cause old animation destruction + switch)
+    last_animation_switch = 0; // Force animation switch
+    isGame = false;
   }
   else if(udp_frame_size > 0) {
     if(!isLiveControl) {
       // Entering LIVE Control mode
       #if DEBUG_SERIAL
-      Serial.println("Received data for LIVE Control, switching mode to LIVE");
+      Serial.println("Received Live Control request...");
       #endif
       fadeOut();
-      last_animation_switch = millis();
+      #if DEBUG_SERIAL
+      Serial.println("Switching mode to LIVE now");
+      #endif
     } 
     isLiveControl = true;
   }
-  // Changer d'animation quand le jeu est fini si c'est un jeu ou au bout de DURATION_ANIMATION sinon
-  else if(isGame == false) {
-    if(millis() > last_animation_switch + DURATION_ANIMATION_MS) {
-      initiateAnimationSwitch();
-      current_animation = (current_animation + 1)%NUM_ANIMATIONS;
-      setupAnimation(current_animation);
-    }
-    else if(AnyButtonPressed()) {
-      initiateAnimationSwitch();
-      // Drop them to some game
-      current_animation = 2;
-      setupAnimation(current_animation);
-    }
-  }
-  else { // isGame == true
-    if(gameRunning == false) {
-      // They've lost
-      initiateAnimationSwitch();
-      current_animation = (current_animation + 1)%NUM_ANIMATIONS;
-      setupAnimation(current_animation);
-    }
-    else if(NextGameButtonPressed()) {
-      initiateAnimationSwitch();
-      current_animation = (current_animation + 1)%NUM_ANIMATIONS;
-      setupAnimation(current_animation);
-    }
-    else if(ResetButtonPressed()) {
-      initiateAnimationSwitch();
-      setupAnimation(current_animation);
-    }
-  }
 
-  // Run actual animation loop if any
+  // Regular animation management
   if(!isLiveControl) {
+    // Changer d'animation quand le jeu est fini si c'est un jeu ou au bout de DURATION_ANIMATION sinon
+    if(isGame == false) {
+      if(millis() > last_animation_switch + DURATION_ANIMATION_MS) {
+        initiateAnimationSwitch();
+        current_animation = (current_animation + 1)%NUM_ANIMATIONS;
+        setupAnimation(current_animation);
+      }
+      else if(AnyButtonPressed()) {
+        initiateAnimationSwitch();
+        // Drop them to some game
+        current_animation = 2;
+        setupAnimation(current_animation);
+      }
+    }
+    else { // isGame == true
+      if(gameRunning == false) {
+        // They've lost
+        initiateAnimationSwitch();
+        current_animation = (current_animation + 1)%NUM_ANIMATIONS;
+        setupAnimation(current_animation);
+      }
+      else if(NextGameButtonPressed()) {
+        initiateAnimationSwitch();
+        current_animation = (current_animation + 1)%NUM_ANIMATIONS;
+        setupAnimation(current_animation);
+      }
+      else if(ResetButtonPressed()) {
+        initiateAnimationSwitch();
+        setupAnimation(current_animation);
+      }
+    }
+    
+    // Run actual animation loop if any
     resetBluetoothCommands();
     updateBluetoothCommands();
     loopAnimation(current_animation);
