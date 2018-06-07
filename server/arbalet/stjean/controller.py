@@ -67,7 +67,7 @@ class Wall(Thread):
                         frame[subframe_id][num_pixel_in_subframe+2] = b
 
                 for subframe_id, subframe in enumerate(frame):
-                    packet = bytes(subframe_id) + bytes(subframe)
+                    packet = bytes([subframe_id]) + bytes(subframe)
                     self.socket.sendto(self.header + packet, (self.ip, self.port))
 
         if self.simulator is not None:
