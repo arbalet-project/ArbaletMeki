@@ -108,7 +108,7 @@ class SnapServer(object):
 
     @staticmethod
     def scale(v):
-        return min(255., max(0., float(v)))
+        return min(255, max(0, int(v)))
 
     def set_rgb_matrix(self):
         data = request.get_data().decode().split(':')

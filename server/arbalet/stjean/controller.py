@@ -61,10 +61,10 @@ class Wall(Thread):
                         num_pixel = self.config['mapping'][row][col]
                         subframe_id = int(num_pixel / self.NUM_PIXELS_PER_DGRAM)
                         num_pixel_in_subframe = int(num_pixel % self.NUM_PIXELS_PER_DGRAM)
-                        r, g, b = map(lambda x: min(255, max(0, int(x*255))), self.model[row][col])
-                        frame[subframe_id][num_pixel_in_subframe] = r
-                        frame[subframe_id][num_pixel_in_subframe+1] = g
-                        frame[subframe_id][num_pixel_in_subframe+2] = b
+                        r, g, b = map(lambda x: min(255, max(0, int(x))), self.model[row][col])
+                        frame[subframe_id][num_pixel_in_subframe*3] = r
+                        frame[subframe_id][num_pixel_in_subframe*3+1] = g
+                        frame[subframe_id][num_pixel_in_subframe*3+2] = b
 
                 for subframe_id, subframe in enumerate(frame):
                     packet = bytes([subframe_id]) + bytes(subframe)
