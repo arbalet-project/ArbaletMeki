@@ -72,6 +72,7 @@ int readUDPFrame() {
           //Serial.println(liveB);
         #endif
       }
+      lastLiveFrameReceived = millis();
     }
   }
   return packetSize;
