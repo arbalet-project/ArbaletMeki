@@ -101,8 +101,6 @@ class SnapServer(object):
             if nick in self.nicknames:
                 self.current_auth_nick = nick
                 self.erase_all()
-                import sys
-                print(sys.stderr, 'spam', self.current_auth_nick)
                 return ''
             else:
                 return 'No such nickname', 404
