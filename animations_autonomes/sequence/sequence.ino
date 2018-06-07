@@ -58,9 +58,9 @@ int readUDPFrame() {
     if(isLiveControl) { // No need to parse the rest of the datagram if we're not in live mode
       byte packet_index = HEADER_SIZE;
       subFrameId = packetBuffer[packet_index++];
-      int offset = subFrameId == 1? NUM_PIXELS_PER_DGRAM:0;
+      int offset = subFrameId == 0? 0:NUM_PIXELS_PER_DGRAM;
   
-      for (int i = 0; i < HEADER_SIZE; ++i) {
+      for (int i = 0; i < NUM_PIXELS_PER_DGRAM; ++i) {
         liveR = packetBuffer[packet_index++];
         liveG = packetBuffer[packet_index++];
         liveB = packetBuffer[packet_index++];
