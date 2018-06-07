@@ -12,14 +12,18 @@ import json
 
 
 class Wall(Thread):
-    PROTOCOL_VERSION = 1
+    PROTOCOL_VERSION = 2
+    PROTOCOL_RECEIVE_FRAME = b'F'
+    PROTOCOL_SEND_DISCOVERY = b'H'
+    NUM_PIXELS_PER_DGRAM = 150
 
     def __init__(self, hardware_ip, hardware_port, hardware=True, simulator=True):
         Thread.__init__(self)
-        self.header = bytes(list(map(ord, ['A', 'R', 'B', 'A'])) + [self.PROTOCOL_VERSION])
+        self.header = bytes(list(map(ord, ['A', 'R', 'B', 'A'])) + [self.PROTOCOL_VERSION]) + self.PROTOCOL_RECEIVE_FRAME
         self.model = Model(15, 20)
         self.ip = hardware_ip
         self.port = hardware_port
+        self.num_pixels = self.model.height * self.model.width
 
         # row, column -> (DMX universe, DMX address)
         config_path = path.join(path.dirname(__file__), 'config', 'config.json')
@@ -51,12 +55,20 @@ class Wall(Thread):
     def update(self):
         if self.socket is not None:
             with self.model:
+                frame = [[0]*3*self.NUM_PIXELS_PER_DGRAM for subframe in range(int(self.num_pixels / self.NUM_PIXELS_PER_DGRAM))]
                 for row in range(self.model.height):
                     for col in range(self.model.width):
-                        r, g, b = map(lambda x: min(255, max(0, int(x*255))), self.model[row][col])
                         num_pixel = self.config['mapping'][row][col]
-                        packet = bytes([r, g, b]) + struct.pack("!H", num_pixel)
-                        self.socket.sendto(self.header + packet, (self.ip, self.port))
+                        subframe_id = int(num_pixel / self.NUM_PIXELS_PER_DGRAM)
+                        num_pixel_in_subframe = int(num_pixel % self.NUM_PIXELS_PER_DGRAM)
+                        r, g, b = map(lambda x: min(255, max(0, int(x*255))), self.model[row][col])
+                        frame[subframe_id][num_pixel_in_subframe] = r
+                        frame[subframe_id][num_pixel_in_subframe+1] = g
+                        frame[subframe_id][num_pixel_in_subframe+2] = b
+
+                for subframe_id, subframe in enumerate(frame):
+                    packet = bytes(subframe_id) + bytes(subframe)
+                    self.socket.sendto(self.header + packet, (self.ip, self.port))
 
         if self.simulator is not None:
             self.simulator.update() 

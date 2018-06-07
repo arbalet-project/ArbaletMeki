@@ -8,7 +8,7 @@
 #include <list>
 
 #define DEBUG_SERIAL 1      
-#define PROTOCOL_VERSION 1  // Ethernet protocol version
+#define PROTOCOL_VERSION 2  // Protocol version over UDP
 
 Adafruit_WS2801 strip = Adafruit_WS2801(300);
 const unsigned long DURATION_ANIMATION_MS = 120000UL;
@@ -26,22 +26,26 @@ char sens_tableau = '3';
 
 /*********************************************************************** ETHERNET *************************************************************/
 
+#define UDP_DGRAM_SIZE 470        // Lower than 508 https://stackoverflow.com/questions/14993000/the-most-reliable-and-efficient-udp-packet-size
+#define NUM_PIXELS_PER_DGRAM 150  // Sending 150*(r, g, b) = 450 Bytes in each datagram
+#define PROTOCOL_RECEIVE_FRAME 'F'
+#define PROTOCOL_SEND_DISCOVERY 'H'
+
 byte mac[] = {0xDE, 0xAD, 0xBE, 0x0, 0x33, 0x47};
 IPAddress ip(192, 168, 1, 50);
 unsigned int localPort = 33407;
 
-byte packetBuffer[UDP_TX_PACKET_MAX_SIZE];
-byte liveR, liveG, liveB;
-unsigned int liveNumPixel = 0;
+byte packetBuffer[UDP_DGRAM_SIZE];
+byte liveR, liveG, liveB, subFrameId;
 EthernetUDP Udp;
 
-int readUDPPixel() {
+int readUDPFrame() {
   int packetSize = Udp.parsePacket();
   if (packetSize) {
-    Udp.read(packetBuffer, UDP_TX_PACKET_MAX_SIZE);
+    Udp.read(packetBuffer, UDP_DGRAM_SIZE);
 
-    const byte HEADER_SIZE = 5;
-    byte header[HEADER_SIZE] = {'A', 'R', 'B', 'A', (char)PROTOCOL_VERSION};
+    const byte HEADER_SIZE = 6;
+    byte header[HEADER_SIZE] = {'A', 'R', 'B', 'A', (char)PROTOCOL_VERSION, (char)PROTOCOL_RECEIVE_FRAME};
     for (int i = 0; i < HEADER_SIZE; ++i) {
       if(header[i] != packetBuffer[i]) {
         #if DEBUG_SERIAL
@@ -50,24 +54,25 @@ int readUDPPixel() {
         return 0;
       }
     }
-    byte packet_index = HEADER_SIZE;
-      
-    liveR = packetBuffer[packet_index++];
-    liveG = packetBuffer[packet_index++];
-    liveB = packetBuffer[packet_index++];
-
-    unsigned short liveNumPixels1 = 0, liveNumPixels2 = 0;
-    liveNumPixels1 = packetBuffer[packet_index++];
-    liveNumPixels2 = packetBuffer[packet_index++];
-    liveNumPixel = liveNumPixels2 | liveNumPixels1 << 8;
     
-    #if DEBUG_SERIAL
-    //Serial.print(liveNumPixel); Serial.print(" ");
-    //Serial.print(liveNumPixels1); Serial.print(" "); Serial.print(liveNumPixels2); Serial.print(" ");
-    //Serial.print(liveR); Serial.print(" ");
-    //Serial.print(liveG); Serial.print(" ");
-    //Serial.println(liveB);
-    #endif
+    if(isLiveControl) { // No need to parse the rest of the datagram if we're not in live mode
+      byte packet_index = HEADER_SIZE;
+      subFrameId = packetBuffer[packet_index++];
+      int offset = subFrameId == 1? NUM_PIXELS_PER_DGRAM:0;
+  
+      for (int i = 0; i < HEADER_SIZE; ++i) {
+        liveR = packetBuffer[packet_index++];
+        liveG = packetBuffer[packet_index++];
+        liveB = packetBuffer[packet_index++];
+        strip.setPixelColor(i + offset, liveR, liveG, liveB);
+        #if DEBUG_SERIAL
+          //Serial.print(i + offset); Serial.print(" ");
+          //Serial.print(liveR); Serial.print(" ");
+          //Serial.print(liveG); Serial.print(" ");
+          //Serial.println(liveB);
+        #endif
+      }
+    }
   }
   return packetSize;
 }
@@ -1246,7 +1251,7 @@ void loop() {
 
   // Check LIVE Control first
   // During live control, the sequenced animation is not destroyed
-  int udp_frame_size = readUDPPixel();
+  int udp_frame_size = readUDPFrame();
   if(udp_frame_size > 0) lastLiveFrameReceived = millis();
 
   if(isLiveControl && millis() > lastLiveFrameReceived + LIVE_TIMEOUT_MS) {
@@ -1267,7 +1272,6 @@ void loop() {
       last_animation_switch = millis();
     } 
     isLiveControl = true;
-    strip.setPixelColor(liveNumPixel, liveR, liveG, liveB);
   }
   // Changer d'animation quand le jeu est fini si c'est un jeu ou au bout de DURATION_ANIMATION sinon
   else if(isGame == false) {
