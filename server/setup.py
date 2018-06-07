@@ -28,6 +28,7 @@ setup(
 
     data_files=[('arbalet/stjean/snap/templates', ['arbalet/stjean/snap/templates/admin.html']),
                 ('arbalet/stjean/config', ['arbalet/stjean/config/config.json']),
+                ('arbalet/stjean/snap/static/js/lib', ['arbalet/stjean/snap/static/js/lib/jquery-3.2.1.js']),
     ],
 
     packages=find_packages(),
