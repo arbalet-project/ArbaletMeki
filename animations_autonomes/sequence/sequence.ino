@@ -9,8 +9,10 @@
 
 #define DEBUG_SERIAL 1      
 #define PROTOCOL_VERSION 2  // Protocol version over UDP
+#define WS2801_GREEN 22
+#define WS2801_YELLOW 23
 
-Adafruit_WS2801 strip = Adafruit_WS2801(300);
+Adafruit_WS2801 strip = Adafruit_WS2801(300, WS2801_YELLOW, WS2801_GREEN);
 const unsigned long DURATION_ANIMATION_MS = 120000UL;
 const unsigned long LIVE_TIMEOUT_MS = 5000UL;
 int NUM_ANIMATIONS = 4;
