@@ -8,12 +8,15 @@
 
 #define DEBUG_SERIAL 1
 
+#define cols         20
+#define rows        15
+#define FIRST_ANIMATION_ID 0   // Do not play animations under this ID
 Adafruit_WS2801 strip = Adafruit_WS2801(300);
 unsigned long DURATION_ANIMATION_MS = 120000;
 int NUM_ANIMATIONS = 4;
 unsigned long last_animation_switch = 0;
 unsigned long lastKeyPressed = millis();
-int current_animation = 0;
+int current_animation = FIRST_ANIMATION_ID;
 boolean isGame = false;
 char sens_tableau = '3';
 
@@ -205,46 +208,49 @@ void destroyRoueDesCouleurs() {
 }
 
 
-/***************************************************************** ALLUMAGE AU HASARD *******************************************************/
+/***************************************************************** FLAG FR *******************************************************/
 
-void fadeInAuHasard() {
+int rFR, gFR, bFR;
+
+void fadeInFR() {
   for(int value=0; value<100; value++) {
-    for (int i = 0; i < strip.numPixels(); i++)
-    {
-      strip.setPixelColor(i, hueToRGB(hue[i], 1.0, value/100.0)); 
+    for (int i = 0; i < cols; i++) {
+      if(i < 7) {
+       rFR = 0;
+       gFR = 0;
+       bFR = 255;
+      }
+      else if(i < 13) {
+       rFR = 255;
+       gFR = 255;
+       bFR = 255;
+      }
+      else {
+       rFR = 255;
+       gFR = 0;
+       bFR = 0;
+      }
+      for (int j = 0; j < rows; j++) {
+        strip.setPixelColor(calculer(j, i), rFR*value/100.0, gFR*value/100.0, bFR*value/100.0);
+      }   
     }
-    strip.show();
-    delay(50);
+  strip.show();   
+  delay(25);
   }
 }
 
-void setupAuHasard()  {
-    hue = (float*)malloc(300*sizeof(float));
-   for (int i = 0; i < strip.numPixels(); i++)  //Initialise tout le mur dans une meme couleur pour que toutes les leds soient allumées
-    {
-      hue[i]=random(250,300)/360.0;
-     strip.setPixelColor(i, hueToRGB(hue[i])); //bleu    
-    }
-    strip.show();   
-   
+void setupFR()  {
+  fadeInFR();
 }
 
-void loopAuHasard()  //fonction qui doit piocher au hasard une led et l'allumer d'une couleur au hasard // version actuelle a des defauts, toutes les leds s'allume d'un coup et non une a une
+void loopFR()
 {
-  int i;
-  for (int j = 0; j < 4; j++) //j=le nombre de pixels a changer en meme temps
-    {
-    i = random(0,strip.numPixels());
-    hue[i]=random(0,100)/360.0;
-    strip.setPixelColor(i, hueToRGB(hue[i]));    //choisi une led au hasard et la change dans une couleur au hasard
-    }
     strip.show();
-    delay(100); //rapidité du changement de couleur
-      
+    delay(100);
 }
 
-void destroyAuHasard() {
-    free(hue);
+void destroyFR() {
+
 }
 
 /***************************************************************** Lineaire *******************************************************/
@@ -310,8 +316,6 @@ void destroyLineaire() {
 /***************************************************************** TETRIS ************************************************************/
 
 //  Matrix Definition
-#define cols         20
-#define rows        15
 #define leftLimit    0
 #define rightLimit   7
 #define topLimit     0
@@ -1100,7 +1104,7 @@ void setup() {
   Serial.println(read_int_EEPROM(0));
 #endif
   setupBluetooth();
-  setupAnimation(0);
+  setupAnimation(current_animation);
 }
 
 void setupAnimation(int animation) {
@@ -1111,6 +1115,9 @@ void setupAnimation(int animation) {
   Serial.println(millis());
 #endif
   switch(animation) {
+    case 4:
+      setupFR();
+      break;
     case 3:
       setupSnake();
       break;
@@ -1128,6 +1135,9 @@ void setupAnimation(int animation) {
 
 void loopAnimation(int animation) {
   switch(animation) {
+    case 4:
+      loopFR();
+      break;
     case 3:
       loopSnake();
       break;
@@ -1149,6 +1159,9 @@ void destroyAnimation(int animation) {
   Serial.println(animation);
 #endif
   switch(animation) {
+    case 4:
+      destroyFR();
+      break;
     case 3:
       destroySnake();
       break;
@@ -1188,7 +1201,7 @@ void loop() {
   if(isGame == false) {
     if(millis() > last_animation_switch + DURATION_ANIMATION_MS) {
       initiateAnimationSwitch();
-      current_animation = (current_animation + 1)%NUM_ANIMATIONS;
+      current_animation = std::max(FIRST_ANIMATION_ID, (current_animation + 1)%NUM_ANIMATIONS);
       setupAnimation(current_animation);
     }
     else if(AnyButtonPressed()) {
@@ -1202,12 +1215,12 @@ void loop() {
     if(gameRunning == false) {
       // They've lost
       initiateAnimationSwitch();
-      current_animation = (current_animation + 1)%NUM_ANIMATIONS;
+      current_animation = std::max(FIRST_ANIMATION_ID, (current_animation + 1)%NUM_ANIMATIONS);
       setupAnimation(current_animation);
     }
     else if(NextGameButtonPressed()) {
       initiateAnimationSwitch();
-      current_animation = (current_animation + 1)%NUM_ANIMATIONS;
+      current_animation = std::max(FIRST_ANIMATION_ID, (current_animation + 1)%NUM_ANIMATIONS);
       setupAnimation(current_animation);
     }
     else if(ResetButtonPressed()) {
