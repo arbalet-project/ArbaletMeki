@@ -1121,6 +1121,7 @@ void setupAnimation(int animation) {
   Serial.print("Walltime = ");
   Serial.println(millis());
 #endif
+  FlushBluetooth();
   switch(animation) {
     case 4:
       setupFR();
