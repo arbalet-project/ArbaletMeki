@@ -332,22 +332,27 @@ void setupBluetooth() {
   Serial1.begin(115200);
   Serial1.setTimeout(10);
   
-  list[0] = "Right_u";
-  list[1] = "Left_u";
-  list[2] = "Up_u";
-  list[3] = "Down_u";
-  list[4] = "Btn1_u";
-  list[5] = "Btn2_u";
-  list[6] = "Btn3_u";
-  list[7] = "Btn4_u";
-  list[8] = "Select_u";
-  list[9] = "Start_u"; 
+  list[0] = "Right";
+  list[1] = "Left";
+  list[2] = "Up";
+  list[3] = "Down";
+  list[4] = "Btn1";
+  list[5] = "Btn2";
+  list[6] = "Btn3";
+  list[7] = "Btn4";
+  list[8] = "Select";
+  list[9] = "Start"; 
 }
 
 void resetBluetoothCommands() {
    for(int i=0; i<10; ++i) {
       commands[i] = false;
   } 
+}
+
+void FlushBluetooth() {
+  int l = Serial1.available();
+  for(int i=0; i<l; ++i) Serial1.read();
 }
 
 boolean AnyButtonPressed() {
@@ -367,10 +372,12 @@ boolean NextGameButtonPressed() {
 
 void updateBluetoothCommands() {
   if(Serial1.available()) {
-    String s = Serial1.readString();
+    String s = Serial1.readStringUntil('\n');
     if(s.length() > 0) {
+      s.remove(s.length()-1);  // Eliminate CR \r
       for(int i=0; i<10; ++i) {
-        if(s.startsWith(list[i])) {
+        if(s.equals(list[i])) {
+          //Serial.println(s); Serial.println("---");
           commands[i] = true;
           if (lastKeyPressed + 120000UL < millis())
           {
