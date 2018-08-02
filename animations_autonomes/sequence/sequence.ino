@@ -792,10 +792,9 @@ void displayFrame() {
 #define T_GAUCHE 4
 #define T_DROITE 6
 
-int changeInVoid;
+bool gameSnakeIntro;
 unsigned long lastSnakeMoveTime;
-unsigned long currentSnakeMoveTime;
-unsigned long timeBeginSnake;
+unsigned long lastSnakeFakeMoveTime;
 
 void color_that_case(int ligne, int colonne, int r, int g, int b){
     strip.setPixelColor(calculer(ligne,colonne), r, g, b);
@@ -961,27 +960,30 @@ void decaler(int directionSnake){
 
 void deplacer()
 {
-
   updateBluetoothCommands();
   
   if(commands[0] == true && directionSnake != 1){
     lastSnakeMoveTime = millis();
     directionSnake = 0;
+    gameSnakeIntro = false;
   }
   
   else if(commands[1] == true && directionSnake != 0){
     lastSnakeMoveTime = millis();
     directionSnake = 1;
+    gameSnakeIntro = false;
   }
   
   else if(commands[2] == true && directionSnake != 2){
     lastSnakeMoveTime = millis();
     directionSnake = 3;
+    gameSnakeIntro = false;
   }
   
   else if(commands[3] == true && directionSnake != 3) {
     lastSnakeMoveTime = millis();
     directionSnake = 2;
+    gameSnakeIntro = false;
   }
   
   decaler(directionSnake);
@@ -994,7 +996,8 @@ void setupSnake()
   isGame = true;
   positionspossibles = (char*)malloc(300);
   compteur = 500;
-  gameRunning=true;
+  gameRunning = true;
+  gameSnakeIntro = true;
   
   for (int i=0;i<300;i++)
   {
@@ -1007,11 +1010,8 @@ void setupSnake()
   positionspossibles[calculer(HAUTEUR/2,5)] = 'f';
   strip.setPixelColor(calculer(HAUTEUR/2,5), 0, 255, 0);
 
-  changeInVoid = 0;
-  lastSnakeMoveTime=millis();
-  currentSnakeMoveTime = millis();
-  timeBeginSnake = millis();
-  
+  lastSnakeMoveTime = millis();
+  lastSnakeFakeMoveTime = millis();
   directionSnake = 2;
   Position* p1 = new Position(HAUTEUR/2-2,LARGEUR/2-1);
   Position* p2 = new Position(HAUTEUR/2-1,LARGEUR/2-1);
@@ -1041,57 +1041,29 @@ void destroySnake()
     snakeUtil.pop_back();
   }
   lastSnakeMoveTime = 0;
-  currentSnakeMoveTime = 0;
   compteur =0;
-  changeInVoid = 0;
   
   free(positionspossibles);
   isGame = false;
 
 }
 
-long timeToWait(){
-  if(lastSnakeMoveTime == timeBeginSnake){
-    return 4500;
-  }
-  return 45000;
-  
-  
-}
+
 void loopSnake()  
 {  
-  if(currentSnakeMoveTime-lastSnakeMoveTime < timeToWait()){
-    currentSnakeMoveTime = millis();
-    
-  }else{
-        if(lastSnakeMoveTime == timeBeginSnake && changeInVoid<4){
-        switch(directionSnake){
-        case 0://gauche
-          directionSnake = 2;
-          break;
-          
-        case 1: //droite
-          directionSnake = 3;
-          break;
-        case 2://haut
-         directionSnake = 0;
-          break;
-          
-        case 3://bas
-          directionSnake =1;          
-          break;
-      }
-            currentSnakeMoveTime = millis();
-            timeBeginSnake = millis();
-            lastSnakeMoveTime = millis();
-            changeInVoid++;
-        }else{
-        gameRunning = false;
-        }
-  }
-  deplacer();
-  strip.show();  
-  delay(compteur);
+    if(millis() - lastSnakeMoveTime > 30000) {
+      // No user command for 30sec, timeout
+      gameRunning = false;
+      return;
+    }
+    else if(gameSnakeIntro && millis() - lastSnakeFakeMoveTime > 3000) {
+      // Introduction mode, moving randomly every 3sec
+      directionSnake = (directionSnake + 1) % 4;
+      lastSnakeFakeMoveTime = millis();
+   }
+   deplacer();
+   strip.show();  
+   delay(compteur);
 }   
 
 
