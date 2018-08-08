@@ -730,16 +730,12 @@ void loopTetris() {
       convertToDeadBlock();
       checkLinesCleared();
       if (generatePiece()==false) {
-        gameOverFunc();
+        gameRunning = false;
         //displayTextOverlay(0);
       }
       else disableMove=false;
     }
   }
-}
-
-void gameOverFunc() {
-  gameRunning = false;
 }
 
 void displayFrame() {
