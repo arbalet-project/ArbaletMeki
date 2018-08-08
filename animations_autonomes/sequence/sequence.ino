@@ -1058,7 +1058,12 @@ void loopSnake()
     }
     else if(gameSnakeIntro && millis() - lastSnakeFakeMoveTime > 3000) {
       // Introduction mode, moving randomly every 3sec
-      directionSnake = (directionSnake + 1) % 4;
+      switch(directionSnake) {
+        case 0: directionSnake = 2; break;
+        case 2: directionSnake = 1; break;
+        case 1: directionSnake = 3; break;
+        case 3: directionSnake = 0; break;
+      }
       lastSnakeFakeMoveTime = millis();
    }
    deplacer();
