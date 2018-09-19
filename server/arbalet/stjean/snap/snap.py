@@ -24,6 +24,7 @@ from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop
 
 import petname
+from json import dumps
 from time import time
 import logging
 import socket
@@ -55,11 +56,13 @@ def requires_auth(f):
 
 
 class SnapServer(object):
+    OFF = "turnoff"
+    
     def __init__(self, wall_ip, wall_port, clients_port, hardware=True, simulator=True):
         self.flask = Flask(__name__)
         self.wall = Wall(wall_ip, wall_port, hardware, simulator)  # Blocking until the hardware client connects
         logging.basicConfig(level=logging.DEBUG)
-        self.current_auth_nick = "turnoff"
+        self.current_auth_nick = self.OFF
         self.nicknames = {}
         self.lock = RLock()
         CORS(self.flask)
@@ -74,10 +77,20 @@ class SnapServer(object):
 
     def route(self):
         self.flask.route('/admin', methods=['GET', 'POST'])(self.render_admin_page)
+        self.flask.route('/admin/nicknames', methods=['GET'])(self.get_admin_nicknames)
+        self.flask.route('/admin/active_nickname', methods=['GET'])(self.get_admin_active_nickname)
         self.flask.route('/set_rgb_matrix', methods=['POST'])(self.set_rgb_matrix)
         self.flask.route('/is_authorized/<nickname>', methods=['GET'])(self.is_authorized)
         self.flask.route('/authorize', methods=['POST'])(self.authorize)
         self.flask.route('/get_nickname', methods=['GET'])(self.get_nickname)
+
+    @requires_auth
+    def get_admin_active_nickname(self):
+        return dumps(self.current_auth_nick)
+
+    @requires_auth
+    def get_admin_nicknames(self):
+        return dumps(list(self.nicknames.keys()))
 
     def check_nicknames_validity(self):
         with self.lock:
@@ -87,18 +100,18 @@ class SnapServer(object):
                     temp_dict[k] = v
                 else:
                     if k == self.current_auth_nick:
-                        self.current_auth_nick = "turnoff"
+                        self.current_auth_nick = self.OFF
             self.nicknames = temp_dict
-
+    
     @requires_auth
     def render_admin_page(self):
-        res = render_template('admin.html', nicknames=self.nicknames.keys(), authorized_nick=self.current_auth_nick)
+        res = render_template('admin.html')
         return res
 
     def authorize(self):
         nick = request.get_data().decode('ascii')
         with self.lock:
-            if nick in self.nicknames:
+            if nick in list(self.nicknames.keys()) + [self.OFF]:
                 self.current_auth_nick = nick
                 self.erase_all()
                 return ''
@@ -157,6 +170,7 @@ class SnapServer(object):
         self.loop = IOLoop()
         http_server = HTTPServer(WSGIContainer(self.flask))
         http_server.listen(self.port)
+        print("Open admin page on port {}".format(self.port), file=sys.stderr) 
         self.loop.start()
 
 
