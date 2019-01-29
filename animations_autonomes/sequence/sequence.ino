@@ -395,22 +395,27 @@ void setupBluetooth() {
   Serial1.begin(115200);
   Serial1.setTimeout(10);
   
-  list[0] = "Right_u";
-  list[1] = "Left_u";
-  list[2] = "Up_u";
-  list[3] = "Down_u";
-  list[4] = "Btn1_u";
-  list[5] = "Btn2_u";
-  list[6] = "Btn3_u";
-  list[7] = "Btn4_u";
-  list[8] = "Select_u";
-  list[9] = "Start_u"; 
+  list[0] = "Right";
+  list[1] = "Left";
+  list[2] = "Up";
+  list[3] = "Down";
+  list[4] = "Btn1";
+  list[5] = "Btn2";
+  list[6] = "Btn3";
+  list[7] = "Btn4";
+  list[8] = "Select";
+  list[9] = "Start"; 
 }
 
 void resetBluetoothCommands() {
    for(int i=0; i<10; ++i) {
       commands[i] = false;
   } 
+}
+
+void FlushBluetooth() {
+  int l = Serial1.available();
+  for(int i=0; i<l; ++i) Serial1.read();
 }
 
 boolean AnyButtonPressed() {
@@ -430,10 +435,12 @@ boolean NextGameButtonPressed() {
 
 void updateBluetoothCommands() {
   if(Serial1.available()) {
-    String s = Serial1.readString();
+    String s = Serial1.readStringUntil('\n');
     if(s.length() > 0) {
+      s.remove(s.length()-1);  // Eliminate CR \r
       for(int i=0; i<10; ++i) {
-        if(s.startsWith(list[i])) {
+        if(s.equals(list[i])) {
+          //Serial.println(s); Serial.println("---");
           commands[i] = true;
           if (lastKeyPressed + 120000UL < millis())
           {
@@ -786,16 +793,12 @@ void loopTetris() {
       convertToDeadBlock();
       checkLinesCleared();
       if (generatePiece()==false) {
-        gameOverFunc();
+        gameRunning = false;
         //displayTextOverlay(0);
       }
       else disableMove=false;
     }
   }
-}
-
-void gameOverFunc() {
-  gameRunning = false;
 }
 
 void displayFrame() {
@@ -848,10 +851,9 @@ void displayFrame() {
 #define T_GAUCHE 4
 #define T_DROITE 6
 
-int changeInVoid;
+bool gameSnakeIntro;
 unsigned long lastSnakeMoveTime;
-unsigned long currentSnakeMoveTime;
-unsigned long timeBeginSnake;
+unsigned long lastSnakeFakeMoveTime;
 
 void color_that_case(int ligne, int colonne, int r, int g, int b){
     strip.setPixelColor(calculer(ligne,colonne), r, g, b);
@@ -1017,27 +1019,30 @@ void decaler(int directionSnake){
 
 void deplacer()
 {
-
   updateBluetoothCommands();
   
   if(commands[0] == true && directionSnake != 1){
     lastSnakeMoveTime = millis();
     directionSnake = 0;
+    gameSnakeIntro = false;
   }
   
   else if(commands[1] == true && directionSnake != 0){
     lastSnakeMoveTime = millis();
     directionSnake = 1;
+    gameSnakeIntro = false;
   }
   
   else if(commands[2] == true && directionSnake != 2){
     lastSnakeMoveTime = millis();
     directionSnake = 3;
+    gameSnakeIntro = false;
   }
   
   else if(commands[3] == true && directionSnake != 3) {
     lastSnakeMoveTime = millis();
     directionSnake = 2;
+    gameSnakeIntro = false;
   }
   
   decaler(directionSnake);
@@ -1050,7 +1055,8 @@ void setupSnake()
   isGame = true;
   positionspossibles = (char*)malloc(300);
   compteur = 500;
-  gameRunning=true;
+  gameRunning = true;
+  gameSnakeIntro = true;
   
   for (int i=0;i<300;i++)
   {
@@ -1063,11 +1069,8 @@ void setupSnake()
   positionspossibles[calculer(HAUTEUR/2,5)] = 'f';
   strip.setPixelColor(calculer(HAUTEUR/2,5), 0, 255, 0);
 
-  changeInVoid = 0;
-  lastSnakeMoveTime=millis();
-  currentSnakeMoveTime = millis();
-  timeBeginSnake = millis();
-  
+  lastSnakeMoveTime = millis();
+  lastSnakeFakeMoveTime = millis();
   directionSnake = 2;
   Position* p1 = new Position(HAUTEUR/2-2,LARGEUR/2-1);
   Position* p2 = new Position(HAUTEUR/2-1,LARGEUR/2-1);
@@ -1097,57 +1100,34 @@ void destroySnake()
     snakeUtil.pop_back();
   }
   lastSnakeMoveTime = 0;
-  currentSnakeMoveTime = 0;
   compteur =0;
-  changeInVoid = 0;
   
   free(positionspossibles);
   isGame = false;
 
 }
 
-long timeToWait(){
-  if(lastSnakeMoveTime == timeBeginSnake){
-    return 4500;
-  }
-  return 45000;
-  
-  
-}
+
 void loopSnake()  
 {  
-  if(currentSnakeMoveTime-lastSnakeMoveTime < timeToWait()){
-    currentSnakeMoveTime = millis();
-    
-  }else{
-        if(lastSnakeMoveTime == timeBeginSnake && changeInVoid<4){
-        switch(directionSnake){
-        case 0://gauche
-          directionSnake = 2;
-          break;
-          
-        case 1: //droite
-          directionSnake = 3;
-          break;
-        case 2://haut
-         directionSnake = 0;
-          break;
-          
-        case 3://bas
-          directionSnake =1;          
-          break;
+    if(millis() - lastSnakeMoveTime > 30000) {
+      // No user command for 30sec, timeout
+      gameRunning = false;
+      return;
+    }
+    else if(gameSnakeIntro && millis() - lastSnakeFakeMoveTime > 3000) {
+      // Introduction mode, moving randomly every 3sec
+      switch(directionSnake) {
+        case 0: directionSnake = 2; break;
+        case 2: directionSnake = 1; break;
+        case 1: directionSnake = 3; break;
+        case 3: directionSnake = 0; break;
       }
-            currentSnakeMoveTime = millis();
-            timeBeginSnake = millis();
-            lastSnakeMoveTime = millis();
-            changeInVoid++;
-        }else{
-        gameRunning = false;
-        }
-  }
-  deplacer();
-  strip.show();  
-  delay(compteur);
+      lastSnakeFakeMoveTime = millis();
+   }
+   deplacer();
+   strip.show();  
+   delay(compteur);
 }   
 
 
@@ -1178,6 +1158,7 @@ void setupAnimation(int animation) {
   Serial.print("Walltime = ");
   Serial.println(millis());
 #endif
+  FlushBluetooth();
   switch(animation) {
     case 3:
       setupSnake();
