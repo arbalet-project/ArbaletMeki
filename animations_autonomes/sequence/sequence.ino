@@ -2,23 +2,91 @@
 #include <EEPROM.h>
 #include "Adafruit_WS2801.h"
 #include "SPI.h"
-
+#include <Ethernet.h>
+#include <EthernetUdp.h>
 #include <StandardCplusplus.h>
 #include <list>
 
-#define DEBUG_SERIAL 1
+#define DEBUG_SERIAL 1      
+#define PROTOCOL_VERSION 2  // Protocol version over UDP
+#define WS2801_GREEN 22
+#define WS2801_YELLOW 23
 
 Adafruit_WS2801 strip = Adafruit_WS2801(300);
-unsigned long DURATION_ANIMATION_MS = 120000;
+
+const unsigned long DURATION_ANIMATION_MS = 120000UL;
+const unsigned long LIVE_TIMEOUT_MS = 5000UL;
 int NUM_ANIMATIONS = 4;
+
 unsigned long last_animation_switch = 0;
 unsigned long lastKeyPressed = millis();
+unsigned long lastLiveFrameReceived = 0;
 int current_animation = 0;
 boolean isGame = false;
+boolean isLiveControl = false;
 char sens_tableau = '3';
 
 
-/***************************************************************** OUTILS DE CONVERSION *******************************************************/
+/*********************************************************************** ETHERNET *************************************************************/
+
+#define UDP_DGRAM_SIZE 470        // Lower than 508 https://stackoverflow.com/questions/14993000/the-most-reliable-and-efficient-udp-packet-size
+#define NUM_PIXELS_PER_DGRAM 150  // Sending 150*(r, g, b) = 450 Bytes in each datagram
+#define PROTOCOL_RECEIVE_FRAME 'F'
+#define PROTOCOL_SEND_DISCOVERY 'H'
+
+byte mac[] = {0xDE, 0xAD, 0xBE, 0x0, 0x33, 0x47};
+IPAddress ip(192, 168, 1, 50);
+unsigned int localPort = 33407;
+
+byte packetBuffer[UDP_DGRAM_SIZE];
+byte liveR, liveG, liveB, subFrameId;
+EthernetUDP Udp;
+
+int readUDPFrame() {
+  int packetSize = Udp.parsePacket();
+  if (packetSize) {
+    Udp.read(packetBuffer, UDP_DGRAM_SIZE);
+
+    const byte HEADER_SIZE = 6;
+    byte header[HEADER_SIZE] = {'A', 'R', 'B', 'A', (char)PROTOCOL_VERSION, (char)PROTOCOL_RECEIVE_FRAME};
+    for (int i = 0; i < HEADER_SIZE; ++i) {
+      if(header[i] != packetBuffer[i]) {
+        #if DEBUG_SERIAL
+        Serial.println("Ignoring LIVE pixel: Incorrect header or protocol version");
+        #endif
+        return 0;
+      }
+    }
+    
+    if(isLiveControl) { // No need to parse the rest of the datagram if we're not in live mode
+      byte packet_index = HEADER_SIZE;
+      subFrameId = packetBuffer[packet_index++];
+      int offset = subFrameId == 0? 0:NUM_PIXELS_PER_DGRAM;
+  
+      for (int i = 0; i < NUM_PIXELS_PER_DGRAM; ++i) {
+        liveR = packetBuffer[packet_index++];
+        liveG = packetBuffer[packet_index++];
+        liveB = packetBuffer[packet_index++];
+        strip.setPixelColor(i + offset, liveR, liveG, liveB);
+        #if DEBUG_SERIAL
+          //Serial.print(i + offset); Serial.print(" ");
+          //Serial.print(liveR); Serial.print(" ");
+          //Serial.print(liveG); Serial.print(" ");
+          //Serial.println(liveB);
+        #endif
+      }
+      if(subFrameId > 0) strip.show();
+    }
+  }
+  return packetSize;
+}
+
+void setupEthernet() {
+  Ethernet.begin(mac, ip);
+  Udp.begin(localPort);
+}
+
+/***************************************************************** CONVERSION TOOLS *******************************************************/
 
 // Create a 24 bit color value from R,G,B
 uint32_t ColorToInt(byte r, byte g, byte b)
@@ -134,7 +202,7 @@ int calculer(int ligne, int colonne) {
 }
 
 
-/******************* Lecture/écriture EEPROM ******************/
+/******************* Read/Write EEPROM ******************/
 void write_int_EEPROM(int addr, unsigned long value) {
   byte b[4];
   memcpy(b, &value, sizeof value);
@@ -154,7 +222,7 @@ void increment_int_EEPROM(int addr) {
    write_int_EEPROM(addr, i+1);
 }
 
-/***************************************************************** ROUE DES COULEURS *******************************************************/
+/***************************************************************** COLOR WHEEL *******************************************************/
 
 float *hue; 
 
@@ -204,48 +272,6 @@ void destroyRoueDesCouleurs() {
     free(hue);
 }
 
-
-/***************************************************************** ALLUMAGE AU HASARD *******************************************************/
-
-void fadeInAuHasard() {
-  for(int value=0; value<100; value++) {
-    for (int i = 0; i < strip.numPixels(); i++)
-    {
-      strip.setPixelColor(i, hueToRGB(hue[i], 1.0, value/100.0)); 
-    }
-    strip.show();
-    delay(50);
-  }
-}
-
-void setupAuHasard()  {
-    hue = (float*)malloc(300*sizeof(float));
-   for (int i = 0; i < strip.numPixels(); i++)  //Initialise tout le mur dans une meme couleur pour que toutes les leds soient allumées
-    {
-      hue[i]=random(250,300)/360.0;
-     strip.setPixelColor(i, hueToRGB(hue[i])); //bleu    
-    }
-    strip.show();   
-   
-}
-
-void loopAuHasard()  //fonction qui doit piocher au hasard une led et l'allumer d'une couleur au hasard // version actuelle a des defauts, toutes les leds s'allume d'un coup et non une a une
-{
-  int i;
-  for (int j = 0; j < 4; j++) //j=le nombre de pixels a changer en meme temps
-    {
-    i = random(0,strip.numPixels());
-    hue[i]=random(0,100)/360.0;
-    strip.setPixelColor(i, hueToRGB(hue[i]));    //choisi une led au hasard et la change dans une couleur au hasard
-    }
-    strip.show();
-    delay(100); //rapidité du changement de couleur
-      
-}
-
-void destroyAuHasard() {
-    free(hue);
-}
 
 /***************************************************************** Lineaire *******************************************************/
 int *value;
@@ -387,7 +413,7 @@ void updateBluetoothCommands() {
   }
 }
 
-/******************************* Tetris lui-meme ****************************/
+/******************************* Tetris ****************************/
 #include "tetris_letters.h"
 #include "tetris_pieces.h"
 
@@ -1080,6 +1106,7 @@ void setup() {
   Serial.println(read_int_EEPROM(0));
 #endif
   setupBluetooth();
+  setupEthernet();
   setupAnimation(0);
 }
 
@@ -1157,47 +1184,84 @@ void initiateAnimationSwitch() {
 
 void loop() {
   if(millis() > 4300000UL) {
-    // Gérer le cas improbable où l'exécution dure plus de 50 jours
-    // Overflow de millis()
-    // Rebooter par déclenchement du chien de garde
+    // In case program runs more than 50 days, which is very unlikely...
+    // ... millis() function will overflow
+    // ... Reboot by triggering the watchdog manually
     fadeOut();
     wdt_enable(WDTO_15MS);
     while(1);
   }
+
+  // Check LIVE Control first
+  // During live control, the sequenced animation is not destroyed
+  int udp_frame_size = readUDPFrame();
+
+  if(isLiveControl && millis() > lastLiveFrameReceived + LIVE_TIMEOUT_MS) {
+    // Leaving LIVE Control mode
+    #if DEBUG_SERIAL
+    Serial.println("Live control timeout, switching back to default animations");
+    #endif
+    isLiveControl = false;
+    last_animation_switch = 0; // Force animation switch
+    isGame = false;
+  }
+  else if(udp_frame_size > 0) {
+    if(!isLiveControl) {
+      // Entering LIVE Control mode
+      #if DEBUG_SERIAL
+      Serial.println("Received Live Control request...");
+      #endif
+      fadeOut();
+      #if DEBUG_SERIAL
+      Serial.println("Switching mode to LIVE now");
+      #endif
+    } 
+    isLiveControl = true;
+    lastLiveFrameReceived = millis();
+  }
+
+  // Regular animation management
+  if(!isLiveControl) {
+    // Is the current animation a game?
+    if(isGame == false) {
+      // If not, switch to next animation when DURATION_ANIMATION secs have passed
+      if(millis() > last_animation_switch + DURATION_ANIMATION_MS) {
+        initiateAnimationSwitch();
+        current_animation = (current_animation + 1)%NUM_ANIMATIONS;
+        setupAnimation(current_animation);
+      }
+      // If not, any button pressed meanwhile a non-game animation will drop the user to a game
+      else if(AnyButtonPressed()) {
+        initiateAnimationSwitch();
+        // Drop them to some game
+        current_animation = 2;
+        setupAnimation(current_animation);
+      }
+    }
+    // The current animation is a game
+    else {
+      // If game is over, switch to next animation
+      if(gameRunning == false) {
+        initiateAnimationSwitch();
+        current_animation = (current_animation + 1)%NUM_ANIMATIONS;
+        setupAnimation(current_animation);
+      }
+      // "Next" button will switch to next animation 
+      else if(NextGameButtonPressed()) {
+        initiateAnimationSwitch();
+        current_animation = (current_animation + 1)%NUM_ANIMATIONS;
+        setupAnimation(current_animation);
+      }
+      // "Reset" button will re-initialize the current animation
+      else if(ResetButtonPressed()) {
+        initiateAnimationSwitch();
+        setupAnimation(current_animation);
+      }
+    }
     
-  // Changer d'animation quand le jeu est fini si c'est un jeu ou au bout de DURATION_ANIMATION sinon
-  if(isGame == false) {
-    if(millis() > last_animation_switch + DURATION_ANIMATION_MS) {
-      initiateAnimationSwitch();
-      current_animation = (current_animation + 1)%NUM_ANIMATIONS;
-      setupAnimation(current_animation);
-    }
-    else if(AnyButtonPressed()) {
-      initiateAnimationSwitch();
-      // Drop them to some game
-      current_animation = 2;
-      setupAnimation(current_animation);
-    }
+    // Run actual animation loop if any
+    resetBluetoothCommands();
+    updateBluetoothCommands();
+    loopAnimation(current_animation);
   }
-  else { // isGame == true
-    if(gameRunning == false) {
-      // They've lost
-      initiateAnimationSwitch();
-      current_animation = (current_animation + 1)%NUM_ANIMATIONS;
-      setupAnimation(current_animation);
-    }
-    else if(NextGameButtonPressed()) {
-      initiateAnimationSwitch();
-      current_animation = (current_animation + 1)%NUM_ANIMATIONS;
-      setupAnimation(current_animation);
-    }
-    else if(ResetButtonPressed()) {
-      initiateAnimationSwitch();
-      setupAnimation(current_animation);
-    }
-  }
- 
-  resetBluetoothCommands();
-  updateBluetoothCommands();
-  loopAnimation(current_animation);
 }
