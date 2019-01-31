@@ -1,15 +1,10 @@
-# Arbalet Saint Jean
+# Arbalet Meki
 
-Student code of [IUT de Bordeaux](http://iut.u-bordeaux.fr) for project `Arbalet Saint Jean` showcased in the hall 3 of main train station of Bordeaux, France, from 18 december, 2017.
-
-https://vimeo.com/arbalet/saintjean
-
-[Read the students' logbook](http://talk.arbalet-project.org/t/arbalet-st-jean-en/43/).
-Want to see more? [arbalet-project.org](http://arbalet-project.org/)
+Next version of interactive pixelated surface [Arbalet Lava](https://github.com/arbalet-project/arbadoc/wiki), autonomous and easier to use.
 
 ## Libraries
 Install these libs in your `$HOME/Arduino/libraries` or $HOME/sketchbook/libraries
-
 ```
-https://github.com/maniacbug/StandardCplusplus
+https://github.com/PhantomEmbedded/avr-stl
+https://github.com/adafruit/Adafruit_NeoPixel
 ```
