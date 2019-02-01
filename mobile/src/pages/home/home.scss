@@ -1,0 +1,19 @@
+page-home {
+    #aboutButton {
+        z-index: 10000;
+        position: fixed;
+        right:10px;
+        top:10px;
+    }
+}
+
+#joystick {
+    height: 105vh;
+    width: 105vw;
+
+    position: absolute;
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+

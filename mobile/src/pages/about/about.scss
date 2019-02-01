@@ -1,0 +1,26 @@
+page-about {
+    ion-card.card {
+        box-shadow: none;
+        background: rgba(0,0,0,0.5);
+        border-radius: 5px;
+
+        p, ion-item.item{
+            color: #bbb;
+            padding-left: 10px;
+        }
+
+        p {
+            margin-top: 4px;
+        }
+
+        h2 {
+            font-size: 1.2em;
+            color: #fff;
+            padding: 15px 0px;
+        }
+        ion-icon {
+            padding-right: 10px;
+        }
+        
+}
+}
