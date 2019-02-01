@@ -1,5 +1,5 @@
 {
-  "name": "stjean-frontend",
+  "name": "arbalet-meki",
   "version": "1.0.0",
   "author": "Arbalet Project",
   "homepage": "http://arbalet-project.org/",
@@ -53,7 +53,7 @@
     "@types/jquery": "^3.3.6",
     "typescript": "~2.6.2"
   },
-  "description": "Joystick for Arbalet Saint Jean pixelated wall or any bluetooth-based receptor",
+  "description": "Gamepad of Arbalet Meki pixelated surfaces",
   "cordova": {
     "plugins": {
       "cordova-plugin-whitelist": {},

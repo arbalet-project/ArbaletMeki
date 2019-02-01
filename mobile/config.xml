@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.arbalet.stjean" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Arbalet Saint Jean</name>
-    <description>Joystick for Arbalet Saint Jean pixelated wall or any bluetooth-based receptor</description>
+<widget id="com.arbalet.meki" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Arbalet Meki</name>
+    <description>Gamepad of Arbalet Meki pixelated surfaces</description>
     <author email="hi@arbalet-project.org" href="http://arbalet-project.org/">Arbalet Project</author>
     <content src="index.html" />
     <access origin="*" />
