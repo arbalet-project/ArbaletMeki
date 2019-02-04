@@ -1,6 +1,6 @@
 #include <avr/wdt.h>
 #include <EEPROM.h>
-#include "Adafruit_WS2801.h"
+#include "Adafruit_NeoPixel.h"
 #include "SPI.h"
 #include <Ethernet.h>
 #include <EthernetUdp.h>
@@ -11,8 +11,9 @@
 #define PROTOCOL_VERSION 2  // Protocol version over UDP
 #define WS2801_GREEN 22
 #define WS2801_YELLOW 23
+#define NUM_PIXELS 150
 
-Adafruit_WS2801 strip = Adafruit_WS2801(300);
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_PIXELS, 23);
 
 const unsigned long DURATION_ANIMATION_MS = 120000UL;
 const unsigned long LIVE_TIMEOUT_MS = 5000UL;
@@ -239,7 +240,7 @@ void fadeInRoueDesCouleurs() {
 }
 
 void setupRoueDesCouleurs()  {
-    hue = (float*)malloc(300*sizeof(float));
+    hue = (float*)malloc(NUM_PIXELS*sizeof(float));
     
     for (int i = 0; i < strip.numPixels(); i++)
       {
@@ -281,9 +282,9 @@ float *hue_expos;
 float hue1, hue2;
 
 void setupLineaire(){
-  value = (int*)malloc(300*sizeof(int));
-  sens = (int*)malloc(300*sizeof(int));
-  hue_expos = (float*)malloc(300*sizeof(float));
+  value = (int*)malloc(NUM_PIXELS*sizeof(int));
+  sens = (int*)malloc(NUM_PIXELS*sizeof(int));
+  hue_expos = (float*)malloc(NUM_PIXELS*sizeof(float));
   
   hue1 = random(0, 10)/10.0;
   hue2 = random(0, 10)/10.0;
@@ -802,9 +803,8 @@ void displayFrame() {
 }
 /***************************************************************** SNAKE **************************************************************/
 
-#define TAILLE 300
-#define LARGEUR 19
-#define HAUTEUR 14
+#define LARGEUR 14
+#define HAUTEUR 9
 #define T_HAUT 8
 #define T_BAS 2
 #define T_GAUCHE 4
@@ -849,11 +849,11 @@ std::list <Position*> snakeUtil;
 unsigned int compteur;
 
 void nouveauFruit(){
-    int alea = random(TAILLE - snakeUtil.size());
+    int alea = random(NUM_PIXELS - snakeUtil.size());
     int i = 0;
     int compteurNew = 0;
     boolean fini = false;
-    while(compteurNew <= alea && i < TAILLE && !fini){
+    while(compteurNew <= alea && i < NUM_PIXELS && !fini){
       if(positionspossibles[i] == 's'){
         i++;
       }else if(compteurNew == alea){
@@ -870,7 +870,7 @@ void nouveauFruit(){
     
 }
 void tourner_couleur(){
-  for(int i = 0; i < 300; i++){
+  for(int i = 0; i < NUM_PIXELS; i++){
     if(positionspossibles[i] == 's'){
       strip.setPixelColor(i, 0, 0, 0);
       strip.show();
@@ -879,7 +879,7 @@ void tourner_couleur(){
   
 }
 void tourner_rouge(){
-  for(int j = 0; j < 300; j++){
+  for(int j = 0; j < NUM_PIXELS; j++){
     if(positionspossibles[j] == 's'){
       strip.setPixelColor(j, 255, 25, 0);
       strip.show();
@@ -1012,16 +1012,16 @@ void deplacer()
 void setupSnake()  
 {  
   isGame = true;
-  positionspossibles = (char*)malloc(300);
+  positionspossibles = (char*)malloc(NUM_PIXELS);
   compteur = 500;
   gameRunning = true;
   gameSnakeIntro = true;
   
-  for (int i=0;i<300;i++)
+  for (int i=0;i<NUM_PIXELS;i++)
   {
     strip.setPixelColor(i,0,0,0);
   }
-  for(int i = 0; i < 300; i++){
+  for(int i = 0; i < NUM_PIXELS; i++){
     positionspossibles[i] = 'r';
   }
   
