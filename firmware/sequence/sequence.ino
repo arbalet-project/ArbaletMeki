@@ -9,8 +9,6 @@
 
 #define DEBUG_SERIAL 1      
 #define PROTOCOL_VERSION 2  // Protocol version over UDP
-#define WS2801_GREEN 22
-#define WS2801_YELLOW 23
 #define NUM_PIXELS 150
 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_PIXELS, 23);
