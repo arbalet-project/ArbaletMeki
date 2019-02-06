@@ -1,0 +1,21 @@
+{
+  "name": "ArbaletMekiLive",
+  "version": "0.0.1",
+  "description": "Desktop Application for Arbalet Meki Live",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [
+    "Arbalet",
+    "Meki",
+    "Live",
+    "Education",
+    "Pixel",
+    "Art"
+  ],
+  "author": "Lucas Demarais, Simon Paillassa, William Jacob, Léo-Paul Dubourg, Nicolas Diot",
+  "devDependencies": {
+    "electron": "^4.0.3"
+  }
+}
