@@ -5,12 +5,26 @@ const {app, BrowserWindow} = require('electron')
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
+// Create the express server
+let expressServer = require('express')();
+let http = require('http').Server(expressServer);
+let port = 3000;
+
+expressServer.get('/',function(req,res){
+  res.send('<h1>Welcome to Arbalet Meki Live</h1>');
+});
+
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 800, height: 600})
 
   // and load the index.html of the app.
   mainWindow.loadFile('index.html')
+
+  // Start the express server
+  http.listen(port,function(){
+    console.log('Server listening on ' + port);
+  })
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()

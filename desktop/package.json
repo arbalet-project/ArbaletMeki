@@ -17,5 +17,8 @@
   "author": "Lucas Demarais, Simon Paillassa, William Jacob, Léo-Paul Dubourg, Nicolas Diot",
   "devDependencies": {
     "electron": "^4.0.3"
+  },
+  "dependencies": {
+    "express": "^4.16.4"
   }
 }
