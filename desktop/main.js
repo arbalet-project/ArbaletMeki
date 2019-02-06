@@ -1,5 +1,8 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow} = require('electron')
+const {
+  app,
+  BrowserWindow
+} = require('electron')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -9,22 +12,19 @@ let mainWindow
 let expressServer = require('express')();
 let http = require('http').Server(expressServer);
 let port = 3000;
+let io = require('socket.io')(http);
 
-expressServer.get('/',function(req,res){
-  res.send('<h1>Welcome to Arbalet Meki Live</h1>');
-});
 
-function createWindow () {
+
+function createWindow() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600})
+  mainWindow = new BrowserWindow({
+    width: 800,
+    height: 600
+  })
 
   // and load the index.html of the app.
   mainWindow.loadFile('index.html')
-
-  // Start the express server
-  http.listen(port,function(){
-    console.log('Server listening on ' + port);
-  })
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
@@ -38,10 +38,35 @@ function createWindow () {
   })
 }
 
+function initServer() {
+  // Routes
+  expressServer.get('/', function (req, res) {
+    res.sendFile(__dirname + '/clientPages/index.html');
+  });
+
+  // Start the express server
+  http.listen(port, function () {
+    console.log('Server listening on ' + port);
+  });
+}
+
+function initSocket() {
+  io.on('connection', function (socket) {
+    console.log('new user connected');
+    socket.on('disconnect',function(reason){
+      console.log(reason);
+    }); 
+  });
+}
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow)
+app.on('ready', function () {
+  createWindow();
+  initServer();
+  initSocket();
+});
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
