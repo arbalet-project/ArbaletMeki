@@ -10,9 +10,18 @@
 
 <body>
     <h1>Hello, this is the client side of Arbalet Meki Live</h1>
+    <form action="">
+        Login:<input type="text" name="" id="">
+        <input type="submit" value="Se connecter">
+    </form>
     <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script>
         var socket = io();
+        $('form').on('submit',function(e){
+            e.preventDefault();
+            socket.emit('login',$('input').val());
+        })
     </script>
 </body>
 

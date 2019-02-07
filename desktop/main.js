@@ -75,6 +75,7 @@ function initSocket() {
         ip: socket.handshake.address
       });
       console.log(clientsLogged);
+      mainWindow.webContents.send('newUser',clientsLogged.get(socket.handshake.session.id));
     });
 
     socket.on('logout',function(){
