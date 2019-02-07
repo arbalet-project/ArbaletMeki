@@ -14,6 +14,21 @@ let http = require('http').Server(expressServer);
 let port = 3000;
 let io = require('socket.io')(http);
 
+let clientsLogged= new Map();
+
+// Init the session system
+let session = require('express-session')({
+  secret:'my-secret',
+  resave: true,
+  saveUninitialized: true
+});
+
+let sharedsession = require('express-socket.io-session');
+expressServer.use(session);
+io.use(sharedsession(session,{
+  autoSave: true
+}));
+
 
 
 function createWindow() {
@@ -52,10 +67,25 @@ function initServer() {
 
 function initSocket() {
   io.on('connection', function (socket) {
-    console.log('new user connected');
+    console.log('new user connected: ' + socket.handshake.session.id);
+
+    socket.on('login',function(login){
+      clientsLogged.set(socket.handshake.session.id,{
+        login: login,
+        ip: socket.handshake.address
+      });
+      console.log(clientsLogged);
+    });
+
+    socket.on('logout',function(){
+      console.log('destroy user');
+      clientsLogged.delete(socket.handshake.session.id);
+      console.log(clientsLogged);
+    })
+
     socket.on('disconnect',function(reason){
       console.log(reason);
-    }); 
+    });
   });
 }
 
