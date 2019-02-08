@@ -4,6 +4,9 @@ const {
   BrowserWindow
 } = require('electron')
 
+require('electron-reload')(__dirname);
+let ipParser = require('ip6addr');
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
@@ -66,27 +69,29 @@ function initServer() {
 }
 
 function initSocket() {
+  // Define the events to listen on a new socket
   io.on('connection', function (socket) {
-    console.log('new user connected: ' + socket.handshake.session.id);
-
+    
+    // When the user logs in
     socket.on('login',function(login){
-      clientsLogged.set(socket.handshake.session.id,{
-        login: login,
-        ip: socket.handshake.address
-      });
-      console.log(clientsLogged);
-      mainWindow.webContents.send('newUser',clientsLogged.get(socket.handshake.session.id));
+      if(!clientsLogged.has(socket.handshake.session.id)){
+        clientsLogged.set(socket.handshake.session.id,{
+          socket: socket,
+          id: socket.handshake.session.id,
+          login: login,
+          ip: getIPV4(socket.handshake.address)
+        });
+        mainWindow.webContents.send('addUser',clientsLogged.get(socket.handshake.session.id));
+      }
     });
 
+    // When the user logs out
     socket.on('logout',function(){
       console.log('destroy user');
+      mainWindow.webContents.send('removeUser', socket.handshake.session.id);
       clientsLogged.delete(socket.handshake.session.id);
-      console.log(clientsLogged);
-    })
 
-    socket.on('disconnect',function(reason){
-      console.log(reason);
-    });
+    })
   });
 }
 
@@ -118,3 +123,12 @@ app.on('activate', function () {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+
+function getIPV4(ip){
+  if(ip == '::1'){
+    return '127.0.0.1';
+  }
+  else {
+    return ipParser.parse(ip).toString({format:'v4'});
+  }
+}
