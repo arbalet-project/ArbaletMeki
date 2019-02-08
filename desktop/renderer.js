@@ -12,7 +12,24 @@ ipcRenderer.on('addUser',function(event,arg){
     var nbConnect = $('#nbConnected').text();
     nbConnect++;
     $('#nbConnected').text(nbConnect);
-    $('#clientsList').append('<li id="'+ arg.id +'"> Login:' + arg.login + ' IP: ' + arg.ip + '</li>');
+    $('#clientsList').append(`
+    <div class="list-result">
+    <label class="switch-button"><input type="checkbox" id="${arg.id}" /><span></span></label>
+    <p>${arg.login}</p>
+    <p>${arg.ip}</p>
+    <a href="#" class="disconnect-link"></a>
+    </div>
+    `);
+    $('#'+arg.id).on("change",  function(){
+        var checkbox = document.querySelectorAll('input[type="checkbox"]');
+        var mybox = this;
+        for (let i = 0; i < checkbox.length; i++) {
+            checkbox[i].checked = false;
+        }
+        mybox.checked = true;
+        console.log(mybox)
+        console.log(mybox.getAttribute('id'))
+    })
 });
 
 ipcRenderer.on('removeUser',function(event,arg){
@@ -21,3 +38,12 @@ ipcRenderer.on('removeUser',function(event,arg){
     $('#nbConnected').text(nbConnect);
     $('#' + arg).remove();
 })
+
+//Animate Active User at top
+
+
+
+
+
+
+

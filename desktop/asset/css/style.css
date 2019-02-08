@@ -1,0 +1,231 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0; }
+
+html, body {
+  width: 100%;
+  height: 100%; }
+
+@font-face {
+  font-family: "Raleway";
+  font-weight: 400;
+  src: url("../font/Raleway/Raleway-Regular.ttf") format("truetype"); }
+@font-face {
+  font-family: "Raleway";
+  font-weight: 700;
+  src: url("../font/Raleway/Raleway-Bold.ttf") format("truetype"); }
+@font-face {
+  font-family: "Raleway";
+  font-weight: 600;
+  src: url("../font/Raleway/Raleway-SemiBold.ttf") format("truetype"); }
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+label {
+  font-family: "Raleway", serif; }
+
+h1 {
+  font-weight: 400;
+  font-size: 30px; }
+
+h2, .result-connect-user {
+  font-weight: 600;
+  font-size: 18px; }
+
+p, h5, label {
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 10px; }
+
+.content, .bord-content, .left-content .header-list {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: nowrap; }
+
+.content {
+  height: 100%; }
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 90px;
+  background-color: #1B2024;
+  padding: 40px 0; }
+  .toolbar .logo {
+    width: 36px;
+    height: 36px; }
+
+.container {
+  background-color: #20262C;
+  padding: 46px 55px;
+  flex-grow: 1; }
+
+.left-content {
+  flex-grow: 1; }
+
+.title-app {
+  margin-bottom: 57px; }
+  .title-app h1 {
+    color: #7A7B7D; }
+
+.left-content {
+  margin-right: 55px; }
+  .left-content .header-list {
+    color: #7A7B7D;
+    margin-bottom: 42px; }
+    .left-content .header-list h2, .left-content .header-list .result-connect-user {
+      color: #D5D4D3; }
+    .left-content .header-list div > *:first-child {
+      margin-bottom: 10px; }
+    .left-content .header-list div:last-child {
+      text-align: center;
+      margin-top: 8px; }
+  .left-content .list-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%; }
+    .left-content .list-content > div {
+      display: flex;
+      flex-wrap: nowrap;
+      padding: 0 25px; }
+      .left-content .list-content > div > *:first-child {
+        width: 15%; }
+      .left-content .list-content > div > *:nth-child(2) {
+        width: 30%; }
+      .left-content .list-content > div > *:nth-child(3) {
+        width: 30%; }
+    .left-content .list-content > div > *:last-child {
+      margin-left: auto; }
+    .left-content .list-content .list-result-header {
+      color: #7A7B7D;
+      margin-bottom: 15px; }
+      .left-content .list-content .list-result-header h5:first-child {
+        padding-left: 8px; }
+    .left-content .list-content .list-result {
+      background-color: #252C34;
+      color: #D5D4D3;
+      align-items: center;
+      display: flex;
+      height: 70px;
+      margin-bottom: 7px; }
+      .left-content .list-content .list-result p {
+        font-size: 12px; }
+      .left-content .list-content .list-result .disconnect-link {
+        margin-right: 23px; }
+
+.right-content {
+  width: 340px; }
+  .right-content > h2 {
+    margin-bottom: 30px;
+    color: #D5D4D3; }
+  .right-content .connexion-content {
+    background-color: #252C34;
+    padding: 30px;
+    height: 230px;
+    display: flex;
+    justify-content: space-between;
+    flex-flow: column nowrap; }
+    .right-content .connexion-content p {
+      font-size: 12px;
+      color: #D5D4D3; }
+    .right-content .connexion-content .text-header {
+      color: #7A7B7D;
+      font-size: 10px;
+      margin-bottom: 10px; }
+    .right-content .connexion-content .connect-style, .right-content .connexion-content .disconnect-style {
+      color: #2fc54f; }
+      .right-content .connexion-content .connect-style:before, .right-content .connexion-content .disconnect-style:before {
+        content: "";
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 100%;
+        background-color: #2fc54f;
+        margin-right: 10px; }
+    .right-content .connexion-content .disconnect-style {
+      color: #d13b3b; }
+      .right-content .connexion-content .disconnect-style:before {
+        background-color: #d13b3b; }
+    .right-content .connexion-content .connect-mode {
+      display: flex;
+      flex-wrap: nowrap; }
+      .right-content .connexion-content .connect-mode input[type=radio] {
+        display: none; }
+      .right-content .connexion-content .connect-mode label {
+        color: #D5D4D3;
+        font-size: 12px;
+        padding: 5px 10px;
+        cursor: pointer;
+        margin-right: 10px; }
+        .right-content .connexion-content .connect-mode label:before {
+          content: "";
+          display: inline-block;
+          width: 18px;
+          height: 18px;
+          background-size: contain;
+          vertical-align: middle;
+          margin-right: 10px; }
+        .right-content .connexion-content .connect-mode label[for=wifi]:before {
+          background-image: url("../images/icon/connect-wifi-white.png"); }
+        .right-content .connexion-content .connect-mode label[for=usb]:before {
+          background-image: url("../images/icon/connect-usb-white.png"); }
+      .right-content .connexion-content .connect-mode input:checked ~ label {
+        color: #2196f3;
+        border: 1px solid #2196f3;
+        border-radius: 30px; }
+        .right-content .connexion-content .connect-mode input:checked ~ label[for=wifi]:before {
+          background-image: url("../images/icon/connect-wifi.png"); }
+        .right-content .connexion-content .connect-mode input:checked ~ label[for=usb]:before {
+          background-image: url("../images/icon/connect-usb.png"); }
+
+.disconnect-link {
+  background-image: url("../images/icon/link-disconnect.png");
+  background-size: contain;
+  display: block;
+  width: 23px;
+  height: 23px;
+  transition: 0.2s ease-in-out; }
+  .disconnect-link:hover {
+    transform: scale(0.93); }
+
+.switch-button {
+  display: flex;
+  align-items: center; }
+  .switch-button input[type=checkbox] {
+    opacity: 0;
+    width: 0;
+    height: 0; }
+  .switch-button span {
+    cursor: pointer;
+    text-indent: -9999px;
+    width: 40px;
+    height: 21px;
+    background: grey;
+    display: block;
+    border-radius: 100px;
+    position: relative; }
+  .switch-button span:after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 17px;
+    height: 17px;
+    background: #fff;
+    border-radius: 90px;
+    transition: 0.3s; }
+  .switch-button input:checked + span {
+    background: #2fc54f; }
+  .switch-button input:checked + span:after {
+    left: calc(100% - 2px);
+    transform: translateX(-100%); }
+  .switch-button span:active:after {
+    width: 35px; }
+
+/*# sourceMappingURL=style.css.map */
