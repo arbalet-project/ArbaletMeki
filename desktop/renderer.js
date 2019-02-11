@@ -27,7 +27,7 @@ ipcRenderer.on('addUser',function(event,arg){
             checkbox[i].checked = false;
         }
         mybox.checked = true;
-        console.log(mybox)
+        ipcRenderer.send('grantUser',mybox.getAttribute('id'));
         console.log(mybox.getAttribute('id'))
     })
 });

@@ -1,8 +1,11 @@
 // Modules to control application life and create native browser window
 const {
   app,
-  BrowserWindow
+  BrowserWindow,
+  ipcMain
 } = require('electron')
+
+let path = require('path');
 
 require('electron-reload')(__dirname);
 let ipParser = require('ip6addr');
@@ -36,7 +39,7 @@ io.use(sharedsession(session,{
 
 function createWindow() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 400, height: 400, icon: __dirname + '/asset/images/logo.png'})
+  mainWindow = new BrowserWindow({width: 400, height: 400, icon: path.join( __dirname , '/asset/images/logo.png')})
   mainWindow.maximize() // Window Fullscreen
 
   // and load the index.html of the app.
@@ -93,6 +96,13 @@ function initSocket() {
   });
 }
 
+function initEvents(){
+  ipcMain.on('grantUser',function(event,arg){
+    console.log(arg);
+    clientsLogged.get(arg).socket.emit('granted');
+  });
+}
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -100,6 +110,7 @@ app.on('ready', function () {
   createWindow();
   initServer();
   initSocket();
+  initEvents();
 });
 
 // Quit when all windows are closed.
