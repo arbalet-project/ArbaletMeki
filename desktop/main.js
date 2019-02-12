@@ -15,7 +15,8 @@ let ipParser = require('ip6addr');
 let mainWindow
 
 // Create the express server
-let expressServer = require('express')();
+let express = require('express');
+let expressServer = express();
 let http = require('http').Server(expressServer);
 let port = 3000;
 let io = require('socket.io')(http);
@@ -59,9 +60,7 @@ function createWindow() {
 
 function initServer() {
   // Routes
-  expressServer.get('/', function (req, res) {
-    res.sendFile(__dirname + '/clientPages/index.html');
-  });
+  expressServer.use(express.static('public'));
 
   // Start the express server
   http.listen(port, function () {
