@@ -11,17 +11,18 @@
     </div>
     <xml xmlns="http://www.w3.org/1999/xhtml" id="toolbox" style="display: none;">
         <category name="Pixel" colour="#5B67A5">
-                <block type="color_pixel"></block>
-                <block type="turn_off"></block>
-                <block type="turn_off_the_pixel"></block>
-                <block type="randomly_color_pixel"></block>
-                <block type="sleep">
-                  <field name="list">seconde</field>
-                </block>
-              </category>
-              <sep></sep>
-
-
+            <block type="color_pixel"></block>
+            <block type="randomly_color_pixel"></block>
+            <block type="color_pixel_select">
+                <field name="couleur">#ff0000</field>
+            </block>
+            <block type="turn_off_the_pixel"></block>
+            <block type="turn_off"></block>
+            <block type="sleep">
+                <field name="list">seconde</field>
+            </block>
+        </category>
+        <sep></sep>
         <category name="Logic" colour="#5C81A6">
           <block type="controls_if"></block>
           <block type="logic_compare">
