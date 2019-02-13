@@ -21,26 +21,15 @@ let http = require('http').Server(expressServer);
 let port = 3000;
 let io = require('socket.io')(http);
 
-let clientsLogged= new Map();
-
-// Init the session system
-let session = require('express-session')({
-  secret:'my-secret',
-  resave: true,
-  saveUninitialized: true
-});
-
-let sharedsession = require('express-socket.io-session');
-expressServer.use(session);
-io.use(sharedsession(session,{
-  autoSave: true
-}));
-
-
+let clientsLogged = new Map();
 
 function createWindow() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 400, height: 400, icon: path.join( __dirname , '/asset/images/logo.png')})
+  mainWindow = new BrowserWindow({
+    width: 400,
+    height: 400,
+    icon: path.join(__dirname, '/asset/images/logo.png')
+  })
   mainWindow.maximize() // Window Fullscreen
 
   // and load the index.html of the app.
@@ -59,8 +48,24 @@ function createWindow() {
 }
 
 function initServer() {
+
+  // Init the session system
+  let session = require('express-session')({
+    secret: 'my-secret',
+    resave: true,
+    saveUninitialized: true
+  });
+
+  let sharedsession = require('express-socket.io-session');
+  expressServer.use(session);
+  io.use(sharedsession(session, {
+    autoSave: true
+  }));
+
   // Routes
   expressServer.use(express.static('public'));
+  expressServer.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist'));
+  expressServer.use('/rgbconverter', express.static( __dirname + '/node_modules/rgb-hex-converter'));
 
   // Start the express server
   http.listen(port, function () {
@@ -71,22 +76,22 @@ function initServer() {
 function initSocket() {
   // Define the events to listen on a new socket
   io.on('connection', function (socket) {
-    
+
     // When the user logs in
-    socket.on('login',function(login){
-      if(!clientsLogged.has(socket.handshake.session.id)){
-        clientsLogged.set(socket.handshake.session.id,{
+    socket.on('login', function (login) {
+      if (!clientsLogged.has(socket.handshake.session.id)) {
+        clientsLogged.set(socket.handshake.session.id, {
           socket: socket,
           id: socket.handshake.session.id,
           login: login,
           ip: getIPV4(socket.handshake.address)
         });
-        mainWindow.webContents.send('addUser',clientsLogged.get(socket.handshake.session.id));
+        mainWindow.webContents.send('addUser', clientsLogged.get(socket.handshake.session.id));
       }
     });
 
     // When the user logs out
-    socket.on('logout',function(){
+    socket.on('logout', function () {
       console.log('destroy user');
       mainWindow.webContents.send('removeUser', socket.handshake.session.id);
       clientsLogged.delete(socket.handshake.session.id);
@@ -95,10 +100,10 @@ function initSocket() {
   });
 }
 
-function initEvents(){
-  ipcMain.on('grantUser',function(event,arg){
-    console.log(arg);
+function initEvents() {
+  ipcMain.on('grantUser', function (event, arg) {
     clientsLogged.get(arg).socket.emit('granted');
+    clientsLogged.get(arg).socket.broadcast.emit('ungranted');
   });
 }
 
@@ -132,11 +137,12 @@ app.on('activate', function () {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
-function getIPV4(ip){
-  if(ip == '::1'){
+function getIPV4(ip) {
+  if (ip == '::1') {
     return '127.0.0.1';
-  }
-  else {
-    return ipParser.parse(ip).toString({format:'v4'});
+  } else {
+    return ipParser.parse(ip).toString({
+      format: 'v4'
+    });
   }
 }
