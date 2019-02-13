@@ -102,13 +102,20 @@ function initSocket() {
 
 function initEvents() {
   ipcMain.on('grantUser', function (event, arg) {
-    console.log("c'est dedas")
+
     clientsLogged.get(arg).socket.emit('granted');
     clientsLogged.get(arg).socket.broadcast.emit('ungranted');
   });
 
   ipcMain.on('ungrantUser', function(event,arg){
     clientsLogged.get(arg).socket.emit('ungranted');
+  })
+
+  ipcMain.on('disconnectUser', function(event,arg){
+    clientsLogged.get(arg).socket.emit('disconnectUser');
+    console.log(clientsLogged)
+    clientsLogged.delete(arg)
+    console.log(clientsLogged)
   })
 }
 

@@ -34,6 +34,12 @@
         $('.blue').remove()
     });
 
+    socket.on('disconnectUser',function(){
+        alert('Disconnect')
+        console.log('disconnect')
+    });
+
+
     /******* lOGOUT : logout(); */
 
     //Led Full Screen
