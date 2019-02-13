@@ -102,9 +102,14 @@ function initSocket() {
 
 function initEvents() {
   ipcMain.on('grantUser', function (event, arg) {
+    console.log("c'est dedas")
     clientsLogged.get(arg).socket.emit('granted');
     clientsLogged.get(arg).socket.broadcast.emit('ungranted');
   });
+
+  ipcMain.on('ungrantUser', function(event,arg){
+    clientsLogged.get(arg).socket.emit('ungranted');
+  })
 }
 
 // This method will be called when Electron has finished

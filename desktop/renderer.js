@@ -23,14 +23,24 @@ ipcRenderer.on('addUser',function(event,arg){
     $('#'+arg.id).on("change",  function(){
         var checkbox = document.querySelectorAll('input[type="checkbox"]');
         var mybox = this;
-        for (let i = 0; i < checkbox.length; i++) {
-            checkbox[i].checked = false;
-        }
-        mybox.checked = true;
-        ipcRenderer.send('grantUser',mybox.getAttribute('id'));
-        console.log(mybox.getAttribute('id'))
+        console.log(mybox.checked)
+        var check = document.getElementById(arg.id)
+        console.log(check.checked)
+
+        if(mybox.checked == false){
+            mybox.checked = false
+            ipcRenderer.send('ungrantUser',mybox.getAttribute('id'));
+        }else{
+            for (let i = 0; i < checkbox.length; i++) {
+                checkbox[i].checked = false;
+            }
+            mybox.checked = true;
+            ipcRenderer.send('grantUser',mybox.getAttribute('id'));
+        }        
     })
 });
+
+
 
 ipcRenderer.on('removeUser',function(event,arg){
     var nbConnect = $('#nbConnected').text();
