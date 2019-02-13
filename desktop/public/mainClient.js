@@ -3,30 +3,6 @@ let granted = false;
 let updateTimer;
 let pixelsToUpdate = [];
 
-// Events
-// Socket events
-
-socket.on('granted',function(){
-    granted = true;
-    alert('Vous avez désormais le controle sur la table ARBALET');
-});
-
-socket.on('ungranted',function(){
-    granted = false;
-    alert('Vous n\'avez plus le controle sur la table ARBALET');
-});
-
-// Page events
-
-$('form').on('submit',function(e){
-    e.preventDefault();
-    socket.emit('login',$('input').val());
-    $('body').append('<button>Déconnexion</button>');
-    $('button').on('click',function(){
-        logout();
-        $('button').remove();
-    })
-});
 
 // Functions
 

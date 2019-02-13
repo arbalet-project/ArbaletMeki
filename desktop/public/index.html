@@ -6,18 +6,83 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Arbalet Meki Live</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="asset/css/style.css">
 </head>
 
 <body>
-    <h1>Hello, this is the client side of Arbalet Meki Live</h1>
-    <form action="">
+    
+    <!-- Intro Modal PopUp at Start -->
+    <div class="overlay-popup">
+        <div class="start-popup">
+            <img src="asset/images/icon.png" alt="">
+            <h1>Bienvenue sur Arbalet Meki Live !</h1>
+            <div class="input-popup">
+                <input type="text" id="name-popup" placeholder="Entrez votre nom">
+                <button type="submit" id="send-name"></button>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal PopUp -->
+
+        <!-- App Content -->
+        <div class="main">
+            <div class="left-pan">
+                <div class="head-title">
+                    <img src="asset/images/icon.png" alt="">
+                    <h1>Arbalet Meki Live</h1>
+                </div>
+            </div>
+            <div class="center-pan">
+    
+            </div>
+            <div class="right-pan">
+                <div>
+                    <div class="head-menu">
+                        <a href="#file" id="file"></a>
+                        <a href="#setting" id="setting"></a>
+                    </div>
+                    <div class="info-user">
+                        <div>
+                            <p class="text-header">Status</p>
+                            <p class="connect-style">Connecté au poste</p><!-- Use the class disconnect-style in the other case-->
+                        </div>
+                        <div>
+                            <p class="text-header">Votre adresse</p>
+                            <p>127.0.0.0</p>
+                        </div>
+                        <div>
+                            <p class="text-header">Votre nom</p>
+                            <p id="user-name"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="led-content">
+                    <div class="led-header">
+                        <a href="#play" id="play"></a>
+                        <a href="#pause" id="pause"></a>
+                        <a href="#full-screen" id="full-screen"></a>
+                    </div>
+                    <table id="led-table" border="0" cellspacing="0" cellpadding="0">
+                        
+                       
+                    </table>
+                </div>
+            </div>
+        
+        </div>
+        <!-- End App -->
+
+<!--     <form action="">
         Login:<input type="text" name="" id="">
         <input type="submit" value="Se connecter">
-    </form>
+    </form> -->
+
+    
     <script src="/socket.io/socket.io.js"></script>
     <script src="/jquery/jquery.js"></script>
     <script src="/rgbConverter.js"></script>
     <script src="/mainClient.js"></script>
+    <script src="front.js"></script>
 </body>
 
 </html>
