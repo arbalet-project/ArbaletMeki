@@ -8,30 +8,52 @@ let ip = require('ip');
 $('#myIp').text(ip.address());
 
 //Events
+
+//add
 ipcRenderer.on('addUser',function(event,arg){
     var nbConnect = $('#nbConnected').text();
     nbConnect++;
     $('#nbConnected').text(nbConnect);
     $('#clientsList').append(`
-    <div class="list-result">
-    <label class="switch-button"><input type="checkbox" id="${arg.id}" /><span></span></label>
-    <p>${arg.login}</p>
-    <p>${arg.ip}</p>
-    <a href="#" class="disconnect-link"></a>
-    </div>
+        <div class="list-result">
+        <label class="switch-button"><input type="checkbox" id="${arg.id}" /><span></span></label>
+        <p>${arg.login}</p>
+        <p>${arg.ip}</p>
+        <a href="#" class="disconnect-link"></a>
+        </div>
     `);
+
     $('#'+arg.id).on("change",  function(){
         var checkbox = document.querySelectorAll('input[type="checkbox"]');
         var mybox = this;
-        for (let i = 0; i < checkbox.length; i++) {
-            checkbox[i].checked = false;
-        }
-        mybox.checked = true;
-        ipcRenderer.send('grantUser',mybox.getAttribute('id'));
-        console.log(mybox.getAttribute('id'))
+        console.log(mybox.checked)
+        var check = document.getElementById(arg.id)
+        console.log(check.checked)
+
+        if(mybox.checked == false){
+            mybox.checked = false
+            ipcRenderer.send('ungrantUser', mybox.getAttribute('id'));
+        }else{
+            for (let i = 0; i < checkbox.length; i++) {
+                checkbox[i].checked = false;
+            }
+            mybox.checked = true;
+            ipcRenderer.send('grantUser', mybox.getAttribute('id'));
+        }        
     })
 });
 
+
+// Disconnect from Server
+$('.list-content').on('click', '.disconnect-link', function(){
+    var arg = $(this).siblings('label').children('input').attr('id') 
+    ipcRenderer.send('disconnectUser', arg);
+    $(this).parent().fadeOut(150, function(){
+        $(this).remove()
+    })
+})
+
+// Disconnect from Client
 ipcRenderer.on('removeUser',function(event,arg){
     var nbConnect = $('#nbConnected').text();
     nbConnect--;
@@ -39,7 +61,7 @@ ipcRenderer.on('removeUser',function(event,arg){
     $('#' + arg).remove();
 })
 
-//Animate Active User at top
+
 
 
 
