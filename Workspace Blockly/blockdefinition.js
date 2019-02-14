@@ -1,34 +1,35 @@
 Blockly.Blocks['turn_off_the_pixel'] = {
-  init: function() {
-    this.appendValueInput("row")
-        .setCheck("Number")
-        .appendField("Eteindre le pixel");
-    this.appendValueInput("column")
-        .setCheck("Number");
-    this.setInputsInline(true);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
- this.setTooltip("");
- this.setHelpUrl("");
-  }
-};
-
-Blockly.Blocks['randomly_color_pixel'] = {
-  init: function() {
-    this.appendValueInput("row")
-        .setCheck("Number")
-        .appendField("Colorer le pixel aléatoirement");
-    this.appendValueInput("column")
-        .setCheck("Number");
-    this.setInputsInline(true);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(230);
- this.setTooltip("");
- this.setHelpUrl("");
-  }
-};
+    init: function() {
+      this.appendValueInput("row")
+          .setCheck(null)
+          .appendField("Eteindre le pixel");
+      this.appendValueInput("column")
+          .setCheck(null);
+      this.setInputsInline(true);
+      this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
+      this.setColour(230);
+   this.setTooltip("");
+   this.setHelpUrl("");
+    }
+  };
+  Blockly.Blocks['randomly_color_pixel'] = {
+    init: function() {
+      this.appendValueInput("row")
+          .setCheck(null)
+          .appendField("Colorer le pixel");
+      this.appendValueInput("column")
+          .setCheck(null);
+      this.appendDummyInput()
+          .appendField(" aléatoirement");
+      this.setInputsInline(true);
+      this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
+      this.setColour(230);
+   this.setTooltip("");
+   this.setHelpUrl("");
+    }
+  };
 
 Blockly.Blocks['turn_off'] = {
     init: function() {
@@ -45,18 +46,18 @@ Blockly.Blocks['turn_off'] = {
 Blockly.Blocks['color_pixel'] = {
   init: function() {
     this.appendValueInput("row")
-        .setCheck("Number")
+        .setCheck(null)
         .appendField("Colorer le pixel");
     this.appendValueInput("column")
-        .setCheck("Number");
+        .setCheck(null);
     this.appendValueInput("red")
-        .setCheck("Number")
+        .setCheck(null)
         .appendField("en rouge");
     this.appendValueInput("green")
-        .setCheck("Number")
+        .setCheck(null)
         .appendField("en vert");
     this.appendValueInput("blue")
-        .setCheck("Number")
+        .setCheck(null)
         .appendField("en bleu");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
@@ -86,10 +87,10 @@ Blockly.Blocks['sleep'] = {
 Blockly.Blocks['color_pixel_select'] = {
     init: function() {
       this.appendValueInput("row")
-          .setCheck("Number")
+          .setCheck(null)
           .appendField("Colorer le pixel");
       this.appendValueInput("column")
-          .setCheck("Number");
+          .setCheck(null);
       this.appendDummyInput()
           .appendField("en")
           .appendField(new Blockly.FieldColour("#ff0000"), "couleur");

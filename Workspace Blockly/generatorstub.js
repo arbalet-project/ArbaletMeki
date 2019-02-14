@@ -1,3 +1,5 @@
+
+
 Blockly.JavaScript['turn_off_the_pixel'] = function(block) {
   var value_row = Blockly.JavaScript.valueToCode(block, 'row', Blockly.JavaScript.ORDER_ATOMIC);
   var value_column = Blockly.JavaScript.valueToCode(block, 'column', Blockly.JavaScript.ORDER_ATOMIC);

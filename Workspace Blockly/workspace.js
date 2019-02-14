@@ -1,19 +1,7 @@
 /* TODO: Change toolbox XML ID if necessary. Can export toolbox XML from Workspace Factory. */
-var toolbox;
+var toolbox = document.getElementById("toolbox");
 
-$.ajax({
-	type: "GET",
-	url: "toolbox.xml",
-	context: document.body,
-	success: function(xml) {
-		var s = new XMLSerializer();
-		var d = xml;
-		var toolbox = s.serializeToString(d);
-		createBlockly(toolbox)
-	}
-});
 
-function createBlockly(toolbox){
 	var options = { 
 		toolbox : toolbox, 
 		collapse : true, 
@@ -35,7 +23,7 @@ function createBlockly(toolbox){
 			colour : '#888', 
 			snap : false
 		}
-	};
+	}
 	
 	/* Inject your workspace */ 
 	var workspace = Blockly.inject('blocklyDiv', options);
@@ -48,4 +36,4 @@ function createBlockly(toolbox){
 	/* Load blocks to workspace. */
 	Blockly.Xml.domToWorkspace(workspaceBlocks, workspace);
 
-}
+
