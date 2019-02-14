@@ -1,6 +1,6 @@
 
 
-    createLedTable(15,10); //Row / Coll
+    createLedTable(nbRows,nbColumns); //Row / Coll
 
 
     // Starting PopUp

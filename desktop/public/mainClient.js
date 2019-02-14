@@ -2,6 +2,9 @@ const socket = io();
 let granted = false;
 let updateTimer;
 let pixelsToUpdate = [];
+let blocklyWorker;
+let nbRows = 15;
+let nbColumns = 10;
 
 
 // Functions
@@ -9,13 +12,17 @@ let pixelsToUpdate = [];
 // Runs the blockly program and launch the grid autoupdate
 function run(){
     updateTimer = setInterval(updateArbalet,500);
-    // TODO: run blockly program
+    blocklyWorker = new Worker('/blocklyWorker.js');
+    blocklyWorker.postMessage({message:'gridLength',nbRows: nbRows, nbColumns: nbColumns});
+    // TODO: Generate code from blockly and post to the worker
+
 }
 
 // Stops the blockly program and the grid autoupdate
 function stop(){
     clearInterval(updateTimer);
-    // TODO: stop the blockly program
+    blocklyWorker.terminate();
+
 }
 
 // Update the arbalet pixel grid if granted
@@ -27,8 +34,8 @@ function updateArbalet(){
 }
 
 // Update a pixel on simulation and add it to the update queue
-function updatePixel(rowX,lineY,color){
-    let cell = {rowX: rowX, lineY: lineY};
+function updatePixel(rowX,columnY,color){
+    let cell = {rowX: rowX, columnY: columnY};
 
     if(typeof(color) === 'string'){ // HexaColor
         if(granted){
