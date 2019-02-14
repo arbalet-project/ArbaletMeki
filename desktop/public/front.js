@@ -5,7 +5,7 @@
 
     // Starting PopUp
 
-    $('#send-name').on('click', function(){
+/*     $('#send-name').on('click', function(){
         var name = $('#name-popup').val()
         $('.overlay-popup').css({
             "transition" : "0.4s ease",
@@ -19,7 +19,7 @@
         if(event.which == 13 ){
         $('#send-name').click();
         }
-    })
+    }) */
 
     // Connect Arbalet Table
 
@@ -52,25 +52,25 @@
     //Table Led Simulation
 
     function createLedTable(NbrRow, NbrColumn){
-    let Cell = 0
-    let Col = 0
-    let nbCol = 0
+    let countCell = 0 //Cell in a Row
+    let countRow = 0
+    let countColumn = -1
 
     let myContainer = document.getElementById('led-table')
 
         for (let NbrLed = 0; NbrLed < (NbrRow * NbrColumn); NbrLed++) {
 
-            if(Col % NbrColumn == 0){
+            if(countRow % NbrColumn == 0){
                 //New Row
                 var newRow = myContainer.insertRow(-1);
-                Cell = 0
-                nbCol ++
+                countCell = 0
+                countColumn ++
             }
             
             //New Cell
-            newRow.insertCell(Cell).innerHTML = '<div class="led" data-n="'+Cell+'" data-c="'+nbCol+'"></div>'
+            newRow.insertCell(countCell).innerHTML = '<div class="led" data-n="'+countColumn+'" data-c="'+countCell+'"></div>'
 
-            Col++
-            Cell ++    
+            countRow ++
+            countCell ++    
         }
     }  
