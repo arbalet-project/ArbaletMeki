@@ -73,7 +73,7 @@ Blockly.Blocks['sleep'] = {
       this.appendDummyInput()
           .appendField("Attendre")
           .appendField(new Blockly.FieldTextInput("0"), "time")
-          .appendField(new Blockly.FieldDropdown([["s","seconde"], ["ms","milliseconde"]]), "list");
+          .appendField(new Blockly.FieldDropdown([["s","'s'"], ["ms","'ms'"]]), "list");
       this.setInputsInline(true);
       this.setPreviousStatement(true, null);
       this.setNextStatement(true, null);

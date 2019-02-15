@@ -46,6 +46,14 @@
 
     $('#full-screen').on('click', function(){
         console.log("hello")
+    });
+
+    $('#play').on('click',function(){
+        run();
+    });
+
+    $('#pause').on('click',function(){
+        stop();
     })
 
 

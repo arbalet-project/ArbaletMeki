@@ -1,5 +1,3 @@
-
-
 Blockly.JavaScript['turn_off_the_pixel'] = function(block) {
   var value_row = Blockly.JavaScript.valueToCode(block, 'row', Blockly.JavaScript.ORDER_ATOMIC);
   var value_column = Blockly.JavaScript.valueToCode(block, 'column', Blockly.JavaScript.ORDER_ATOMIC);
@@ -26,9 +24,9 @@ Blockly.JavaScript['turn_off'] = function(block) {
 Blockly.JavaScript['color_pixel'] = function(block) {
   var value_row = Blockly.JavaScript.valueToCode(block, 'row', Blockly.JavaScript.ORDER_ATOMIC);
   var value_column = Blockly.JavaScript.valueToCode(block, 'column', Blockly.JavaScript.ORDER_ATOMIC);
-  var value_red = Blockly.JavaScript.valueToCode(block, 'red', Blockly.JavaScript.ORDER_ATOMIC);
-  var value_green = Blockly.JavaScript.valueToCode(block, 'green', Blockly.JavaScript.ORDER_ATOMIC);
-  var value_blue = Blockly.JavaScript.valueToCode(block, 'blue', Blockly.JavaScript.ORDER_ATOMIC);
+  var value_red = parseInt(Blockly.JavaScript.valueToCode(block, 'red', Blockly.JavaScript.ORDER_ATOMIC),10);
+  var value_green = parseInt(Blockly.JavaScript.valueToCode(block, 'green', Blockly.JavaScript.ORDER_ATOMIC),10);
+  var value_blue = parseInt(Blockly.JavaScript.valueToCode(block, 'blue', Blockly.JavaScript.ORDER_ATOMIC),10);
   // TODO: Assemble JavaScript into code variable.
   var code = `setPixel(${value_row},${value_column},{r:${value_red},g:${value_green},b:${value_blue}});`;
   return code;
@@ -47,6 +45,6 @@ Blockly.JavaScript['color_pixel_select'] = function(block) {
   var value_column = Blockly.JavaScript.valueToCode(block, 'column', Blockly.JavaScript.ORDER_ATOMIC);
   var colour_couleur = block.getFieldValue('couleur');
   // TODO: Assemble JavaScript into code variable.
-  var code = `setPixel(${value_row},${value_column},${colour_couleur});`;
+  var code = `setPixel(${value_row},${value_column},'${colour_couleur}');`;
   return code;
 };
