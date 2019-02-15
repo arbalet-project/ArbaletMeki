@@ -48,12 +48,21 @@
         console.log("hello")
     });
 
-    $('#play').on('click',function(){
+    $('#play').on('click',function(e){
+        e.preventDefault();
         run();
     });
 
-    $('#pause').on('click',function(){
+    $('#pause').on('click',function(e){
+        e.preventDefault();
         stop();
+    });
+
+    $('#reload').on('click',function(e){
+        e.preventDefault();
+        stop();
+        // TODO: Reset the grid
+        run();
     })
 
 
