@@ -36,7 +36,7 @@
             <div id="blocklyDiv" style="height: 480px; width: 600px;">
             </div>
             <xml xmlns="http://www.w3.org/1999/xhtml" id="toolbox" style="display: none;">
-                <category name="Pixel" colour="#5B67A5">
+                <category name="Pixel" colour="#ff0000">
                     <block type="color_pixel"></block>
                     <block type="color_all_pixels"></block>
                     <block type="turn_off_the_pixel"></block>
@@ -45,7 +45,7 @@
                         <field name="list">'s'</field>
                     </block>
                 </category>
-                <sep></sep>
+                           
                 <category name="Logic" colour="#5C81A6">
                   <block type="controls_if"></block>
                   <block type="logic_compare">
@@ -58,9 +58,9 @@
                   <block type="logic_boolean">
                     <field name="BOOL">TRUE</field>
                   </block>
-                  <block type="logic_null"></block>
                   <block type="logic_ternary"></block>
                 </category>
+
                 <category name="Loops" colour="#5CA65C">
                   <block type="controls_repeat_ext">
                     <value name="TIMES">
@@ -95,11 +95,47 @@
                     <field name="FLOW">BREAK</field>
                   </block>
                 </category>
-                <category name="Text" colour="#5CA68D">
-                  <block type="text">
-                    <field name="TEXT"></field>
+
+                <category name="Math" colour="#5b67a5">
+                  <block type="math_number">
+                    <field name="NUM">0</field>
+                  </block>
+                  <block type="math_arithmetic">
+                    <field name="OP">ADD</field>
+                    <value name="A">
+                      <shadow type="math_number">
+                        <field name="NUM">1</field>
+                      </shadow>
+                    </value>
+                    <value name="B">
+                      <shadow type="math_number">
+                        <field name="NUM">1</field>
+                      </shadow>
+                    </value>
+                  </block>
+                  <block type="math_number_property">
+                    <mutation divisor_input="false"></mutation>
+                    <field name="PROPERTY">EVEN</field>
+                    <value name="NUMBER_TO_CHECK">
+                      <shadow type="math_number">
+                        <field name="NUM">0</field>
+                      </shadow>
+                    </value>
+                  </block>
+                  <block type="math_random_int">
+                    <value name="FROM">
+                      <shadow type="math_number">
+                        <field name="NUM">1</field>
+                      </shadow>
+                    </value>
+                    <value name="TO">
+                      <shadow type="math_number">
+                        <field name="NUM">100</field>
+                      </shadow>
+                    </value>
                   </block>
                 </category>
+
                 <category name="Colour" colour="#A6745C">
                   <block type="colour_picker">
                     <field name="COLOUR">#ff0000</field>
@@ -140,6 +176,7 @@
                     </value>
                   </block>
                 </category>
+
                 <category name="Functions" colour="#9A5CA6" custom="PROCEDURE"></category>
                 <category name="Variables" colour="#A65C81" custom="VARIABLE"></category>
             </xml>
