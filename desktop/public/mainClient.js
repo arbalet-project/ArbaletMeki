@@ -38,27 +38,13 @@ function updateArbalet(){
 
 // Update a pixel on simulation and add it to the update queue
 function updatePixel(rowX,columnY,color){
-    console.log(rowX + ' ' + columnY + ' ' + color);
     let cell = {rowX: rowX, columnY: columnY};
     let cssCell = 'div[data-r=' + rowX + '][data-c=' + columnY + ']';
-    console.log(cssCell);
-
-    if(typeof(color) === 'string'){ // HexaColor
         if(granted){
             cell.rgbColor = HEXtoRGB(color);
             pixelsToUpdate.push(cell);
         }
         $(cssCell).css('background',color);
-    }
-    else { // RGBColor
-        if(granted){
-            cell.rgbColor = color;
-            pixelsToUpdate.push(cell);
-        }
-        let hexaColor = '#' + RGBtoHEX(color.r,color.g,color.b);
-        console.log(hexaColor);
-        $(cssCell).css('background',hexaColor);
-    }    
 }
 
 function logout(){

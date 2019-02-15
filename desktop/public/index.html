@@ -38,14 +38,11 @@
             <xml xmlns="http://www.w3.org/1999/xhtml" id="toolbox" style="display: none;">
                 <category name="Pixel" colour="#5B67A5">
                     <block type="color_pixel"></block>
-                    <block type="randomly_color_pixel"></block>
-                    <block type="color_pixel_select">
-                        <field name="couleur">#ff0000</field>
-                    </block>
+                    <block type="color_all_pixels"></block>
                     <block type="turn_off_the_pixel"></block>
                     <block type="turn_off"></block>
                     <block type="sleep">
-                        <field name="list">s</field>
+                        <field name="list">'s'</field>
                     </block>
                 </category>
                 <sep></sep>
@@ -93,9 +90,7 @@
                       </shadow>
                     </value>
                   </block>
-                  <block type="controls_forEach">
-                    <field name="VAR" id="7C5$N_x|9BLK~1Dk/Yjp" variabletype="">j</field>
-                  </block>
+                  
                   <block type="controls_flow_statements" disabled="true">
                     <field name="FLOW">BREAK</field>
                   </block>
@@ -103,95 +98,6 @@
                 <category name="Text" colour="#5CA68D">
                   <block type="text">
                     <field name="TEXT"></field>
-                  </block>
-                  <block type="text_join">
-                    <mutation items="2"></mutation>
-                  </block>
-                  <block type="text_append">
-                    <field name="VAR" id="/va7[CNGs.FCQOV=Hmhx" variabletype="">item</field>
-                    <value name="TEXT">
-                      <shadow type="text">
-                        <field name="TEXT"></field>
-                      </shadow>
-                    </value>
-                  </block>
-                  <block type="text_length">
-                    <value name="VALUE">
-                      <shadow type="text">
-                        <field name="TEXT">abc</field>
-                      </shadow>
-                    </value>
-                  </block>
-                  <block type="text_isEmpty">
-                    <value name="VALUE">
-                      <shadow type="text">
-                        <field name="TEXT"></field>
-                      </shadow>
-                    </value>
-                  </block>
-                  <block type="text_indexOf">
-                    <field name="END">FIRST</field>
-                    <value name="VALUE">
-                      <block type="variables_get">
-                        <field name="VAR" id="hP$%1AQ//D^%C/XHklFX" variabletype="">text</field>
-                      </block>
-                    </value>
-                    <value name="FIND">
-                      <shadow type="text">
-                        <field name="TEXT">abc</field>
-                      </shadow>
-                    </value>
-                  </block>
-                  <block type="text_charAt">
-                    <mutation at="true"></mutation>
-                    <field name="WHERE">FROM_START</field>
-                    <value name="VALUE">
-                      <block type="variables_get">
-                        <field name="VAR" id="hP$%1AQ//D^%C/XHklFX" variabletype="">text</field>
-                      </block>
-                    </value>
-                  </block>
-                  <block type="text_getSubstring">
-                    <mutation at1="true" at2="true"></mutation>
-                    <field name="WHERE1">FROM_START</field>
-                    <field name="WHERE2">FROM_START</field>
-                    <value name="STRING">
-                      <block type="variables_get">
-                        <field name="VAR" id="hP$%1AQ//D^%C/XHklFX" variabletype="">text</field>
-                      </block>
-                    </value>
-                  </block>
-                  <block type="text_changeCase">
-                    <field name="CASE">UPPERCASE</field>
-                    <value name="TEXT">
-                      <shadow type="text">
-                        <field name="TEXT">abc</field>
-                      </shadow>
-                    </value>
-                  </block>
-                  <block type="text_trim">
-                    <field name="MODE">BOTH</field>
-                    <value name="TEXT">
-                      <shadow type="text">
-                        <field name="TEXT">abc</field>
-                      </shadow>
-                    </value>
-                  </block>
-                  <block type="text_print">
-                    <value name="TEXT">
-                      <shadow type="text">
-                        <field name="TEXT">abc</field>
-                      </shadow>
-                    </value>
-                  </block>
-                  <block type="text_prompt_ext">
-                    <mutation type="TEXT"></mutation>
-                    <field name="TYPE">TEXT</field>
-                    <value name="TEXT">
-                      <shadow type="text">
-                        <field name="TEXT">abc</field>
-                      </shadow>
-                    </value>
                   </block>
                 </category>
                 <category name="Colour" colour="#A6745C">

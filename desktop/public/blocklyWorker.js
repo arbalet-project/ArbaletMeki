@@ -25,23 +25,22 @@ function setPixel(rowX,columnY,color){
     self.postMessage({rowX: rowX, columnY: columnY, color:color});
 }
 
-function setRandomPixel(rowX,columnY){
-    let randomColor = {
-        r: Math.floor(Math.random() * 256),
-        g: Math.floor(Math.random() * 256),
-        b: Math.floor(Math.random() * 256)
-    };
-    setPixel(rowX,columnY,randomColor);
-}
-
 function switchOffPixel(rowX,columnY){
-    setPixel(rowX,columnY,{r:0,g:0,b:0});
+    setPixel(rowX,columnY,'#000000');
 }
 
 function switchOffAllPixels(){
     for(let i = 0; i < nbRows; i++){
         for(let j = 0; j < nbColumns; j++){
             switchOffPixel(i,j);
+        }
+    }
+}
+
+function setAllPixels(color){
+    for(let i = 0; i < nbRows; i++){
+        for(let j = 0; j < nbColumns; j++){
+            setPixel(i,j,color);
         }
     }
 }
