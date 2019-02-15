@@ -31,10 +31,11 @@
                     <img src="asset/images/icon.png" alt="">
                     <h1>Arbalet Meki Live</h1>
                 </div>
+                <div id="blocklyDiv" style="height: 100%; width: 100%;">
+                </div>
             </div>
 
-            <div id="blocklyDiv" style="height: 480px; width: 600px;">
-            </div>
+
             <xml xmlns="http://www.w3.org/1999/xhtml" id="toolbox" style="display: none;">
                 <category name="Pixel" colour="#5B67A5">
                     <block type="color_pixel"></block>
@@ -45,7 +46,6 @@
                         <field name="list">'s'</field>
                     </block>
                 </category>
-                <sep></sep>
                 <category name="Logic" colour="#5C81A6">
                   <block type="controls_if"></block>
                   <block type="logic_compare">
@@ -144,9 +144,6 @@
                 <category name="Variables" colour="#A65C81" custom="VARIABLE"></category>
             </xml>
 
-            <div class="center-pan">
-    
-            </div>
             <div class="right-pan">
                 <div>
                     <div class="head-menu">
@@ -171,7 +168,8 @@
                 <div class="led-content">
                     <div class="led-header">
                         <a href="#play" id="play"></a>
-                        <a href="#pause" id="pause"></a>
+                        <a href="#stop" id="stop"></a>
+                        <a href="#reload" id="reload"></a>
                         <a href="#full-screen" id="full-screen"></a>
                     </div>
                     <table id="led-table" border="0" cellspacing="0" cellpadding="0">

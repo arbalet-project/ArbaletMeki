@@ -32,7 +32,8 @@ h3,
 h4,
 h5,
 p,
-label{
+label,
+.blocklyTreeLabel{
 font-family: "Raleway", sans-serif
 }
 h1{
@@ -45,7 +46,7 @@ h2, .result-connect-user{
     font-size: 18px;
 }
 
-p, h5, label{
+p, h5, label, .blocklyTreeLabel{
     text-transform: uppercase;
     font-weight: 600;
     font-size: 10px;
