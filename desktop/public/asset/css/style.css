@@ -25,7 +25,8 @@ h3,
 h4,
 h5,
 p,
-label {
+label,
+.blocklyTreeLabel {
   font-family: "Raleway", sans-serif; }
 
 h1 {
@@ -36,7 +37,7 @@ h2, .result-connect-user {
   font-weight: 600;
   font-size: 18px; }
 
-p, h5, label {
+p, h5, label, .blocklyTreeLabel {
   text-transform: uppercase;
   font-weight: 600;
   font-size: 10px; }
@@ -58,8 +59,15 @@ a {
 
 .left-pan {
   background-color: #1B2024;
-  width: 300px; }
+  flex-grow: 1;
+  position: relative; }
   .left-pan .head-title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 300px;
+    z-index: 1000;
+    background-color: #1B2024;
     display: flex;
     flex-flow: row nowrap;
     justify-content: center;
@@ -73,10 +81,33 @@ a {
       margin-bottom: 4px; }
     .left-pan .head-title h1 {
       color: #7A7B7D; }
-
-.center-pan {
-  background-color: #20262C;
-  flex-grow: 1; }
+  .left-pan .blocklyDiv {
+    position: absolute;
+    width: 100%;
+    height: 100%; }
+  .left-pan .blocklySvg {
+    width: 100%;
+    height: 100%;
+    background-color: #20262C; }
+  .left-pan .blocklyToolboxDiv {
+    background-color: #1B2024;
+    width: 300px;
+    padding-top: 100px; }
+    .left-pan .blocklyToolboxDiv .blocklyTreeRoot {
+      display: flex;
+      flex-flow: row wrap; }
+      .left-pan .blocklyToolboxDiv .blocklyTreeRoot > div {
+        width: 50%; }
+  .left-pan .blocklyMainBackground {
+    stroke: none; }
+  .left-pan .blocklyTreeLabel {
+    color: #D5D4D3; }
+  .left-pan .blocklyScrollbarHandle {
+    opacity: .3; }
+  .left-pan .blocklyScrollbarVertical .blocklyScrollbarHandle {
+    width: 8px !important; }
+  .left-pan .blocklyScrollbarHorizontal .blocklyScrollbarHandle {
+    height: 8px !important; }
 
 .right-pan {
   background-color: #1B2024;

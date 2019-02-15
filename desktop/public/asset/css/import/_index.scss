@@ -12,8 +12,15 @@
 
 .left-pan{
     background-color: $color-background-2;
-    width: 300px;
+    flex-grow: 1;
+    position: relative;
     .head-title{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 300px;
+        z-index: 1000;
+        background-color:$color-background-2;
         display: flex;
         flex-flow: row nowrap;
         justify-content: center;
@@ -30,11 +37,47 @@
             color: $grey-text
         }
     }
-}
+    .blocklyDiv{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+    .blocklySvg{ //Blockly workspace
+        width: 100%;
+        height: 100%;
+        background-color:$color-background;
+    }
+    .blocklyToolboxDiv{ //blockly panleft
+        background-color:$color-background-2;
+        width: 300px;
+        padding-top:100px;
+        .blocklyTreeRoot{
+            display: flex;
+            flex-flow: row wrap;
+            & > div{
+                width: 50%;
+            }
+        }
+    }
 
-.center-pan{
-    background-color: $color-background;
-    flex-grow: 1;
+    .blocklyMainBackground{ //border
+        stroke: none;
+    }
+
+    .blocklyTreeLabel {
+        color: $white-text;
+    }
+
+    .blocklyScrollbarHandle { //scrollbar
+        opacity: .3;
+    }
+    .blocklyScrollbarVertical .blocklyScrollbarHandle {
+        width: 8px !important
+    }
+    .blocklyScrollbarHorizontal .blocklyScrollbarHandle{
+        height: 8px !important
+    }
+
 }
 
 .right-pan{
