@@ -59,26 +59,12 @@
 
     //Table Led Simulation
 
-    function createLedTable(NbrRow, NbrColumn){
-    let countCell = 0 //Cell in a Row
-    let countRow = 0
-    let countColumn = -1
-
-    let myContainer = document.getElementById('led-table')
-
-        for (let NbrLed = 0; NbrLed < (NbrRow * NbrColumn); NbrLed++) {
-
-            if(countRow % NbrColumn == 0){
-                //New Row
-                var newRow = myContainer.insertRow(-1);
-                countCell = 0
-                countColumn ++
+    function createLedTable(nbRows, nbColumns){
+        let ledContainer = document.getElementById('led-table');
+        for(let i = 0; i < nbRows; i++){
+            let newRow = ledContainer.insertRow();
+            for(let j = 0; j < nbColumns; j++){
+                newRow.insertCell(j).innerHTML = '<div class="led" data-r="'+i+'" data-c="'+j+'"></div>';
             }
-            
-            //New Cell
-            newRow.insertCell(countCell).innerHTML = '<div class="led" data-n="'+countColumn+'" data-c="'+countCell+'"></div>'
-
-            countRow ++
-            countCell ++    
         }
     }  

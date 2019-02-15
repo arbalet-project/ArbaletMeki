@@ -40,7 +40,7 @@ function updateArbalet(){
 function updatePixel(rowX,columnY,color){
     console.log(rowX + ' ' + columnY + ' ' + color);
     let cell = {rowX: rowX, columnY: columnY};
-    let cssCell = 'div[data-n=' + rowX + '][data-c=' + columnY + ']';
+    let cssCell = 'div[data-r=' + rowX + '][data-c=' + columnY + ']';
     console.log(cssCell);
 
     if(typeof(color) === 'string'){ // HexaColor
