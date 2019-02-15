@@ -1,7 +1,10 @@
+body{
+    
+    min-width: 1200px;
+
+}
+
 .main{
-    display: flex;
-    justify-content: space-between;
-    flex-flow: row nowrap;
     width: 100%;
     height: 100%;
 }
@@ -14,6 +17,9 @@
     background-color: $color-background-2;
     flex-grow: 1;
     position: relative;
+    padding-right: 345px;
+    position: fixed;
+    width: 100%;
     .head-title{
         position: absolute;
         top: 0;
@@ -81,7 +87,6 @@
     }
     .blocklyFlyout{ //Flying pan
         background-color: $color-background-3;
-        padding-top: 150px;
         min-width: 200px;
         .blocklyFlyoutBackground{
             fill: none;
@@ -108,6 +113,9 @@
     display: flex;
     flex-flow: column;
     justify-content: space-between;
+    position: fixed;
+    right: 0;
+    top: 0;
     .head-menu{
         display: flex;
         flex-flow: row nowrap;
