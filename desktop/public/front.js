@@ -45,8 +45,15 @@
     //Led Full Screen
 
     $('#full-screen').on('click', function(){
-        console.log("hello")
-    });
+
+        if (!$('.led-content').hasClass('full-screen')) {
+            $('.led-content').wrap('<div class="overlay-popup2"></div>')
+            $('.led-content').addClass('full-screen')
+        }else{
+            $('.led-content').removeClass('full-screen')
+            $('.overlay-popup2').contents().unwrap();
+        }
+    })
 
     $('#play').on('click',function(e){
         e.preventDefault();

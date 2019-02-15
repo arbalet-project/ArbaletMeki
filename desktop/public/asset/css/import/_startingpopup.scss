@@ -8,6 +8,11 @@
     z-index: 1000;
 }
 
+.overlay-popup2{
+    @extend .overlay-popup;
+    background-color: rgba($color: $color-background-2, $alpha: .6)
+}
+
 .start-popup{
     width: 500px;
     height: 400px;
@@ -66,4 +71,17 @@
     .input-popup{
         position: relative;
     }
+}
+
+.full-screen{
+    position:fixed;
+    z-index : 100000 !important;
+    width: 27%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.full-screen .led-header a#full-screen{
+    background-image: url('../images/icon/close.png')
 }
