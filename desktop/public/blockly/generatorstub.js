@@ -10,7 +10,7 @@ Blockly.JavaScript['color_pixel'] = function(block) {
 Blockly.JavaScript['color_all_pixels'] = function(block) {
   var value_color = Blockly.JavaScript.valueToCode(block, 'color', Blockly.JavaScript.ORDER_ATOMIC);
   // TODO: Assemble JavaScript into code variable.
-  var code = `setAllPixels(${value_color})`;
+  var code = `setAllPixels(${value_color});`;
   return code;
 };
 
