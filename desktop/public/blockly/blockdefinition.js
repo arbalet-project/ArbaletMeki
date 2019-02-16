@@ -12,7 +12,7 @@ Blockly.Blocks['color_pixel'] = {
       this.setInputsInline(true);
       this.setPreviousStatement(true, null);
       this.setNextStatement(true, null);
-      this.setColour(230);
+      this.setColour(0);
    this.setTooltip("");
    this.setHelpUrl("");
     }
@@ -26,7 +26,7 @@ Blockly.Blocks['color_pixel'] = {
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(230);
+    this.setColour(0);
  this.setTooltip("");
  this.setHelpUrl("");
   }
@@ -38,7 +38,7 @@ Blockly.Blocks['turn_off'] = {
           .appendField("Tout éteindre");
       this.setPreviousStatement(true, null);
       this.setNextStatement(true, null);
-      this.setColour(230);
+      this.setColour(0);
    this.setTooltip("");
    this.setHelpUrl("");
     }
@@ -54,7 +54,7 @@ Blockly.Blocks['turn_off_the_pixel'] = {
       this.setInputsInline(true);
       this.setPreviousStatement(true, null);
       this.setNextStatement(true, null);
-      this.setColour(230);
+      this.setColour(0);
    this.setTooltip("");
    this.setHelpUrl("");
     }
@@ -69,7 +69,7 @@ Blockly.Blocks['sleep'] = {
       this.setInputsInline(true);
       this.setPreviousStatement(true, null);
       this.setNextStatement(true, null);
-      this.setColour(230);
+      this.setColour(120);
    this.setTooltip("");
    this.setHelpUrl("");
     }

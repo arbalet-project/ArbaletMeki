@@ -7,6 +7,7 @@
     <title>Arbalet Meki Live</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="asset/css/style.css">
+    <link rel="shortcur icon" type="image/png" href="asset/images/icon.png">
 </head>
 
 <body>
@@ -37,17 +38,47 @@
 
 
             <xml xmlns="http://www.w3.org/1999/xhtml" id="toolbox" style="display: none;">
-                <category name="Pixel" colour="#ff0000">
-                    <block type="color_pixel"></block>
-                    <block type="color_all_pixels"></block>
-                    <block type="turn_off_the_pixel"></block>
-                    <block type="turn_off"></block>
-                    <block type="sleep">
-                        <field name="list">'s'</field>
+                <category name="Arbalet" colour="#ff0000">
+                    <block type="color_pixel">
+                      <value name="row">
+                        <shadow type="math_number">
+                          <field name="NUM">0</field>
+                        </shadow>
+                      </value>
+                      <value name="column">
+                        <shadow type="math_number">
+                          <field name="NUM">0</field>
+                        </shadow>
+                      </value>
+                      <value name="color">
+                        <shadow type="colour_picker">
+                          <field name="COLOUR">#ff0000</field>
+                        </shadow>
+                      </value>
                     </block>
+                    <block type="color_all_pixels">
+                      <value name="color">
+                        <shadow type="colour_picker">
+                          <field name="COLOUR">#ff0000</field>
+                        </shadow>
+                      </value> 
+                    </block>
+                    <block type="turn_off_the_pixel">
+                      <value name="row">
+                        <shadow type="math_number">
+                          <field name="NUM">0</field>
+                        </shadow>
+                      </value>
+                      <value name="column">
+                        <shadow type="math_number">
+                          <field name="NUM">0</field>
+                        </shadow>
+                      </value>
+                    </block>
+                    <block type="turn_off"></block>
                 </category>
                            
-                <category name="Logic" colour="#5C81A6">
+                <category name="Logique" colour="#5C81A6">
                   <block type="controls_if"></block>
                   <block type="logic_compare">
                     <field name="OP">EQ</field>
@@ -62,7 +93,7 @@
                   <block type="logic_ternary"></block>
                 </category>
 
-                <category name="Loops" colour="#5CA65C">
+                <category name="Boucles" colour="#5CA65C">
                   <block type="controls_repeat_ext">
                     <value name="TIMES">
                       <shadow type="math_number">
@@ -77,7 +108,7 @@
                     <field name="VAR" id="oy@03Nbv{%V[U/(ND%k0" variabletype="">i</field>
                     <value name="FROM">
                       <shadow type="math_number">
-                        <field name="NUM">1</field>
+                        <field name="NUM">0</field>
                       </shadow>
                     </value>
                     <value name="TO">
@@ -92,12 +123,15 @@
                     </value>
                   </block>
                   
-                  <block type="controls_flow_statements" disabled="true">
+                  <block type="controls_flow_statements" disabled="false">
                     <field name="FLOW">BREAK</field>
                   </block>
+                  <block type="sleep">
+                    <field name="list">'s'</field>
+                </block>
                 </category>
 
-                <category name="Math" colour="#5b67a5">
+                <category name="Maths" colour="#5b67a5">
                   <block type="math_number">
                     <field name="NUM">0</field>
                   </block>
@@ -137,7 +171,7 @@
                   </block>
                 </category>
 
-                <category name="Colour" colour="#A6745C">
+                <category name="Couleur" colour="#A6745C">
                   <block type="colour_picker">
                     <field name="COLOUR">#ff0000</field>
                   </block>
@@ -178,7 +212,7 @@
                   </block>
                 </category>
 
-                <category name="Functions" colour="#9A5CA6" custom="PROCEDURE"></category>
+                <category name="Fonctions" colour="#9A5CA6" custom="PROCEDURE"></category>
                 <category name="Variables" colour="#A65C81" custom="VARIABLE"></category>
             </xml>
 
@@ -224,7 +258,7 @@
     <script src="blockly/blockly_compressed.js"></script>
     <script src="blockly/javascript_compressed.js"></script>
     <script src="blockly/blocks_compressed.js"></script>
-    <script src="blockly/msg/js/en.js"></script>
+    <script src="blockly/msg/js/fr.js"></script>
     <script src="blockly/blockdefinition.js"></script>
     <script src="blockly/generatorstub.js"></script>
 
@@ -249,7 +283,7 @@
         toolboxPosition : 'start', 
         css : true, 
         rtl : false, 
-        scrollbars : true, 
+        scrollbars : false, 
         sounds : true, 
         oneBasedIndex : true, 
     });
