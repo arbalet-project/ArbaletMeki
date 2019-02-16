@@ -1,12 +1,12 @@
 Blockly.Blocks['color_pixel'] = {
     init: function() {
       this.appendValueInput("row")
-          .setCheck(null)
+          .setCheck("Number")
           .appendField("Colorer le pixel");
       this.appendValueInput("column")
-          .setCheck(null);
+          .setCheck("Number");
       this.appendValueInput("color")
-          .setCheck(null)
+          .setCheck('Colour')
           .setAlign(Blockly.ALIGN_RIGHT)
           .appendField("en");
       this.setInputsInline(true);
@@ -21,7 +21,7 @@ Blockly.Blocks['color_pixel'] = {
  Blockly.Blocks['color_all_pixels'] = {
   init: function() {
     this.appendValueInput("color")
-        .setCheck(null)
+        .setCheck("Colour")
         .appendField("Colorer tous les pixels en");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
@@ -47,10 +47,10 @@ Blockly.Blocks['turn_off'] = {
 Blockly.Blocks['turn_off_the_pixel'] = {
     init: function() {
       this.appendValueInput("row")
-          .setCheck(null)
+          .setCheck("Number")
           .appendField("Eteindre le pixel");
       this.appendValueInput("column")
-          .setCheck(null);
+          .setCheck("Number");
       this.setInputsInline(true);
       this.setPreviousStatement(true, null);
       this.setNextStatement(true, null);

@@ -46,7 +46,26 @@
 
     $('#full-screen').on('click', function(e){
         e.preventDefault();
+        toogleFullScreen();
+    });
+    // Keyboard shortcut
+    $(document).on('keypress',function(e){
+        console.log(e.key);
+        switch(e.key){
+            case 'f':
+                toogleFullScreen();
+                break;
+            case 'p':
+                run();
+                break;
+            case 's':
+                stop();
+                break;
+        }
+    });
 
+    function toogleFullScreen(){
+        
         if (!$('.led-content').hasClass('full-screen')) {
             $('.led-content').wrap('<div class="overlay-popup2"></div>')
             $('.led-content').addClass('full-screen')
@@ -54,7 +73,7 @@
             $('.led-content').removeClass('full-screen')
             $('.overlay-popup2').contents().unwrap();
         }
-    })
+    }
 
     $('#play').on('click',function(e){
         e.preventDefault();
