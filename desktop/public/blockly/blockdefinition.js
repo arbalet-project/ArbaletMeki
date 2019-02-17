@@ -81,6 +81,21 @@ Blockly.Blocks['turn_off_the_pixel'] = {
    this.setTooltip("");
    this.setHelpUrl("");
     }
+  };
+  
+  Blockly.Blocks['pixel_color'] = {
+    init: function() {
+      this.appendValueInput("row")
+          .setCheck("Number")
+          .appendField("Couleur du pixel");
+      this.appendValueInput("column")
+          .setCheck("Number");
+      this.setInputsInline(true);
+      this.setOutput(true, null);
+      this.setColour(20);
+   this.setTooltip("");
+   this.setHelpUrl("");
+    }
   };  
 
 Blockly.Blocks['sleep'] = {

@@ -50,3 +50,12 @@ Blockly.JavaScript['sleep'] = function(block) {
   var code = `sleep(${text_time},${dropdown_list});`;
   return code;
 };
+
+Blockly.JavaScript['pixel_color'] = function(block) {
+  var value_row = Blockly.JavaScript.valueToCode(block, 'row', Blockly.JavaScript.ORDER_ATOMIC);
+  var value_column = Blockly.JavaScript.valueToCode(block, 'column', Blockly.JavaScript.ORDER_ATOMIC);
+  // TODO: Assemble JavaScript into code variable.
+  var code = `getPixelColor(${value_row},${value_column})`;
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
