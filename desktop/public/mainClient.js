@@ -1,5 +1,6 @@
 const socket = io();
 let granted = false;
+let isRunning = false;
 let updateTimer;
 let pixelsToUpdate = [];
 let blocklyWorker;
@@ -17,7 +18,7 @@ function run(){
     blocklyWorker.onmessage = function(event){
         updatePixel(event.data.rowX,event.data.columnY,event.data.color);
     };
-    let code = Blockly.JavaScript.workspaceToCode(workspace);
+    let code = 'switchOffAllPixels();' + Blockly.JavaScript.workspaceToCode(workspace);
     blocklyWorker.postMessage({message:"blocklyScript",script:code});
 }
 
@@ -25,7 +26,12 @@ function run(){
 function stop(){
     clearInterval(updateTimer);
     blocklyWorker.terminate();
+}
 
+// Stop the current running program and restart it
+function restart(){
+    stop();
+    run();
 }
 
 // Update the arbalet pixel grid if granted

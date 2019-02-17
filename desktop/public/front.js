@@ -61,6 +61,9 @@
             case 's':
                 stop();
                 break;
+            case 'r':
+                restart();
+                break;    
         }
     });
 
@@ -87,9 +90,7 @@
 
     $('#reload').on('click',function(e){
         e.preventDefault();
-        stop();
-        // TODO: Reset the grid
-        run();
+        restart();
     })
 
 
@@ -100,7 +101,7 @@
         for(let i = 0; i < nbRows; i++){
             let newRow = ledContainer.insertRow();
             for(let j = 0; j < nbColumns; j++){
-                newRow.insertCell(j).innerHTML = '<div class="led" data-r="'+i+'" data-c="'+j+'"></div>';
+                newRow.insertCell(j).innerHTML = `<div class="led" data-r="${i}" data-c="${j}" title="[${i},${j}]"></div>`;
             }
         }
     }  

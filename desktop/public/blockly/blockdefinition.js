@@ -60,6 +60,29 @@ Blockly.Blocks['turn_off_the_pixel'] = {
     }
   };
 
+  Blockly.Blocks['var_max_column'] = {
+    init: function() {
+      this.appendDummyInput()
+          .appendField("maxColonne");
+      this.setInputsInline(true);
+      this.setOutput(true, "Number");
+      this.setColour(0);
+   this.setTooltip("");
+   this.setHelpUrl("");
+    }
+  };
+  
+  Blockly.Blocks['var_max_line'] = {
+    init: function() {
+      this.appendDummyInput()
+          .appendField("maxLigne");
+      this.setOutput(true, "Number");
+      this.setColour(0);
+   this.setTooltip("");
+   this.setHelpUrl("");
+    }
+  };  
+
 Blockly.Blocks['sleep'] = {
     init: function() {
       this.appendDummyInput()
