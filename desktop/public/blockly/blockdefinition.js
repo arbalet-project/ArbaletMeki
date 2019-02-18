@@ -1,20 +1,20 @@
 /*
 Blockly.Blocks['color_pixel'] = {
     init: function() {
-      this.appendValueInput("`${COLOR_PIXEL_TITLE}`")
-          .setCheck(null)
+      this.appendValueInput("row")
+          .setCheck("Number")
           .appendField("Colorer le pixel");
       this.appendValueInput("column")
-          .setCheck(null);
+          .setCheck("Number");
       this.appendValueInput("color")
-          .setCheck(null)
+          .setCheck('Colour')
           .setAlign(Blockly.ALIGN_RIGHT)
           .appendField("en");
       this.setInputsInline(true);
       this.setPreviousStatement(true, null);
       this.setNextStatement(true, null);
-      this.setColour(230);
-   this.setTooltip("Ajouter une ligne et une colonne, puis la couleur");
+      this.setColour(0);
+   this.setTooltip("");
    this.setHelpUrl("");
     }
 };
@@ -51,13 +51,13 @@ Blockly.Blocks['color_pixel'] = {
  Blockly.Blocks['color_all_pixels'] = {
   init: function() {
     this.appendValueInput("color")
-        .setCheck(null)
+        .setCheck("Colour")
         .appendField("Colorer tous les pixels en");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(230);
- this.setTooltip("Choisir une couleur");
+    this.setColour(0);
+ this.setTooltip("");
  this.setHelpUrl("");
   }
 };
@@ -68,8 +68,8 @@ Blockly.Blocks['color_pixel'] = {
           .appendField("Tout éteindre");
       this.setPreviousStatement(true, null);
       this.setNextStatement(true, null);
-      this.setColour(230);
-   this.setTooltip("Ajouter une ligne et une colonne");
+      this.setColour(0);
+   this.setTooltip("");
    this.setHelpUrl("");
     }
   };
@@ -87,18 +87,56 @@ Blockly.defineBlocksWithJsonArray([{
 Blockly.Blocks['turn_off_the_pixel'] = {
     init: function() {
       this.appendValueInput("row")
-          .setCheck(null)
+          .setCheck("Number")
           .appendField("Eteindre le pixel");
       this.appendValueInput("column")
-          .setCheck(null);
+          .setCheck("Number");
       this.setInputsInline(true);
       this.setPreviousStatement(true, null);
       this.setNextStatement(true, null);
-      this.setColour(230);
-   this.setTooltip("Eteindre tous les pixels");
+      this.setColour(0);
+   this.setTooltip("");
    this.setHelpUrl("");
     }
   };
+
+  Blockly.Blocks['var_max_column'] = {
+    init: function() {
+      this.appendDummyInput()
+          .appendField("maxColonne");
+      this.setInputsInline(true);
+      this.setOutput(true, "Number");
+      this.setColour(0);
+   this.setTooltip("");
+   this.setHelpUrl("");
+    }
+  };
+  
+  Blockly.Blocks['var_max_line'] = {
+    init: function() {
+      this.appendDummyInput()
+          .appendField("maxLigne");
+      this.setOutput(true, "Number");
+      this.setColour(0);
+   this.setTooltip("");
+   this.setHelpUrl("");
+    }
+  };
+  
+  Blockly.Blocks['pixel_color'] = {
+    init: function() {
+      this.appendValueInput("row")
+          .setCheck("Number")
+          .appendField("Couleur du pixel");
+      this.appendValueInput("column")
+          .setCheck("Number");
+      this.setInputsInline(true);
+      this.setOutput(true, null);
+      this.setColour(20);
+   this.setTooltip("");
+   this.setHelpUrl("");
+    }
+  };  
 
 Blockly.Blocks['sleep'] = {
     init: function() {
@@ -109,8 +147,8 @@ Blockly.Blocks['sleep'] = {
       this.setInputsInline(true);
       this.setPreviousStatement(true, null);
       this.setNextStatement(true, null);
-      this.setColour(230);
-   this.setTooltip("Ajouter un temps, puis choisir une mesure de temps");
+      this.setColour(120);
+   this.setTooltip("");
    this.setHelpUrl("");
     }
   };

@@ -47,10 +47,10 @@ a {
   a:hover {
     transform: scale(0.93); }
 
+body {
+  min-width: 1200px; }
+
 .main {
-  display: flex;
-  justify-content: space-between;
-  flex-flow: row nowrap;
   width: 100%;
   height: 100%; }
 
@@ -60,7 +60,10 @@ a {
 .left-pan {
   background-color: #1B2024;
   flex-grow: 1;
-  position: relative; }
+  position: relative;
+  padding-right: 345px;
+  position: fixed;
+  width: 100%; }
   .left-pan .head-title {
     position: absolute;
     top: 0;
@@ -112,7 +115,6 @@ a {
     height: 8px !important; }
   .left-pan .blocklyFlyout {
     background-color: #252C34;
-    padding-top: 150px;
     min-width: 200px; }
     .left-pan .blocklyFlyout .blocklyFlyoutBackground {
       fill: none; }
@@ -131,7 +133,10 @@ a {
   padding: 0 45px;
   display: flex;
   flex-flow: column;
-  justify-content: space-between; }
+  justify-content: space-between;
+  position: fixed;
+  right: 0;
+  top: 0; }
   .right-pan .head-menu {
     display: flex;
     flex-flow: row nowrap;
@@ -216,7 +221,7 @@ a {
     right: 0;
     background: black; }
 
-.overlay-popup {
+.overlay-popup, .overlay-popup2 {
   position: fixed;
   top: 0;
   left: 0;
@@ -224,6 +229,9 @@ a {
   right: 0;
   background-color: #1B2024;
   z-index: 1000; }
+
+.overlay-popup2 {
+  background-color: rgba(27, 32, 36, 0.6); }
 
 .start-popup {
   width: 500px;
@@ -277,5 +285,16 @@ a {
       transform: scale(1.1); }
   .start-popup .input-popup {
     position: relative; }
+
+.full-screen {
+  position: fixed;
+  z-index: 100000 !important;
+  width: 27%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); }
+
+.full-screen .led-header a#full-screen {
+  background-image: url("../images/icon/close.png"); }
 
 /*# sourceMappingURL=style.css.map */

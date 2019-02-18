@@ -44,16 +44,53 @@
 
     //Led Full Screen
 
-    $('#full-screen').on('click', function(){
-        console.log("hello")
+    $('#full-screen').on('click', function(e){
+        e.preventDefault();
+        toogleFullScreen();
+    });
+    // Keyboard shortcut
+    $(document).on('keypress',function(e){
+        console.log(e.key);
+        switch(e.key){
+            case 'f':
+                toogleFullScreen();
+                break;
+            case 'p':
+                run();
+                break;
+            case 's':
+                stop();
+                break;
+            case 'r':
+                restart();
+                break;    
+        }
     });
 
-    $('#play').on('click',function(){
+    function toogleFullScreen(){
+        
+        if (!$('.led-content').hasClass('full-screen')) {
+            $('.led-content').wrap('<div class="overlay-popup2"></div>')
+            $('.led-content').addClass('full-screen')
+        }else{
+            $('.led-content').removeClass('full-screen')
+            $('.overlay-popup2').contents().unwrap();
+        }
+    }
+
+    $('#play').on('click',function(e){
+        e.preventDefault();
         run();
     });
 
-    $('#pause').on('click',function(){
+    $('#stop').on('click',function(e){
+        e.preventDefault();
         stop();
+    });
+
+    $('#reload').on('click',function(e){
+        e.preventDefault();
+        restart();
     })
 
 
@@ -64,7 +101,7 @@
         for(let i = 0; i < nbRows; i++){
             let newRow = ledContainer.insertRow();
             for(let j = 0; j < nbColumns; j++){
-                newRow.insertCell(j).innerHTML = '<div class="led" data-r="'+i+'" data-c="'+j+'"></div>';
+                newRow.insertCell(j).innerHTML = `<div class="led" data-r="${i}" data-c="${j}" title="[${i},${j}]"></div>`;
             }
         }
     }  
