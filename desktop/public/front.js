@@ -50,7 +50,6 @@
     });
     // Keyboard shortcut
     $(document).on('keypress',function(e){
-        console.log(e.key);
         switch(e.key){
             case 'f':
                 toogleFullScreen();
@@ -67,14 +66,24 @@
         }
     });
 
-    function toogleFullScreen(){
-        
+    function toogleFullScreen(){        
         if (!$('.led-content').hasClass('full-screen')) {
             $('.led-content').wrap('<div class="overlay-popup2"></div>')
             $('.led-content').addClass('full-screen')
         }else{
             $('.led-content').removeClass('full-screen')
             $('.overlay-popup2').contents().unwrap();
+        }
+    }
+
+    function switchPlayStopColors(){
+        if(isRunning){
+            $('#play').css({"background-image":'url(../asset/images/icon/play.png)'});
+            $('#stop').css({"background-image":'url(../asset/images/icon/stop_red.png)'});
+        }
+        else {
+            $('#play').css({"background-image":'url(../asset/images/icon/play_green.png)'});
+            $('#stop').css({"background-image":'url(../asset/images/icon/stop.png)'});
         }
     }
 

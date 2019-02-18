@@ -19,6 +19,7 @@ onmessage = function(e){
             console.error(error);
         }
         finally{
+            self.postMessage({message:"close"});
             close();
         }
     }

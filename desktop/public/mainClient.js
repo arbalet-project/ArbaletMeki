@@ -12,20 +12,35 @@ let nbColumns = 10;
 
 // Runs the blockly program and launch the grid autoupdate
 function run(){
-    updateTimer = setInterval(updateArbalet,500);
-    blocklyWorker = new Worker('/blocklyWorker.js');
-    blocklyWorker.postMessage({message:'gridLength',nbRows: nbRows, nbColumns: nbColumns});
-    blocklyWorker.onmessage = function(event){
-        updatePixel(event.data.rowX,event.data.columnY,event.data.color);
-    };
-    let code = 'switchOffAllPixels();' + Blockly.JavaScript.workspaceToCode(workspace);
-    blocklyWorker.postMessage({message:"blocklyScript",script:code});
+    if(!isRunning){
+        updateTimer = setInterval(updateArbalet,500);
+        blocklyWorker = new Worker('/blocklyWorker.js');
+        blocklyWorker.postMessage({message:'gridLength',nbRows: nbRows, nbColumns: nbColumns});
+        blocklyWorker.onmessage = function(event){
+            if(event.data.message == 'close'){
+                stop();
+            }
+            else{
+                updatePixel(event.data.rowX,event.data.columnY,event.data.color);
+            }
+
+        };
+        let code = 'switchOffAllPixels();' + Blockly.JavaScript.workspaceToCode(workspace);
+        blocklyWorker.postMessage({message:"blocklyScript",script:code});
+        isRunning = true;
+        switchPlayStopColors();
+    }
 }
 
 // Stops the blockly program and the grid autoupdate
 function stop(){
-    clearInterval(updateTimer);
-    blocklyWorker.terminate();
+    if(isRunning){
+        clearInterval(updateTimer);
+        blocklyWorker.terminate();
+        isRunning = false;
+        switchPlayStopColors();
+    }
+
 }
 
 // Stop the current running program and restart it

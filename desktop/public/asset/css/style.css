@@ -194,7 +194,7 @@ body {
       height: 16px;
       opacity: .7; }
     .right-pan .led-header a#play {
-      background-image: url("../images/icon/play.png");
+      background-image: url("../images/icon/play_green.png");
       margin-right: 15px; }
     .right-pan .led-header a#stop {
       background-image: url("../images/icon/stop.png");
