@@ -5,6 +5,37 @@
 goog.provide('Blockly.Msg.en');
 
 goog.require('Blockly.Msg');
+//Color pixel
+Blockly.Msg["COLOR_PIXEL_TITLE"] = "Set the pixel %1 %2 to %3";
+Blockly.Msg["COLOR_PIXEL_TOOLTIP"] = "Add a row and a column, then the color";
+
+//Color all pixels
+Blockly.Msg["COLOR_ALL_PIXELS_TITLE"] = "Set all pixels in %1";
+Blockly.Msg["COLOR_ALL_PIXELS_TOOLTIP"] = "Click on the color picker to choose a color";
+
+//Turn off the pixel 
+Blockly.Msg["TURN_OFF_THE_PIXEL_TITLE"] = "Turn off the pixel in %1 %2";
+Blockly.Msg["TURN_OFF_THE_PIXEL_TOOLTIP"] = "Choose a row and a column";
+
+//Turn off
+Blockly.Msg["TURN_OFF_TITLE"] = "Turn off";
+Blockly.Msg["TURN_OFF_TOOLTIP"] = "Turn off";
+
+//Max column
+Blockly.Msg["VAR_MAX_COLUMN_TITLE"] = "MaxColumn";
+Blockly.Msg["VAR_MAX_COLUMN_TOOLTIP"] = "";
+
+//Max row
+Blockly.Msg["VAR_MAX_ROW_TITLE"] = "MaxRow";
+Blockly.Msg["VAR_MAX_ROW_TOOLTIP"] = "";
+
+//Sleep
+Blockly.Msg["SLEEP_TITLE"] = "Wait %1 %2";
+Blockly.Msg["SLEEP_TOOLTIP"] = "Choose time and its unity";
+
+//Pixel color
+Blockly.Msg["PIXEL_COLOR_TITLE"] = "Pixel color %1 %2";
+Blockly.Msg["PIXEL_COLOR_TOOLTIP"] = "Choose a row and a column";
 
 Blockly.Msg["ADD_COMMENT"] = "Add Comment";
 Blockly.Msg["CANNOT_DELETE_VARIABLE_PROCEDURE"] = "Can't delete the variable '%1' because it's part of the definition of the function '%2'";
