@@ -61,8 +61,15 @@ function initServer() {
   io.use(sharedsession(session, {
     autoSave: true
   }));
-
   // Routes
+  expressServer.get('/blocklyLanguage',function(req,res){
+    if(app.getLocale() == 'fr'){
+      res.sendFile(__dirname + '/public/blockly/msg/js/fr.js');
+    }
+    else {
+      res.sendFile(__dirname + '/public/blockly/msg/js/en.js');
+    }
+  })
   expressServer.use(express.static('public'));
   expressServer.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist'));
   expressServer.use('/rgbconverter', express.static( __dirname + '/node_modules/rgb-hex-converter'));
