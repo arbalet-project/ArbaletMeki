@@ -6,6 +6,10 @@ goog.provide('Blockly.Msg.fr');
 
 goog.require('Blockly.Msg');
 
+//Ajout des blocs personnalisés 
+Blockly.Msg["TURN_OFF_TITLE"] = "Tout éteindre";
+Blockly.Msg.LISTS_REPEAT_TITLE = "Tout éteindre";
+
 Blockly.Msg["ADD_COMMENT"] = "Ajouter un commentaire";
 Blockly.Msg["CANNOT_DELETE_VARIABLE_PROCEDURE"] = "Impossible de supprimer la variable '%1' parce qu’elle fait partie de la définition de la fonction '%2'";
 Blockly.Msg["CHANGE_VALUE_TITLE"] = "Modifier la valeur :";

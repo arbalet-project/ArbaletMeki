@@ -5,6 +5,8 @@
 goog.provide('Blockly.Msg.en');
 
 goog.require('Blockly.Msg');
+Blockly.Msg["COLOR_PIXEL_TITLE"] = "set the pixel %1 %2 to %3";
+Blockly.Msg.TURN_OFF_TITLE = "Turn off";
 
 Blockly.Msg["ADD_COMMENT"] = "Add Comment";
 Blockly.Msg["CANNOT_DELETE_VARIABLE_PROCEDURE"] = "Can't delete the variable '%1' because it's part of the definition of the function '%2'";
