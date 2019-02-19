@@ -17,31 +17,32 @@ body{
     background-color: $color-background-2;
     flex-grow: 1;
     position: relative;
-    padding-right: 345px;
+    padding-right: 350px;
     position: fixed;
     width: 100%;
     .head-title{
         position: absolute;
         top: 0;
         left: 0;
-        width: 300px;
+        width: 250px;
         z-index: 1000;
         background-color:$color-background-2;
         display: flex;
         flex-flow: row nowrap;
         justify-content: center;
-        align-items: flex-end;
         height: 115px;
-        padding-bottom: 31px;
+        padding-top: 48px;
         border-bottom: 1px solid #252C34;
         img{
-            width: 39px;
-            height: 39px;
-            margin-right: 18px;
+            width: 35px;
+            height: 35px;
+            margin-right: 12px;
             margin-bottom: 4px;
         }
         h1{
-            color: $grey-text
+            color: $grey-text;
+            padding-top: 5px;
+            font-size: 20px;
         }
     }
     .blocklyDiv{
@@ -56,7 +57,7 @@ body{
     }
     .blocklyToolboxDiv{ //blockly panleft
         background-color:$color-background-2;
-        width: 300px;
+        width: 250px;
         padding-top:100px;
         .blocklyTreeRoot{
             display: flex;
@@ -108,7 +109,7 @@ body{
 
 .right-pan{
     background-color: $color-background-2;
-    width: 345px;
+    width: 350px;
     padding: 0 45px;
     display: flex;
     flex-flow: column;
@@ -183,7 +184,7 @@ body{
     .led-header{
         display: flex;
         flex-flow: row nowrap;
-        margin-top: 50px;
+        margin-top: 15px;
         margin-bottom: 25px;
         a{
             background-size: contain;
@@ -209,7 +210,8 @@ body{
     }
 
     table#led-table {
-        width: 100%;
+        width: 90%;
+        margin:auto;
       }
      #led-table td {
         position: relative;
