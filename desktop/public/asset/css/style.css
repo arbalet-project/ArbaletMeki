@@ -61,7 +61,7 @@ body {
   background-color: #1B2024;
   flex-grow: 1;
   position: relative;
-  padding-right: 350px;
+  padding-right: 300px;
   position: fixed;
   width: 100%; }
   .left-pan .head-title {
@@ -130,7 +130,7 @@ body {
 
 .right-pan {
   background-color: #1B2024;
-  width: 350px;
+  width: 300px;
   padding: 0 45px;
   display: flex;
   flex-flow: column;

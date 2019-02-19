@@ -17,7 +17,7 @@ body{
     background-color: $color-background-2;
     flex-grow: 1;
     position: relative;
-    padding-right: 350px;
+    padding-right: 300px;
     position: fixed;
     width: 100%;
     .head-title{
@@ -109,7 +109,7 @@ body{
 
 .right-pan{
     background-color: $color-background-2;
-    width: 350px;
+    width: 300px;
     padding: 0 45px;
     display: flex;
     flex-flow: column;
