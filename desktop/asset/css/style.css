@@ -41,6 +41,18 @@ p, h5, label {
   font-weight: 600;
   font-size: 10px; }
 
+::-webkit-scrollbar {
+  width: 5px; }
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 40px; }
+
+::-webkit-scrollbar-thumb {
+  background: #D5D4D3;
+  width: 5px;
+  border-radius: 40px; }
+
 .content, .bord-content, .left-content .header-list {
   display: flex;
   justify-content: space-between;
@@ -64,9 +76,13 @@ p, h5, label {
 .container {
   background-color: #20262C;
   padding: 46px 55px;
-  flex-grow: 1; }
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column; }
 
 .left-content {
+  display: flex;
+  flex-direction: column;
   flex-grow: 1; }
 
 .title-app {
@@ -86,21 +102,25 @@ p, h5, label {
     .left-content .header-list div:last-child {
       text-align: center;
       margin-top: 8px; }
+  .left-content #clientsList {
+    overflow: auto;
+    overflow-x: hidden;
+    padding-right: 8px; }
   .left-content .list-content {
     display: flex;
     flex-direction: column;
     width: 100%; }
-    .left-content .list-content > div {
+    .left-content .list-content .list-result-header, .left-content .list-content .list-result {
       display: flex;
       flex-wrap: nowrap;
       padding: 0 25px; }
-      .left-content .list-content > div > *:first-child {
+      .left-content .list-content .list-result-header > *:first-child, .left-content .list-content .list-result > *:first-child {
         width: 15%; }
-      .left-content .list-content > div > *:nth-child(2) {
+      .left-content .list-content .list-result-header > *:nth-child(2), .left-content .list-content .list-result > *:nth-child(2) {
         width: 30%; }
-      .left-content .list-content > div > *:nth-child(3) {
+      .left-content .list-content .list-result-header > *:nth-child(3), .left-content .list-content .list-result > *:nth-child(3) {
         width: 30%; }
-    .left-content .list-content > div > *:last-child {
+    .left-content .list-content .list-result-header > *:last-child, .left-content .list-content .list-result > *:last-child {
       margin-left: auto; }
     .left-content .list-content .list-result-header {
       color: #7A7B7D;

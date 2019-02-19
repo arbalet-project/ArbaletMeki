@@ -61,30 +61,31 @@ body {
   background-color: #1B2024;
   flex-grow: 1;
   position: relative;
-  padding-right: 345px;
+  padding-right: 300px;
   position: fixed;
   width: 100%; }
   .left-pan .head-title {
     position: absolute;
     top: 0;
     left: 0;
-    width: 300px;
+    width: 250px;
     z-index: 1000;
     background-color: #1B2024;
     display: flex;
     flex-flow: row nowrap;
     justify-content: center;
-    align-items: flex-end;
     height: 115px;
-    padding-bottom: 31px;
+    padding-top: 48px;
     border-bottom: 1px solid #252C34; }
     .left-pan .head-title img {
-      width: 39px;
-      height: 39px;
-      margin-right: 18px;
+      width: 35px;
+      height: 35px;
+      margin-right: 12px;
       margin-bottom: 4px; }
     .left-pan .head-title h1 {
-      color: #7A7B7D; }
+      color: #7A7B7D;
+      padding-top: 5px;
+      font-size: 20px; }
   .left-pan .blocklyDiv {
     position: absolute;
     width: 100%;
@@ -95,7 +96,7 @@ body {
     background-color: #20262C; }
   .left-pan .blocklyToolboxDiv {
     background-color: #1B2024;
-    width: 300px;
+    width: 250px;
     padding-top: 100px; }
     .left-pan .blocklyToolboxDiv .blocklyTreeRoot {
       display: flex;
@@ -129,7 +130,7 @@ body {
 
 .right-pan {
   background-color: #1B2024;
-  width: 345px;
+  width: 300px;
   padding: 0 45px;
   display: flex;
   flex-flow: column;
@@ -186,7 +187,7 @@ body {
   .right-pan .led-header {
     display: flex;
     flex-flow: row nowrap;
-    margin-top: 50px;
+    margin-top: 15px;
     margin-bottom: 25px; }
     .right-pan .led-header a {
       background-size: contain;
@@ -205,7 +206,8 @@ body {
       background-image: url("../images/icon/full-screen.png");
       margin-left: auto; }
   .right-pan table#led-table {
-    width: 100%; }
+    width: 90%;
+    margin: auto; }
   .right-pan #led-table td {
     position: relative; }
   .right-pan #led-table td:after {

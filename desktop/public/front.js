@@ -5,7 +5,7 @@
 
     // Starting PopUp
 
-/*     $('#send-name').on('click', function(){
+     $('#send-name').on('click', function(){
         var name = $('#name-popup').val()
         $('.overlay-popup').css({
             "transition" : "0.4s ease",
@@ -19,7 +19,7 @@
         if(event.which == 13 ){
         $('#send-name').click();
         }
-    }) */
+    }) 
 
     // Connect Arbalet Table
 
