@@ -31,9 +31,13 @@
     background-color: $color-background;
     padding: 46px 55px;
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .left-content{
+    display: flex;
+    flex-direction: column;
     flex-grow: 1;
 }
 
@@ -65,11 +69,17 @@
             margin-top: 8px;
         }
     }
+    #clientsList{ // Scroll Content Result
+        overflow: auto;
+        overflow-x: hidden;
+        padding-right: 8px;
+    }
+
     .list-content{
         display: flex;
         flex-direction: column;
         width: 100%;
-        &>div{
+        & .list-result-header, & .list-result {
             display: flex;
             flex-wrap: nowrap;
             padding: 0 25px;
@@ -83,7 +93,7 @@
                 width: 30%;
             }
         }
-        &>div>*:last-child{margin-left: auto;}
+        & .list-result-header > *:last-child, & .list-result > *:last-child {margin-left: auto;}
         .list-result-header{
             color: $grey-text;
             margin-bottom: 15px;
