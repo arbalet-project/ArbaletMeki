@@ -102,6 +102,20 @@
         restart();
     })
 
+    $('#file').on('click',function(e){
+        e.preventDefault();
+        $('#fileImport').click();
+    })
+
+    $('#setting').on('click',function(e){
+        e.preventDefault();
+        save();
+    })
+
+    $('#fileImport').on('change',function(e){
+        importWorkspace();
+    })
+
 
     //Table Led Simulation
 

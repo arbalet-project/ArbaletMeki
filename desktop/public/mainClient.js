@@ -49,6 +49,37 @@ function restart(){
     run();
 }
 
+// Save the current workspace on a downloadable file (.xml)
+function save(){
+    let domWorkspace = Blockly.Xml.workspaceToDom(workspace);
+    let textWorkSpace = Blockly.Xml.domToText(domWorkspace);
+    let name = window.prompt("Veuillez entrer un nom de fichier", "arbalet_export.xml");
+    if(name != null){
+        download(textWorkSpace,name,"application/xml");
+    }
+
+}
+
+// Import and set the current workspace with a downloaded .xml file
+function importWorkspace(){
+    let selectedFile = document.getElementById('fileImport').files[0];
+    let reader = new FileReader();
+    reader.onload = function(event){
+        try{
+            let parsedFile = Blockly.Xml.textToDom(reader.result);
+            Blockly.Xml.clearWorkspaceAndLoadFromXml(parsedFile,workspace);
+            stop();
+        }
+        catch(error){
+            alert(selectedFile.name + " n'est pas un fichier Arbalet valide");
+        }
+
+
+    };
+        reader.readAsText(selectedFile);
+
+}
+
 // Update the arbalet pixel grid if granted
 function updateArbalet(){
     if(pixelsToUpdate.length != 0 && granted){
