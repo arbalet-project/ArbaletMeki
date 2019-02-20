@@ -3,10 +3,10 @@
     createLedTable(nbRows,nbColumns); //Row / Coll
 
 
-    // Starting PopUp
+    // Starting Module
 
-     $('#send-name').on('click', function(){
-        var name = $('#name-popup').val()
+      $('#send-name').on('click', function(){
+        var name = $('#user-name-input').val()
         $('.overlay-popup').css({
             "transition" : "0.4s ease",
             "transform":" scale(1.05)"
@@ -15,11 +15,11 @@
         $('#user-name').append(name)
     })
 
-    $('#name-popup').keypress(function(event){
+    $('#user-name-input').keypress(function(event){
         if(event.which == 13 ){
         $('#send-name').click();
         }
-    }) 
+    })  
 
     // Connect Arbalet Table
 
@@ -102,19 +102,44 @@
         restart();
     })
 
-    $('#file').on('click',function(e){
+    $('#import').on('click',function(e){
         e.preventDefault();
         $('#fileImport').click();
     })
 
-    $('#setting').on('click',function(e){
-        e.preventDefault();
-        save();
+    $('#export').on('click',function(){
+        $('.overlay-popup3').fadeIn(200)
+        $("#export-module").fadeIn(200, function(){
+            $('#export-file').on('click', function(){
+                let name = $('#export-input').val()
+                save(name);
+                $('.overlay-popup3').fadeOut(200)
+            })
+        }) 
     })
+
+    $('#export-input').keypress(function(event){
+        if(event.which == 13 ){
+        $('#export-file').click();
+        }
+    })  
 
     $('#fileImport').on('change',function(e){
         importWorkspace();
     })
+
+    $('#example').on('click', function(){
+        $('.overlay-popup3').fadeIn(200)
+        $('#example-module').fadeIn(200)
+    })
+
+    $('.overlay-popup3').on('click', function(){
+        $(this).fadeOut(200, function(){
+            $('#example-module').fadeOut(200)
+            $('#export-module').fadeOut(200)
+        })
+    })
+
 
 
     //Table Led Simulation
@@ -128,3 +153,13 @@
             }
         }
     }  
+
+    
+    // Dropmenu setting
+    $('.setting-menu').hover(function(){
+        $('.info-user').fadeOut(200)
+    }, function(){
+        $('.info-user').fadeIn(200)
+    })
+
+    

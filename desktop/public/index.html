@@ -12,20 +12,8 @@
 
 <body>
     
-    <!-- Intro Modal PopUp at Start -->
-     <div class="overlay-popup">
-        <div class="start-popup">
-            <img src="asset/images/icon.png" alt="">
-            <h1>Bienvenue sur Arbalet Meki Live !</h1>
-            <div class="input-popup">
-                <input type="text" id="name-popup" placeholder="Entrez votre nom">
-                <button type="submit" id="send-name"></button>
-            </div>
-        </div>
-    </div> 
-    <!-- End Modal PopUp -->
-
         <!-- App Content -->
+
         <div class="main">
             <div class="left-pan">
                 <div class="head-title">
@@ -235,6 +223,11 @@
                     <div class="head-menu">
                         <a href="#file" id="file"></a>
                         <a href="#setting" id="setting"></a>
+                        <div class="setting-menu">
+                          <a href="#" id="import">Importer</a>
+                          <a href="#" id="export">Exporter</a>
+                          <a href="#" id="example">Exemples</a>
+                        </div>
                     </div>
                     <div class="info-user">
                         <div>
@@ -266,7 +259,84 @@
             </div>
         
         </div>
-        <!-- End App -->
+
+      <!-- End App -->
+
+
+    <!-- Modules -->
+        
+      <!-- Start Module -->
+      <div class="overlay-popup">
+          <div class="window-popup starting-popup">
+              <img src="asset/images/icon.png" alt="">
+              <h1>Bienvenue sur Arbalet Meki Live !</h1>
+              <div class="input-window">
+                  <input type="text" id="user-name-input" placeholder="Entrez votre nom">
+                  <button type="submit" id="send-name"></button>
+              </div>
+          </div>
+      </div>
+      <!-- End Start module -->
+
+      <!-- Modules Background -->
+      <div class="overlay-popup3">
+      </div>
+
+      <!-- Example module -->
+            <div class="window-popup" id="example-module">
+              <div class="head-popup">
+                  <img src="asset/images/icon.png" alt="">
+                  <h1>Exemples</h1>
+              </div>
+              <div class="content-example">
+                <div class="head-example">
+                  <p>Nom</p>
+                  <p>Difficulté</p>
+                </div>
+                <div class="list-example">
+                    <a href="#">
+                      <p>Jeu de Snake</p>
+                      <div class="example-difficulty hard"></div>
+                    </a>
+                    <a href="#">
+                        <p>Drapeau</p>
+                        <div class="example-difficulty easy"></div>
+                    </a>
+                    <a href="#">
+                        <p>Clignotement</p>
+                        <div class="example-difficulty middle"></div>
+                      </a>
+                    <a href="#">
+                        <p>Casse brique</p>
+                        <div class="example-difficulty hard"></div>
+                    </a>
+                    <a href="#">
+                        <p>Casse brique</p>
+                        <div class="example-difficulty hard"></div>
+                    </a>
+                </div>
+              </div>
+            </div>
+      <!-- End Example module-->
+
+      <!-- Export module -->
+          <div class="window-popup" id="export-module">
+              <div class="head-popup">
+                  <img src="asset/images/icon.png" alt="">
+                  <h1>Exporter votre projet</h1>
+              </div>
+              <div class="content">
+                <p>Entrez le nom de votre projet</p>
+                <div class="input-window">
+                    <input type="text" id="export-input" value="application/xml">
+                    <button type="submit" id="export-file"></button>
+                </div>
+              </div>
+          </div>
+        
+      <!-- End Export module -->
+
+    <!-- End Modules -->
 
     <script src="blockly/blockly_compressed.js"></script>
     <script src="blockly/javascript_compressed.js"></script>

@@ -50,14 +50,12 @@ function restart(){
 }
 
 // Save the current workspace on a downloadable file (.xml)
-function save(){
+function save(name){
     let domWorkspace = Blockly.Xml.workspaceToDom(workspace);
     let textWorkSpace = Blockly.Xml.domToText(domWorkspace);
-    let name = window.prompt("Veuillez entrer un nom de fichier", "arbalet_export.xml");
     if(name != null){
         download(textWorkSpace,name,"application/xml");
     }
-
 }
 
 // Import and set the current workspace with a downloaded .xml file
