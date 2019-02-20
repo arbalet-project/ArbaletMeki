@@ -40,7 +40,6 @@ function stop(){
         isRunning = false;
         switchPlayStopColors();
     }
-
 }
 
 // Stop the current running program and restart it

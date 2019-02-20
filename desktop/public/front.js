@@ -113,6 +113,7 @@
             $('#export-file').on('click', function(){
                 let name = $('#export-input').val()
                 save(name);
+                $('#export-module').fadeOut(200)
                 $('.overlay-popup3').fadeOut(200)
             })
         }) 

@@ -172,10 +172,11 @@
 .full-screen{
     position:fixed;
     z-index : 100000 !important;
-    width: 27%;
+    width: 25%;
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
+    transition: 10s ease-in-out
 }
 .full-screen .led-header a#full-screen{
     background-image: url('../images/icon/close.png')

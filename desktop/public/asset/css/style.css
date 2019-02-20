@@ -275,11 +275,11 @@ body {
     display: block;
     background-color: transparent;
     position: absolute;
-    width: 26px;
-    height: 50px;
+    width: 58px;
+    height: 56px;
     top: -34px;
-    right: 41px;
-    border-radius: 20px;
+    right: 29px;
+    border-radius: 38px;
     cursor: pointer; }
 
 #setting:hover ~ .setting-menu, .setting-menu:hover {
@@ -423,10 +423,11 @@ body {
 .full-screen {
   position: fixed;
   z-index: 100000 !important;
-  width: 27%;
+  width: 25%;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); }
+  transform: translate(-50%, -50%);
+  transition: 10s ease-in-out; }
 
 .full-screen .led-header a#full-screen {
   background-image: url("../images/icon/close.png"); }

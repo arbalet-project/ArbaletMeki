@@ -74,7 +74,9 @@
         background-color: $red-error;
         }
     }
-    .led-content{margin-bottom: 75px;}
+    .led-content{
+        margin-bottom: 75px;
+    }
     .led-header{
         display: flex;
         flex-flow: row nowrap;
@@ -169,11 +171,11 @@
         display:block;
         background-color: transparent;
         position: absolute;
-        width: 26px;
-        height: 50px;
+        width: 58px;
+        height: 56px;
         top: -34px;
-        right: 41px;
-        border-radius: 20px;
+        right: 29px;
+        border-radius: 38px;
         cursor: pointer;
     }
 }
