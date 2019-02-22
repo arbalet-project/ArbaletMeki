@@ -1,9 +1,17 @@
 page-home {
+    $fab-list-button-background-color : #fff;
     #aboutButton {
         z-index: 10000;
         position: fixed;
         right:10px;
         top:10px;
+    }
+
+    #infosButton {
+        z-index: 10000;
+        position: fixed;
+        right:10px;
+        top:640px;
     }
 }
 
@@ -16,4 +24,5 @@ page-home {
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
 
