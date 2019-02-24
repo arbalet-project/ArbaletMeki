@@ -278,3 +278,38 @@ Blockly.Blocks['sleep'] = {
   "tooltip": "%{BKY_SLEEP_TOOLTIP}",
   "helpUrl": ""
 }]);
+
+Blockly.defineBlocksWithJsonArray([
+  {
+    "type": "draw_letter",
+    "message0": "Dessiner la lettre %1 à %2 %3 en %4",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "letter",
+        "check": "String"
+      },
+      {
+        "type": "input_value",
+        "name": "row",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "column",
+        "check": "Number"
+      },
+      {
+        "type": "input_value",
+        "name": "color",
+        "check": "Colour"
+      }
+    ],
+    "inputsInline": true,
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 165,
+    "tooltip": "Dessine la lettre écrite dans la couleur correspondante. Les coordonnées sont celles du coin en haut à gauche.",
+    "helpUrl": ""
+  }
+])

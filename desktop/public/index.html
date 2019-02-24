@@ -214,6 +214,86 @@
                   </block>
                 </category>
 
+                <category name="Text" colour="#5CA68D">
+                    <block type="text">
+                      <field name="TEXT"></field>
+                    </block>
+                    <block type="draw_letter">
+                      <value name="letter">
+                        <shadow type="text">
+                          <field name="TEXT"></field>
+                        </shadow>
+                      </value>
+                      <value name="row">
+                        <shadow type="math_number">
+                          <field name="NUM">0</field>
+                        </shadow>
+                      </value>
+                      <value name="column">
+                        <shadow type="math_number">
+                          <field name="NUM">0</field>
+                        </shadow>
+                      </value>
+                      <value name="color">
+                        <shadow type="colour_picker">
+                          <field name="COLOUR">#ffffff</field>
+                        </shadow>
+                      </value>
+                    </block>
+                    <block type="text_join">
+                      <mutation items="2"></mutation>
+                    </block>
+                    <block type="text_append">
+                      <field name="VAR" id=")^_=)_g5DElbLb_:x+jI" variabletype="">item</field>
+                      <value name="TEXT">
+                        <shadow type="text">
+                          <field name="TEXT"></field>
+                        </shadow>
+                      </value>
+                    </block>
+                    <block type="text_length">
+                      <value name="VALUE">
+                        <shadow type="text">
+                          <field name="TEXT">abc</field>
+                        </shadow>
+                      </value>
+                    </block>
+                    <block type="text_isEmpty">
+                      <value name="VALUE">
+                        <shadow type="text">
+                          <field name="TEXT"></field>
+                        </shadow>
+                      </value>
+                    </block>
+                    <block type="text_charAt">
+                      <mutation at="true"></mutation>
+                      <field name="WHERE">FROM_START</field>
+                      <value name="VALUE">
+                        <shadow type="text">
+                          <field name="TEXT"></field>
+                        </shadow>
+                      </value>
+                    </block>
+                    <block type="text_getSubstring">
+                      <mutation at1="true" at2="true"></mutation>
+                      <field name="WHERE1">FROM_START</field>
+                      <field name="WHERE2">FROM_START</field>
+                      <value name="STRING">
+                        <block type="variables_get">
+                          <field name="VAR" id="1o0bjMQo5PF8GLn#=ukD" variabletype="">text</field>
+                        </block>
+                      </value>
+                    </block>
+                    <block type="text_changeCase">
+                      <field name="CASE">UPPERCASE</field>
+                      <value name="TEXT">
+                        <shadow type="text">
+                          <field name="TEXT">abc</field>
+                        </shadow>
+                      </value>
+                    </block>
+                  </category>
+
                 <category name="Fonctions" colour="#9A5CA6" custom="PROCEDURE"></category>
                 <category name="Variables" colour="#A65C81" custom="VARIABLE"></category>
             </xml>
