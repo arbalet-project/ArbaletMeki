@@ -313,3 +313,64 @@ Blockly.defineBlocksWithJsonArray([
     "helpUrl": ""
   }
 ])
+
+Blockly.defineBlocksWithJsonArray([
+  {
+    "type": "event_key",
+    "message0": "Touche %1 pressée %2 %3",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "key",
+        "options": [
+          [
+            "↑",
+            "up"
+          ],
+          [
+            "→",
+            "right"
+          ],
+          [
+            "↓",
+            "down"
+          ],
+          [
+            "←",
+            "left"
+          ]
+        ]
+      },
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "input_statement",
+        "name": "event_code"
+      }
+    ],
+    "inputsInline": false,
+    "colour": 270,
+    "tooltip": "Le code contenu dans ce bloc s'exécute lorsque la touche correspondante est pressée.",
+    "helpUrl": ""
+  }
+]);
+
+Blockly.defineBlocksWithJsonArray([
+  {
+    "type": "main_script",
+    "message0": "Programme %1 %2",
+    "args0": [
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "input_statement",
+        "name": "script"
+      }
+    ],
+    "colour": 270,
+    "tooltip": "C'est ici que s'écrit le programme principal. Les blocs en dehors de celui-ci ne seront pas exécutés",
+    "helpUrl": ""
+  }
+]);

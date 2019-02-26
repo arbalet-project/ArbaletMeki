@@ -67,3 +67,15 @@ Blockly.JavaScript['draw_letter'] = function(block) {
   var code = `drawLetter(${value_letter},${value_row},${value_column},${value_color});`;
   return code;
 };
+
+Blockly.JavaScript['main_script'] = function(block) {
+  var statements_script = Blockly.JavaScript.statementToCode(block, 'script');
+  return statements_script;
+};
+
+Blockly.JavaScript['event_key'] = function(block) {
+  var dropdown_key = block.getFieldValue('key');
+  var statements_event_code = Blockly.JavaScript.statementToCode(block, 'event_code');
+  var code = statements_event_code;
+  return code;
+};
