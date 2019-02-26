@@ -374,3 +374,15 @@ Blockly.defineBlocksWithJsonArray([
     "helpUrl": ""
   }
 ]);
+
+/* // Redefining the colour blocks for use with events
+Blockly.defineBlocksWithJsonArray([
+  {
+    "type": "colour_random",
+    "message0": "couleur aléatoire",
+    "output": null,
+    "colour": 15,
+    "tooltip": "",
+    "helpUrl": ""
+  }
+]); */

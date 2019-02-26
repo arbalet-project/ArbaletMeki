@@ -79,3 +79,32 @@ Blockly.JavaScript['event_key'] = function(block) {
   var code = statements_event_code;
   return code;
 };
+
+Blockly.JavaScript['colour_random'] = function(block) {
+  return ['colourRandom()', Blockly.JavaScript.ORDER_NONE];
+};
+
+Blockly.JavaScript['colour_rgb'] = function(block) {
+  // Compose a colour from RGB components expressed as percentages.
+  var red = Blockly.JavaScript.valueToCode(block, 'RED',
+      Blockly.JavaScript.ORDER_COMMA) || 0;
+  var green = Blockly.JavaScript.valueToCode(block, 'GREEN',
+      Blockly.JavaScript.ORDER_COMMA) || 0;
+  var blue = Blockly.JavaScript.valueToCode(block, 'BLUE',
+      Blockly.JavaScript.ORDER_COMMA) || 0;
+  var code = `colourRgb(${red},${green},${blue})`;
+  return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};
+
+Blockly.JavaScript['colour_blend'] = function(block) {
+  // Blend two colours together.
+  var c1 = Blockly.JavaScript.valueToCode(block, 'COLOUR1',
+      Blockly.JavaScript.ORDER_COMMA) || '\'#000000\'';
+  var c2 = Blockly.JavaScript.valueToCode(block, 'COLOUR2',
+      Blockly.JavaScript.ORDER_COMMA) || '\'#000000\'';
+  var ratio = Blockly.JavaScript.valueToCode(block, 'RATIO',
+      Blockly.JavaScript.ORDER_COMMA) || 0.5;
+
+  var code = `colourBlend(${c1},${c2},${ratio})`;
+  return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};
