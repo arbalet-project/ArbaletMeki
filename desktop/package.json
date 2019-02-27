@@ -26,6 +26,7 @@
     "ip": "^1.1.5",
     "ip6addr": "^0.2.2",
     "jquery": "^3.3.1",
+    "jsdoc": "^3.5.5",
     "path": "^0.12.7",
     "rgb-hex-converter": "^0.2.1",
     "socket.io": "^2.2.0"

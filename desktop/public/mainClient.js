@@ -1,3 +1,8 @@
+/**
+ * @fileoverview This file contains the application's core functions 
+ */
+
+
 const socket = io();
 let granted = false;
 let isRunning = false;
@@ -79,7 +84,7 @@ function restart() {
 
 /**
  * Save the current workspace on a downloadable file (.xml)
- * @param {string} name 
+ * @param {String} name File name of the exported workspace
  */
 function save(name) {
     let domWorkspace = Blockly.Xml.workspaceToDom(workspace);
@@ -119,9 +124,9 @@ function updateArbalet() {
 
 /**
  * Update a pixel on simulation and add it to the update queue
- * @param {Number} rowX 
- * @param {Number} columnY 
- * @param {String} color 
+ * @param {Number} rowX The row of the pixel to update
+ * @param {Number} columnY The column of the pixel to update
+ * @param {String} color The color to set to the pixel
  */
 function updatePixel(rowX, columnY, color) {
     let cell = {
@@ -138,7 +143,7 @@ function updatePixel(rowX, columnY, color) {
 
 /**
  * Translate workspace's blocks in Javascript (main program and events code)
- * @return {Object} An associative array of the scripts 
+ * @return {Object} An associative array of the scripts (5 elements max)
  */
 function generateScripts() {
     Blockly.JavaScript.init(workspace);
@@ -159,7 +164,7 @@ function generateScripts() {
 
 /**
  * Translate functions' blocks in JavaScript code
- * @return {string}
+ * @return {String} JavaScript code corresponding to the blockly functions defined in the workspace
  */
 function generateFunctions(){
     Blockly.JavaScript.init(workspace);
@@ -171,7 +176,7 @@ function generateFunctions(){
     functionsBlocs.forEach((bloc) => {
         Blockly.JavaScript.blockToCode(bloc);
     });
-    
+
     functionsCode = Object.values(Blockly.JavaScript.definitions_).join('');
     return functionsCode;
 }

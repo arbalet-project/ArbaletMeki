@@ -1,3 +1,8 @@
+/**
+ * @fileoverview Define a map of character and their corresponding pixels used by the drawLetter function
+ * @see blocklyWorker.js
+ */
+
 let charMap = new Map([
     ["A", [0, 1, 0, 2, 0, 3, 0, 4, 1, 0, 1, 4, 2, 0, 2, 4, 3, 0, 3, 1, 3, 2, 3, 3, 3, 4, 4, 0, 4, 4, 5, 0, 5, 4, 6, 0, 6, 4]],
     ["B", [0, 0, 0, 1, 0, 2, 0, 3, 1, 0, 1, 4, 2, 0, 2, 4, 3, 0, 3, 1, 3, 2, 3, 3, 4, 0, 4, 4, 5, 0, 5, 4, 6, 0, 6, 1, 6, 2, 6, 3]],

@@ -1,3 +1,7 @@
+/**
+ * @fileoverview This file contains functions used to generate JS code from our custom blocks
+ */
+
 Blockly.JavaScript['color_pixel'] = function(block) {
   var value_row = Blockly.JavaScript.valueToCode(block, 'row', Blockly.JavaScript.ORDER_ATOMIC);
   var value_column = Blockly.JavaScript.valueToCode(block, 'column', Blockly.JavaScript.ORDER_ATOMIC);
