@@ -12,16 +12,20 @@ let sharedArray;
 
 // Functions
 
-// Runs the blockly program and launch the grid autoupdate
+/**
+ * Runs the blockly program and launch the grid autoupdate
+ */
 function run() {
     if (!isRunning) {
         updateTimer = setInterval(updateArbalet, 500);
         blocklyWorker = new Worker('/blocklyWorker.js');
+
         blocklyWorker.postMessage({
             message: 'gridLength',
             nbRows: nbRows,
             nbColumns: nbColumns
         });
+
         // Create a shared buffer
         sharedBuffer = new SharedArrayBuffer(10 * Int32Array.BYTES_PER_ELEMENT);
         blocklyWorker.postMessage({
@@ -29,6 +33,7 @@ function run() {
             buffer: sharedBuffer
         });
         sharedArray = new Int32Array(sharedBuffer);
+
         // Send the different scripts to the worker
         blocklyWorker.postMessage({
             message: 'scripts',
@@ -43,6 +48,7 @@ function run() {
             }
 
         };
+        // All data sent to the worker, it can run the program
         blocklyWorker.postMessage({
             message: "run"
         });
@@ -51,7 +57,9 @@ function run() {
     }
 }
 
-// Stops the blockly program and the grid autoupdate
+/**
+ * Stops the blockly program and the grid autoupdate
+ */
 function stop() {
     if (isRunning) {
         clearInterval(updateTimer);
@@ -61,13 +69,18 @@ function stop() {
     }
 }
 
-// Stop the current running program and restart it
+/**
+ * Stop the current running program and restart it
+ */
 function restart() {
     stop();
     run();
 }
 
-// Save the current workspace on a downloadable file (.xml)
+/**
+ * Save the current workspace on a downloadable file (.xml)
+ * @param {string} name 
+ */
 function save(name) {
     let domWorkspace = Blockly.Xml.workspaceToDom(workspace);
     let textWorkSpace = Blockly.Xml.domToText(domWorkspace);
@@ -76,7 +89,9 @@ function save(name) {
     }
 }
 
-// Import and set the current workspace with a downloaded .xml file
+/**
+ * Import and set the current workspace with a downloaded .xml file
+ */
 function importWorkspace() {
     let selectedFile = document.getElementById('fileImport').files[0];
     let reader = new FileReader();
@@ -88,14 +103,13 @@ function importWorkspace() {
         } catch (error) {
             alert(selectedFile.name + " n'est pas un fichier Arbalet valide");
         }
-
-
     };
     reader.readAsText(selectedFile);
-
 }
 
-// Update the arbalet pixel grid if granted
+/**
+ * Update the material Arbalet pixel grid if granted
+ */
 function updateArbalet() {
     if (pixelsToUpdate.length != 0 && granted) {
         socket.emit('updateGrid', pixelsToUpdate);
@@ -103,7 +117,12 @@ function updateArbalet() {
     }
 }
 
-// Update a pixel on simulation and add it to the update queue
+/**
+ * Update a pixel on simulation and add it to the update queue
+ * @param {Number} rowX 
+ * @param {Number} columnY 
+ * @param {String} color 
+ */
 function updatePixel(rowX, columnY, color) {
     let cell = {
         rowX: rowX,
@@ -122,7 +141,7 @@ function updatePixel(rowX, columnY, color) {
  * @return {Object} An associative array of the scripts 
  */
 function generateScripts() {
-    Blockly.JavaScript.workspaceToCode(workspace); // It looks useless but it is essential, believe me
+    Blockly.JavaScript.init(workspace);
     let scripts = {};
 
     Blockly.mainWorkspace.getBlocksByType("event_key").forEach(function (bloc) {
@@ -133,15 +152,26 @@ function generateScripts() {
 
     Blockly.JavaScript.INFINITE_LOOP_TRAP = (Blockly.mainWorkspace.getBlocksByType("event_key").length > 0 ? 'catchEvent();\n' : '');
 
-    scripts["main"] = Blockly.JavaScript.blockToCode(
+    scripts["main"] = generateFunctions() + Blockly.JavaScript.blockToCode(
         Blockly.mainWorkspace.getBlocksByType("main_script")[0]);
     return scripts;
 }
 
-function generateMainScript(){
+/**
+ * Translate functions' blocks in JavaScript code
+ * @return {string}
+ */
+function generateFunctions(){
+    Blockly.JavaScript.init(workspace);
+    let functionsCode = '';
 
-    let xml = Blockly.Xml.workspaceToDom(workspace);
-    let allowedBlocks = ["main_script","procedures_defnoreturn","procedures_defreturn"];
+    let functionsBlocs = Blockly.mainWorkspace.getBlocksByType("procedures_defreturn");
+    functionsBlocs.push(...Blockly.mainWorkspace.getBlocksByType("procedures_defnoreturn"));
+
+    functionsBlocs.forEach((bloc) => {
+        Blockly.JavaScript.blockToCode(bloc);
+    });
     
-    return xml;
+    functionsCode = Object.values(Blockly.JavaScript.definitions_).join('');
+    return functionsCode;
 }
