@@ -282,7 +282,7 @@ Blockly.Blocks['sleep'] = {
 Blockly.defineBlocksWithJsonArray([
   {
     "type": "draw_letter",
-    "message0": "Dessiner la lettre %1 à %2 %3 en %4",
+    "message0": "Dessiner la lettre %1 à %2 %3 en %4 %5",
     "args0": [
       {
         "type": "input_value",
@@ -303,6 +303,20 @@ Blockly.defineBlocksWithJsonArray([
         "type": "input_value",
         "name": "color",
         "check": "Colour"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "direction",
+        "options": [
+          [
+            "↕",
+            "0"
+          ],
+          [
+            "↔",
+            "1"
+          ]
+        ]
       }
     ],
     "inputsInline": true,

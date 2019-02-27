@@ -80,12 +80,18 @@ function getPixelColor(row, column) {
     return gridState[row][column];
 }
 
-function drawLetter(inputLetter, rowX, columnY, color) {
+function drawLetter(inputLetter, rowX, columnY, color, direction) {
     let letter = inputLetter.charAt(0);
     if (charMap.has(letter)) {
         let letterPixels = charMap.get(letter);
         for (let i = 0; i < letterPixels.length; i = i + 2) {
-            setPixel(rowX + letterPixels[i], columnY + letterPixels[i + 1], color);
+            if(direction == 0){
+                setPixel(rowX + letterPixels[i], columnY + letterPixels[i + 1], color);
+            }
+            else {
+                setPixel(rowX + letterPixels[i+1], columnY - letterPixels[i], color);
+            }
+
         }
 
     }

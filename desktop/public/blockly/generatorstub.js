@@ -63,8 +63,9 @@ Blockly.JavaScript['draw_letter'] = function(block) {
   var value_row = Blockly.JavaScript.valueToCode(block, 'row', Blockly.JavaScript.ORDER_ATOMIC);
   var value_column = Blockly.JavaScript.valueToCode(block, 'column', Blockly.JavaScript.ORDER_ATOMIC);
   var value_color = Blockly.JavaScript.valueToCode(block, 'color', Blockly.JavaScript.ORDER_ATOMIC);
+  var dropdown_direction = block.getFieldValue('direction');
 
-  var code = `drawLetter(${value_letter},${value_row},${value_column},${value_color});`;
+  var code = `drawLetter(${value_letter},${value_row},${value_column},${value_color},${dropdown_direction});`;
   return code;
 };
 
