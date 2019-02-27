@@ -1,3 +1,8 @@
+/**
+ * @fileoverview This file contains the core functions of the application core functions 
+ */
+
+
 const socket = io();
 let granted = false;
 let isRunning = false;
@@ -171,7 +176,7 @@ function generateFunctions(){
     functionsBlocs.forEach((bloc) => {
         Blockly.JavaScript.blockToCode(bloc);
     });
-    
+
     functionsCode = Object.values(Blockly.JavaScript.definitions_).join('');
     return functionsCode;
 }
