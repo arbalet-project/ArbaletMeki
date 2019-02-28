@@ -1,10 +1,13 @@
 {
-  "name": "ArbaletMekiLive",
+  "name": "arbalet_meki_live",
   "version": "0.0.1",
   "description": "Desktop Application for Arbalet Meki Live",
   "main": "main.js",
+  "homepage": "http://www.arbalet-project.org/",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
   },
   "keywords": [
     "Arbalet",
@@ -14,9 +17,10 @@
     "Pixel",
     "Art"
   ],
-  "author": "Lucas Demarais, Simon Paillassa, William Jacob, Léo-Paul Dubourg, Nicolas Diot",
+  "author": "Lucas Demarais <lucdems@gmail.com>",
   "devDependencies": {
-    "electron": "^4.0.3"
+    "electron": "^4.0.3",
+    "electron-builder": "^20.38.5"
   },
   "dependencies": {
     "electron-reload": "^1.4.0",
@@ -30,5 +34,36 @@
     "path": "^0.12.7",
     "rgb-hex-converter": "^0.2.1",
     "socket.io": "^2.2.0"
+  },
+  "build":{
+    "appId": "com.example.arbalet",
+    "productName": "Arbalet Meki Live",
+    "mac":{
+      "category": "education"
+    },
+    "dmg": {
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 240,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    },
+    "win": {
+      "target": "squirrel",
+      "icon": "build/icon.ico"
+    }
   }
 }
