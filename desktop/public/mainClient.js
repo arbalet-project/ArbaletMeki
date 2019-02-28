@@ -1,5 +1,5 @@
 /**
- * @fileoverview This file contains the application's core functions 
+ * @fileoverview This file contains the application's core functions (client-side on browser)
  */
 
 
@@ -31,13 +31,15 @@ function run() {
             nbColumns: nbColumns
         });
 
-        // Create a shared buffer
-        sharedBuffer = new SharedArrayBuffer(10 * Int32Array.BYTES_PER_ELEMENT);
-        blocklyWorker.postMessage({
-            message: 'sharedBuffer',
-            buffer: sharedBuffer
-        });
-        sharedArray = new Int32Array(sharedBuffer);
+        if (isChrome()) {
+            // Create a shared buffer
+            sharedBuffer = new SharedArrayBuffer(10 * Int32Array.BYTES_PER_ELEMENT);
+            blocklyWorker.postMessage({
+                message: 'sharedBuffer',
+                buffer: sharedBuffer
+            });
+            sharedArray = new Int32Array(sharedBuffer);
+        }
 
         // Send the different scripts to the worker
         blocklyWorker.postMessage({
@@ -166,7 +168,7 @@ function generateScripts() {
  * Translate functions' blocks in JavaScript code
  * @return {String} JavaScript code corresponding to the blockly functions defined in the workspace
  */
-function generateFunctions(){
+function generateFunctions() {
     Blockly.JavaScript.init(workspace);
     let functionsCode = '';
 
@@ -179,4 +181,12 @@ function generateFunctions(){
 
     functionsCode = Object.values(Blockly.JavaScript.definitions_).join('');
     return functionsCode;
+}
+
+/**
+ * Test if the browser is Google Chrome (or Chromium)
+ * @returns {Boolean} True if chrome, false else
+ */
+function isChrome() {
+    return (navigator.userAgent.indexOf("Chrome") != -1);
 }

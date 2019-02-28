@@ -1,9 +1,12 @@
 /**
- * @fileoverview This file contains all the graphical functions and event manager that work with the interface
+ * @fileoverview This file contains all the graphical functions and event manager that work with the interface (client-side on browser)
  * @see mainClient.js
  */
 
+let workspace;
+
 createLedTable(nbRows, nbColumns);
+initWorkspace();
 
 // Management of the received messages on websockets
 socket.on('granted', function () {
@@ -23,25 +26,28 @@ socket.on('disconnectUser', function () {
 });
 
 
-// Event keys for Blockly, stores the corresponding event in a sharedArray to be read by the worker
-$(document).on('keydown', function (e) {
-    if(isRunning){
-        switch (e.which) {
-            case 38: // UP
-                Atomics.store(sharedArray, 0, 1);
-                break;
-            case 39: // RIGHT
-                Atomics.store(sharedArray, 0, 2);
-                break;
-            case 40: // DOWN
-                Atomics.store(sharedArray, 0, 3);
-                break;
-            case 37: // LEFT
-                Atomics.store(sharedArray, 0, 4);
-                break;
+// Event keys for Blockly, stores the corresponding event in a sharedArray to be read by the worker (disabled for non-chrome browsers)
+if(isChrome()){
+    $(document).on('keydown', function (e) {
+        if (isRunning) {
+            switch (e.which) {
+                case 38: // UP
+                    Atomics.store(sharedArray, 0, 1);
+                    break;
+                case 39: // RIGHT
+                    Atomics.store(sharedArray, 0, 2);
+                    break;
+                case 40: // DOWN
+                    Atomics.store(sharedArray, 0, 3);
+                    break;
+                case 37: // LEFT
+                    Atomics.store(sharedArray, 0, 4);
+                    break;
+            }
         }
-    }
-});
+    });
+}
+
 
 // Animations and clicking behaviour definitions
 $('#play').on('click', function (e) {
@@ -124,6 +130,48 @@ $('#user-name-input').keypress(function (event) {
         $('#send-name').click();
     }
 })
+
+/**
+ * Init the blockly workspace and the toolbox
+ */
+function initWorkspace() {
+    let toolbox = document.getElementById('toolbox');
+
+    // The event functionnality is not compatible with others browsers than Chrome, so we delete the event blocks on these browsers
+    if (!isChrome()) {
+        for (let blockNode of toolbox.getElementsByTagName("block")) {
+            if (blockNode.getAttribute("type") == "event_key") {
+                blockNode.remove();
+                break;
+            }
+        }
+    }
+
+    // Creating the workspace
+    workspace = Blockly.inject('blocklyDiv', {
+        toolbox: toolbox,
+        collapse: true,
+        comments: true,
+        disable: true,
+        maxBlocks: Infinity,
+        trashcan: true,
+        horizontalLayout: false,
+        toolboxPosition: 'start',
+        css: true,
+        rtl: false,
+        scrollbars: false,
+        sounds: true,
+        oneBasedIndex: true
+    });
+
+    // Adding a program block to this workspace
+    let mainBlock = workspace.newBlock('main_script');
+    mainBlock.initSvg();
+    mainBlock.render();
+    mainBlock.moveBy(300,30);
+
+
+}
 
 /**
  * Generate the HTML table of the pixels for the simulation
