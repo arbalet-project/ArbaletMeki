@@ -53,8 +53,10 @@ app.on('activate', function () {
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 400,
-    height: 400,
+    width: 1000,
+    height: 700,
+    minWidth: 1000,
+    minHeight: 700,
     icon: path.join(__dirname, '/asset/images/logo.png')
   })
   mainWindow.maximize() // Window Fullscreen
