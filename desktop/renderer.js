@@ -5,7 +5,7 @@ const { ipcRenderer } = require('electron');
 let ip = require('ip');
 
 // Show IP
-$('#myIp').text(ip.address());
+$('#myIp').text(ip.address()+':3000');
 
 //Events
 

@@ -9,15 +9,22 @@ createLedTable(nbRows, nbColumns);
 initWorkspace();
 
 // Management of the received messages on websockets
+
+socket.on('logged',(user) => {
+    $('#user-name').append(user.name);
+    $('#user-ip').append(user.ip);
+    //hideLoginScreen();
+    $('.overlay-popup').hide();
+});
+
 socket.on('granted', function () {
     granted = true;
-    $('.connect-style').after('<p class="connect-style blue">Connecté à Arbalet</p>')
-    console.log("connecté à Arbalet")
+    $('.connect-style').after('<p class="connect-style blue">Connecté à Arbalet</p>');
 });
 
 socket.on('ungranted', function () {
     granted = false;
-    $('.blue').remove()
+    $('.blue').remove();
 });
 
 socket.on('disconnectUser', function () {
@@ -117,12 +124,8 @@ $('.setting-menu').hover(function () {
 
 $('#send-name').on('click', function () {
     var name = $('#user-name-input').val()
-    $('.overlay-popup').css({
-        "transition": "0.4s ease",
-        "transform": " scale(1.05)"
-    }).delay(500).fadeOut(400)
+    hideLoginScreen();
     socket.emit('login', name);
-    $('#user-name').append(name)
 })
 
 $('#user-name-input').keypress(function (event) {
@@ -130,6 +133,13 @@ $('#user-name-input').keypress(function (event) {
         $('#send-name').click();
     }
 })
+
+function hideLoginScreen(){
+    $('.overlay-popup').css({
+        "transition": "0.4s ease",
+        "transform": " scale(1.05)"
+    }).delay(500).fadeOut(400);
+}
 
 /**
  * Init the blockly workspace and the toolbox

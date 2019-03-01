@@ -179,7 +179,7 @@ function generateFunctions() {
         Blockly.JavaScript.blockToCode(bloc);
     });
 
-    // Variable declarations are deleted, so they will be global and shared between the main script and event scripts
+    // Variables declarations are deleted, so they will be global and shared between the main script and event scripts
     Blockly.JavaScript.definitions_.variables = '';
 
     functionsCode = Object.values(Blockly.JavaScript.definitions_).join('');
