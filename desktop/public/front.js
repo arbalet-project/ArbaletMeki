@@ -19,12 +19,12 @@ socket.on('logged',(user) => {
 
 socket.on('granted', function () {
     granted = true;
-    $('.connect-style').after('<p class="connect-style blue">Connecté à Arbalet</p>');
+    $('.connect-style').replaceWith('<p class="connect-style live">live</p>');
 });
 
 socket.on('ungranted', function () {
     granted = false;
-    $('.blue').remove();
+    $('.live').replaceWith('<p class="connect-style">Connecté au poste</p>');
 });
 
 socket.on('disconnectUser', function () {
