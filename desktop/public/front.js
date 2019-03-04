@@ -27,10 +27,7 @@ socket.on('ungranted', function () {
     $('.live').replaceWith('<p class="connect-style">Connecté au poste</p>');
 });
 
-socket.on('disconnectUser', function () {
-    alert('Disconnect')
-    console.log('disconnect')
-});
+
 
 
 // Event keys for Blockly, stores the corresponding event in a sharedArray to be read by the worker (disabled for non-chrome browsers)

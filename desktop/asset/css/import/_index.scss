@@ -84,21 +84,16 @@
             flex-wrap: nowrap;
             padding: 0 25px;
             & > *:first-child{
-                width: 15%;
-            }
-            & > *:nth-child(2) {
                 width: 30%;
-            }
-            & > *:nth-child(3) {
-                width: 30%;
+                min-width: 160px;
             }
         }
         & .list-result-header > *:last-child, & .list-result > *:last-child {margin-left: auto;}
         .list-result-header{
             color: $grey-text;
             margin-bottom: 15px;
-            h5:first-child{
-                padding-left: 8px;
+            h5:last-child{
+                padding-right: 15px;
             }
         }
         .list-result{

@@ -115,18 +115,15 @@ p, h5, label {
       flex-wrap: nowrap;
       padding: 0 25px; }
       .left-content .list-content .list-result-header > *:first-child, .left-content .list-content .list-result > *:first-child {
-        width: 15%; }
-      .left-content .list-content .list-result-header > *:nth-child(2), .left-content .list-content .list-result > *:nth-child(2) {
-        width: 30%; }
-      .left-content .list-content .list-result-header > *:nth-child(3), .left-content .list-content .list-result > *:nth-child(3) {
-        width: 30%; }
+        width: 30%;
+        min-width: 160px; }
     .left-content .list-content .list-result-header > *:last-child, .left-content .list-content .list-result > *:last-child {
       margin-left: auto; }
     .left-content .list-content .list-result-header {
       color: #7A7B7D;
       margin-bottom: 15px; }
-      .left-content .list-content .list-result-header h5:first-child {
-        padding-left: 8px; }
+      .left-content .list-content .list-result-header h5:last-child {
+        padding-right: 15px; }
     .left-content .list-content .list-result {
       background-color: #252C34;
       color: #D5D4D3;

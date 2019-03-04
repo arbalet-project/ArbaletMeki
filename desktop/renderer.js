@@ -16,10 +16,9 @@ ipcRenderer.on('addUser',function(event,arg){
     $('#nbConnected').text(nbConnect);
     $('#clientsList').append(`
         <div class="list-result">
-        <label class="switch-button"><input type="checkbox" id="${arg.id}" /><span></span></label>
         <p>${arg.login}</p>
         <p>${arg.ip}</p>
-        <a href="#" class="disconnect-link"></a>
+        <label class="switch-button"><input type="checkbox" id="${arg.id}" /><span></span></label>
         </div>
     `);
 
@@ -42,24 +41,6 @@ ipcRenderer.on('addUser',function(event,arg){
         }        
     })
 });
-
-
-// Disconnect from Server
-$('.list-content').on('click', '.disconnect-link', function(){
-    var arg = $(this).siblings('label').children('input').attr('id') 
-    ipcRenderer.send('disconnectUser', arg);
-    $(this).parent().fadeOut(150, function(){
-        $(this).remove()
-    })
-})
-
-// Disconnect from Client
-ipcRenderer.on('removeUser',function(event,arg){
-    var nbConnect = $('#nbConnected').text();
-    nbConnect--;
-    $('#nbConnected').text(nbConnect);
-    $('#' + arg).remove();
-})
 
 
 
