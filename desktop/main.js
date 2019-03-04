@@ -3,21 +3,27 @@ const {
   app,
   BrowserWindow,
   ipcMain
-} = require('electron')
+} = require('electron');
 
-let path = require('path');
-
+const pixel = require("node-pixel");
+const five = require("johnny-five");
+const path = require('path');
+const ipParser = require('ip6addr');
+const express = require('express');
+const expressServer = express();
+const http = require('http').Server(expressServer);
+const port = 3000;
+const io = require('socket.io')(http);
 //require('electron-reload')(__dirname);
-let ipParser = require('ip6addr');
+
 let mainWindow;
-let express = require('express');
-let expressServer = express();
-let http = require('http').Server(expressServer);
-let port = 3000;
-let io = require('socket.io')(http);
 
 let clientsLogged = new Map();
 let grantedUser;
+let boardConnected = false;
+
+let board;
+var strip = null; 
 
 
 // This method will be called when Electron has finished
@@ -28,6 +34,7 @@ app.on('ready', function () {
   initServer();
   initSocket();
   initEvents();
+  initBoard(8);
 });
 
 // Quit when all windows are closed.
@@ -143,14 +150,17 @@ function initSocket() {
         mainWindow.webContents.send('addUser', clientsLogged.get(socket.handshake.session.id));
       }
     });
-
-    // When the user logs out
-    socket.on('logout', function () {
-      console.log('destroy user');
-      mainWindow.webContents.send('removeUser', socket.handshake.session.id);
-      clientsLogged.delete(socket.handshake.session.id);
-
-    })
+    socket.on('updateGrid',function(pixelsToUpdate){
+      if(boardConnected && (grantedUser === clientsLogged.get(socket.handshake.session.id) )){
+        console.log('updateGrid received');
+        pixelsToUpdate.forEach(function(currentPixel){
+          console.log(currentPixel);
+          console.log(coordToIndex(currentPixel));
+          strip.pixel(coordToIndex(currentPixel)).color(currentPixel.color);
+        });
+        strip.show();
+      }
+    });
   });
 }
 /**
@@ -176,10 +186,27 @@ function initEvents() {
   })
 }
 
+/**
+ * Init the connection with Arduino (with firmata software) and the LED Strip
+ */
+function initBoard(stripPin){
+  board = new five.Board();
+  board.on("ready", function() {
+    strip = new pixel.Strip({
+        board: this,
+        controller: "FIRMATA",
+        strips: [{pin: stripPin, length: 150}], // this is preferred form for definition
+        gamma: 2.8, // set to a gamma that works nicely for WS2812
+    });
+    boardConnected = true;
+  });
+}
+
 
 /**
  * Format the given ip adress to the ipv4 format
  * @param {Object} ip 
+ * @returns {String} The formated ip
  */
 function getIPV4(ip) {
   if (ip == '::1') {
@@ -190,3 +217,23 @@ function getIPV4(ip) {
     });
   }
 }
+
+/**
+ * Take the pixel position on grid and returns the pixel index on led strip
+ * Works only for a 15*10 grid
+ * 
+ * @param {Object} pixel The pixel position on grid (row and column)
+ * @returns {Number} The corresponding index of the pixel in the LED strip
+ */
+function coordToIndex(pixel){
+  let index;
+    // If even
+    if(pixel.columnY % 2 == 0){
+      index = (14 + 15*pixel.columnY) - pixel.rowX; 
+    }
+    else {
+      index = pixel.columnY*15 + pixel.rowX;
+    }
+  
+    return index;
+  }

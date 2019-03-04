@@ -69,6 +69,7 @@ function run() {
  */
 function stop() {
     if (isRunning) {
+        updateArbalet();
         clearInterval(updateTimer);
         blocklyWorker.terminate();
         isRunning = false;
@@ -133,11 +134,11 @@ function updateArbalet() {
 function updatePixel(rowX, columnY, color) {
     let cell = {
         rowX: rowX,
-        columnY: columnY
+        columnY: columnY,
+        color:color
     };
     let cssCell = 'div[data-r=' + rowX + '][data-c=' + columnY + ']';
     if (granted) {
-        cell.rgbColor = HEXtoRGB(color);
         pixelsToUpdate.push(cell);
     }
     $(cssCell).css('background', color);
