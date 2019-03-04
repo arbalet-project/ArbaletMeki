@@ -112,7 +112,6 @@ function initServer() {
   })
   expressServer.use(express.static( __dirname + '/public'));
   expressServer.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist'));
-  expressServer.use('/rgbconverter', express.static( __dirname + '/node_modules/rgb-hex-converter'));
 
   // Start the express server
   http.listen(port, function () {

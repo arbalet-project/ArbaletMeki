@@ -35,7 +35,6 @@
     "jsdoc": "^3.5.5",
     "node-pixel": "^0.10.1",
     "path": "^0.12.7",
-    "rgb-hex-converter": "^0.2.1",
     "socket.io": "^2.2.0"
   },
   "build": {
