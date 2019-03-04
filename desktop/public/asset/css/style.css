@@ -178,9 +178,9 @@ body {
     color: #7A7B7D;
     font-size: 10px;
     margin-bottom: 10px; }
-  .right-pan .connect-style, .right-pan .disconnect-style {
+  .right-pan .connect-style {
     color: #2fc54f; }
-    .right-pan .connect-style:before, .right-pan .disconnect-style:before {
+    .right-pan .connect-style:before {
       content: "";
       display: inline-block;
       width: 10px;
@@ -188,15 +188,16 @@ body {
       border-radius: 100%;
       background-color: #2fc54f;
       margin-right: 10px; }
-    .right-pan .connect-style.blue, .right-pan .blue.disconnect-style {
-      margin-top: 8px;
-      color: #2196f3; }
-      .right-pan .connect-style.blue:before, .right-pan .blue.disconnect-style:before {
-        background-color: #2196f3; }
-  .right-pan .disconnect-style {
-    color: #d13b3b; }
-    .right-pan .disconnect-style:before {
-      background-color: #d13b3b; }
+    .right-pan .connect-style.live {
+      color: #d13b3b;
+      animation: liveBlink 1s infinite ease-in-out alternate; }
+      .right-pan .connect-style.live:before {
+        background-color: #d13b3b; }
+@keyframes liveBlink {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
   .right-pan .led-content {
     margin-bottom: 75px; }
   .right-pan .led-header {
