@@ -116,8 +116,10 @@ $('.setting-menu').hover(function () {
 
 $('#send-name').on('click', function () {
     var name = $('#user-name-input').val()
-    hideLoginScreen();
-    socket.emit('login', name);
+    if(name != ""){
+        hideLoginScreen();
+        socket.emit('login', name);
+    }
 })
 
 $('#user-name-input').keypress(function (event) {
