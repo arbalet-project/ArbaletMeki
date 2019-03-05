@@ -43,6 +43,29 @@ ipcRenderer.on('addUser',function(event,arg){
 });
 
 
+// Connect To Arbalet Table Front Animation
+
+    //Show Choice Pin of Arbalet Table
+    $('.button-connect').on('click', function(){
+        $(this).fadeOut(200, function(){
+            $('.info-span').hide()
+            $('.choice-pin').fadeIn(200)
+        })
+    })
+
+    //Verify if connection is a succes
+    $('.input-connection button').on('click', function(){
+        $('.choice-pin').fadeOut(200, function(){
+            // Loader Spinner
+            $('.lds-ring').fadeIn(200).delay(2000).fadeOut(200, function(){
+                // If connection is a success
+                $('.connect-style').fadeIn(200)
+                // Else "faire apparaitre le boutton se connecter avec un message d'erreur"
+                //$('.button-connect').fadeIn(200).before('<span class="info-span">Une erreur est survenue</span>')
+            })     
+        })
+    })
+
 
 
 

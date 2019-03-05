@@ -48,19 +48,29 @@
                     <div class="connexion-content">
                       <div>
                           <p class="text-header">Status</p>
-                          <p class="connect-style">connecté à Arbalet</p> <!-- Use the class disconnect-style in the other case-->
+                          <p class="connect-style">connecté à Arbalet</p>
+                          <button class="button-connect">Se connecter</button>
+                          <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+                          <div class="choice-pin">
+                          <span class="info-span">Entrez le pin de connexion de votre table</span>
+                            <div class="input-connection">
+                              <input type="number" value="8" max="99">
+                              <button>OK</button>
+                            </div>
+                         </div>
                       </div>
                       <div>
                           <p class="text-header">Votre adresse</p>
                           <p id="myIp"></p>
                       </div>
-                      <div>
+                      <!-- Wifi / USB choice-->
+                      <!-- <div>
                           <p class="text-header">Mode de connexion</p>
                           <div class="connect-mode">
                               <div><input type="radio" name="connect-type" value="wifi" id="wifi" ><label for="wifi">Wifi</label></div>
                               <div><input type="radio" name="connect-type" value="usb" id="usb"><label for="usb">Usb</label></div>
                           </div>
-                      </div>
+                      </div> -->
                     </div>
                   </div>
               </div>
