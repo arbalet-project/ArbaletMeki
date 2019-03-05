@@ -85,7 +85,7 @@ function save(name) {
     let domWorkspace = Blockly.Xml.workspaceToDom(workspace);
     let textWorkSpace = Blockly.Xml.domToText(domWorkspace);
     if (name != null) {
-        download(textWorkSpace, name, "application/xml");
+        download(textWorkSpace, name + '.xml', "application/xml");
     }
 }
 

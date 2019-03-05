@@ -96,6 +96,14 @@ $('#example').on('click', function () {
     $('#example-module').fadeIn(200);
 });
 
+$('#file').on('click',function(){
+    workspace.clear();
+    let mainBlock = workspace.newBlock('main_script');
+    mainBlock.initSvg();
+    mainBlock.render();
+    mainBlock.moveBy(300,30);
+});
+
 $('.overlay-popup3').on('click', function () {
     $(this).fadeOut(200, function () {
         $('#example-module').fadeOut(200);
