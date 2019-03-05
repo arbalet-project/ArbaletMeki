@@ -98,6 +98,7 @@ function importWorkspace() {
     reader.onload = function (event) {
         try {
             let parsedFile = Blockly.Xml.textToDom(reader.result);
+            console.log(parsedFile);
             Blockly.Xml.clearWorkspaceAndLoadFromXml(parsedFile, workspace);
             stop();
         } catch (error) {
@@ -105,6 +106,16 @@ function importWorkspace() {
         }
     };
     reader.readAsText(selectedFile);
+}
+
+function loadExemple(fileName){
+    $.ajax({
+        method: 'GET',
+        url: `exemples/${fileName}`,
+        processData: false
+    }).done(data => {
+        Blockly.Xml.clearWorkspaceAndLoadFromXml(data.firstChild,workspace);
+    });
 }
 
 /**
@@ -143,16 +154,17 @@ function updatePixel(rowX, columnY, color) {
 function generateScripts() {
     Blockly.JavaScript.init(workspace);
     let scripts = {};
+    let functionsDefinition = generateFunctions();
 
     Blockly.mainWorkspace.getBlocksByType("event_key").forEach(function (bloc) {
         let key = bloc.inputList[0].fieldRow[1].value_;
         let code = Blockly.JavaScript.blockToCode(bloc);
-        scripts[key] = code;
+        scripts[key] = functionsDefinition + code;
     });
 
     Blockly.JavaScript.INFINITE_LOOP_TRAP = (Blockly.mainWorkspace.getBlocksByType("event_key").length > 0 ? 'catchEvent();\n' : '');
 
-    scripts["main"] = generateFunctions() + Blockly.JavaScript.blockToCode(
+    scripts["main"] = functionsDefinition + Blockly.JavaScript.blockToCode(
         Blockly.mainWorkspace.getBlocksByType("main_script")[0]);
     return scripts;
 }

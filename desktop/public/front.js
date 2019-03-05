@@ -67,16 +67,16 @@ $('#stop').on('click', function (e) {
 $('#import').on('click', function (e) {
     e.preventDefault();
     $('#fileImport').click();
-})
+});
 
 $('#export').on('click', function () {
-    $('.overlay-popup3').fadeIn(200)
+    $('.overlay-popup3').fadeIn(200);
     $("#export-module").fadeIn(200, function () {
         $('#export-file').on('click', function () {
-            let name = $('#export-input').val()
+            let name = $('#export-input').val();
             save(name);
-            $('#export-module').fadeOut(200)
-            $('.overlay-popup3').fadeOut(200)
+            $('#export-module').fadeOut(200);
+            $('.overlay-popup3').fadeOut(200);
         })
     })
 })
@@ -85,23 +85,23 @@ $('#export-input').keypress(function (event) {
     if (event.which == 13) {
         $('#export-file').click();
     }
-})
+});
 
 $('#fileImport').on('change', function (e) {
     importWorkspace();
-})
+});
 
 $('#example').on('click', function () {
-    $('.overlay-popup3').fadeIn(200)
-    $('#example-module').fadeIn(200)
-})
+    $('.overlay-popup3').fadeIn(200);
+    $('#example-module').fadeIn(200);
+});
 
 $('.overlay-popup3').on('click', function () {
     $(this).fadeOut(200, function () {
-        $('#example-module').fadeOut(200)
-        $('#export-module').fadeOut(200)
+        $('#example-module').fadeOut(200);
+        $('#export-module').fadeOut(200);
     })
-})
+});
 
 $('#full-screen').on('click', function (e) {
     e.preventDefault();
@@ -109,10 +109,10 @@ $('#full-screen').on('click', function (e) {
 });
 
 $('.setting-menu').hover(function () {
-    $('.info-user').fadeOut(200)
+    $('.info-user').fadeOut(200);
 }, function () {
-    $('.info-user').fadeIn(200)
-})
+    $('.info-user').fadeIn(200);
+});
 
 $('#send-name').on('click', function () {
     var name = $('#user-name-input').val()
@@ -120,19 +120,25 @@ $('#send-name').on('click', function () {
         hideLoginScreen();
         socket.emit('login', name);
     }
-})
+});
 
 $('#user-name-input').keypress(function (event) {
     if (event.which == 13) {
         $('#send-name').click();
     }
-})
+});
 
 $('#turn-led').on('click', function(e){
     e.preventDefault();
-    $('#led-table').toggleClass('active-rotate')
-    $(this).toggleClass('active-rotate-button')
-})
+    $('#led-table').toggleClass('active-rotate');
+    $(this).toggleClass('active-rotate-button');
+});
+
+$(".example-item").on('click',function(){
+    loadExemple($(this).data('name'));
+    $("#example-module").fadeOut(200);
+    $('.overlay-popup3').fadeOut(200);
+});
 
 function hideLoginScreen(){
     $('.overlay-popup').css({
@@ -202,10 +208,10 @@ function createLedTable(nbRows, nbColumns) {
  */
 function toogleFullScreen() {
     if (!$('.led-content').hasClass('full-screen')) {
-        $('.led-content').wrap('<div class="overlay-popup2"></div>')
-        $('.led-content').addClass('full-screen')
+        $('.led-content').wrap('<div class="overlay-popup2"></div>');
+        $('.led-content').addClass('full-screen');
     } else {
-        $('.led-content').removeClass('full-screen')
+        $('.led-content').removeClass('full-screen');
         $('.overlay-popup2').contents().unwrap();
     }
 }
