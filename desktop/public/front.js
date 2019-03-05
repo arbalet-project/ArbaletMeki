@@ -27,10 +27,7 @@ socket.on('ungranted', function () {
     $('.live').replaceWith('<p class="connect-style">Connecté au poste</p>');
 });
 
-socket.on('disconnectUser', function () {
-    alert('Disconnect')
-    console.log('disconnect')
-});
+
 
 
 // Event keys for Blockly, stores the corresponding event in a sharedArray to be read by the worker (disabled for non-chrome browsers)
@@ -66,11 +63,6 @@ $('#stop').on('click', function (e) {
     e.preventDefault();
     stop();
 });
-
-$('#reload').on('click', function (e) {
-    e.preventDefault();
-    restart();
-})
 
 $('#import').on('click', function (e) {
     e.preventDefault();
@@ -124,14 +116,22 @@ $('.setting-menu').hover(function () {
 
 $('#send-name').on('click', function () {
     var name = $('#user-name-input').val()
-    hideLoginScreen();
-    socket.emit('login', name);
+    if(name != ""){
+        hideLoginScreen();
+        socket.emit('login', name);
+    }
 })
 
 $('#user-name-input').keypress(function (event) {
     if (event.which == 13) {
         $('#send-name').click();
     }
+})
+
+$('#turn-led').on('click', function(e){
+    e.preventDefault();
+    $('#led-table').toggleClass('active-rotate')
+    $(this).toggleClass('active-rotate-button')
 })
 
 function hideLoginScreen(){

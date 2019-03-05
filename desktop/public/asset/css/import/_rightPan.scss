@@ -82,6 +82,7 @@
     .led-header{
         display: flex;
         flex-flow: row nowrap;
+        justify-content: space-between;
         margin-top: 15px;
         margin-bottom: 25px;
         a{
@@ -89,21 +90,21 @@
             width: 16px;
             height: 16px;
             opacity: .7;
+            display: inline-block;
         }
         a#play{
             background-image: url('../images/icon/play_green.png');
             margin-right: 15px;
         }
         a#stop{
-            background-image: url('../images/icon/stop.png');
-            margin-right: 15px;
+            background-image: url('../images/icon/stop.png');  
         }
-        a#reload{
+        a#turn-led{
             background-image: url('../images/icon/reload.png');
+            margin-right: 15px;
         }
         a#full-screen{
             background-image: url('../images/icon/full-screen.png');
-            margin-left:auto;
         }
     }
 
@@ -130,6 +131,13 @@
       }
 }
 
+//Rotate Table Led
+.active-rotate{
+    transform: rotate(-90deg)
+}
+.active-rotate-button{
+    transform: rotate(90deg) scaleX(-1) !important;
+}
 
 // Menu Setting
 
@@ -170,15 +178,15 @@
     }
     &:after{
         content: '';
-        display:block;
+        display: block;
         background-color: transparent;
         position: absolute;
-        width: 58px;
-        height: 56px;
-        top: -34px;
-        right: 29px;
-        border-radius: 38px;
+        width: 66px;
+        height: 66px;
+        top: -31px;
+        right: 23px;
         cursor: pointer;
+        transform: rotate(45deg)
     }
 }
 

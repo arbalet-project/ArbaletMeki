@@ -25,7 +25,8 @@ h3,
 h4,
 h5,
 p,
-label {
+label,
+span {
   font-family: "Raleway", serif; }
 
 h1 {
@@ -115,18 +116,15 @@ p, h5, label {
       flex-wrap: nowrap;
       padding: 0 25px; }
       .left-content .list-content .list-result-header > *:first-child, .left-content .list-content .list-result > *:first-child {
-        width: 15%; }
-      .left-content .list-content .list-result-header > *:nth-child(2), .left-content .list-content .list-result > *:nth-child(2) {
-        width: 30%; }
-      .left-content .list-content .list-result-header > *:nth-child(3), .left-content .list-content .list-result > *:nth-child(3) {
-        width: 30%; }
+        width: 30%;
+        min-width: 160px; }
     .left-content .list-content .list-result-header > *:last-child, .left-content .list-content .list-result > *:last-child {
       margin-left: auto; }
     .left-content .list-content .list-result-header {
       color: #7A7B7D;
       margin-bottom: 15px; }
-      .left-content .list-content .list-result-header h5:first-child {
-        padding-left: 8px; }
+      .left-content .list-content .list-result-header h5:last-child {
+        padding-right: 15px; }
     .left-content .list-content .list-result {
       background-color: #252C34;
       color: #D5D4D3;
@@ -147,10 +145,10 @@ p, h5, label {
   .right-content .connexion-content {
     background-color: #252C34;
     padding: 30px;
-    height: 230px;
     display: flex;
-    justify-content: space-between;
     flex-flow: column nowrap; }
+    .right-content .connexion-content > div:not(:last-child) {
+      margin-bottom: 25px; }
     .right-content .connexion-content p {
       font-size: 12px;
       color: #D5D4D3; }
@@ -159,7 +157,8 @@ p, h5, label {
       font-size: 10px;
       margin-bottom: 10px; }
     .right-content .connexion-content .connect-style, .right-content .connexion-content .disconnect-style {
-      color: #2fc54f; }
+      color: #2fc54f;
+      display: none; }
       .right-content .connexion-content .connect-style:before, .right-content .connexion-content .disconnect-style:before {
         content: "";
         display: inline-block;
@@ -172,6 +171,55 @@ p, h5, label {
       color: #d13b3b; }
       .right-content .connexion-content .disconnect-style:before {
         background-color: #d13b3b; }
+    .right-content .connexion-content .button-connect {
+      background-color: #2fc54f;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 25px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600; }
+    .right-content .connexion-content .info-span {
+      font-style: italic;
+      font-size: 10px;
+      margin-bottom: 8px;
+      color: #7A7B7D;
+      display: block; }
+    .right-content .connexion-content .choice-pin {
+      display: none; }
+    .right-content .connexion-content .input-connection {
+      position: relative;
+      width: 69px;
+      margin-top: 6px;
+      border-bottom: 1px solid #7A7B7D; }
+      .right-content .connexion-content .input-connection input[type=number] {
+        background-color: transparent;
+        border: none;
+        padding: 9px 5px 7px 10px;
+        caret-color: #D5D4D3;
+        color: #D5D4D3;
+        font-family: 'Raleway', sans-serif;
+        font-weight: 600;
+        border-radius: 11px;
+        width: 40px; }
+        .right-content .connexion-content .input-connection input[type=number]::-webkit-inner-spin-button, .right-content .connexion-content .input-connection input[type=number]::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          margin: 0; }
+        .right-content .connexion-content .input-connection input[type=number]:focus {
+          outline: none; }
+      .right-content .connexion-content .input-connection button {
+        border: none;
+        background: none;
+        position: absolute;
+        right: 2px;
+        top: 6px;
+        cursor: pointer;
+        transition: .1s ease-in-out;
+        color: #D5D4D3;
+        padding: 6px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 10px; }
     .right-content .connexion-content .connect-mode {
       display: flex;
       flex-wrap: nowrap; }
@@ -204,16 +252,38 @@ p, h5, label {
         .right-content .connexion-content .connect-mode input:checked ~ label[for=usb]:before {
           background-image: url("../images/icon/connect-usb.png"); }
 
-.disconnect-link {
-  background-image: url("../images/icon/link-disconnect.png");
-  background-size: contain;
-  display: block;
-  width: 23px;
-  height: 23px;
-  transition: 0.2s ease-in-out; }
-  .disconnect-link:hover {
-    transform: scale(0.93); }
+.lds-ring {
+  display: none;
+  position: relative;
+  width: 40px;
+  height: 40px; }
 
+.lds-ring div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  margin: 6px;
+  border: 4px solid #fff;
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #fff transparent transparent transparent; }
+
+.lds-ring div:nth-child(1) {
+  animation-delay: -0.45s; }
+
+.lds-ring div:nth-child(2) {
+  animation-delay: -0.3s; }
+
+.lds-ring div:nth-child(3) {
+  animation-delay: -0.15s; }
+
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg); }
+  100% {
+    transform: rotate(360deg); } }
 .switch-button {
   display: flex;
   align-items: center; }

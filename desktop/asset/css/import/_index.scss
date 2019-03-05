@@ -84,21 +84,16 @@
             flex-wrap: nowrap;
             padding: 0 25px;
             & > *:first-child{
-                width: 15%;
-            }
-            & > *:nth-child(2) {
                 width: 30%;
-            }
-            & > *:nth-child(3) {
-                width: 30%;
+                min-width: 160px;
             }
         }
         & .list-result-header > *:last-child, & .list-result > *:last-child {margin-left: auto;}
         .list-result-header{
             color: $grey-text;
             margin-bottom: 15px;
-            h5:first-child{
-                padding-left: 8px;
+            h5:last-child{
+                padding-right: 15px;
             }
         }
         .list-result{
@@ -124,10 +119,11 @@
     .connexion-content{
         background-color: $color-background-3;
         padding: 30px;
-        height: 230px;
         display: flex;
-        justify-content: space-between;
         flex-flow: column nowrap;
+        & > div:not(:last-child){
+            margin-bottom: 25px;
+        }
         p{
             font-size: 12px;
             color: $white-text;
@@ -139,6 +135,7 @@
         }
         .connect-style{
             color: $green-succes;
+            display: none;
             &:before{
                 content:"";
                 display: inline-block;
@@ -156,6 +153,69 @@
             background-color: $red-error;
             }
         }
+
+        //Button Connect and Choice pin
+        .button-connect{
+            background-color: $green-succes;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            }
+        .info-span{
+            font-style: italic;
+            font-size: 10px;
+            margin-bottom: 8px;
+            color: $grey-text;
+            display: block;
+        }
+        .choice-pin{
+            display: none;
+        } 
+
+        .input-connection{
+            position: relative;
+            width: 69px;
+            margin-top: 6px;
+            border-bottom: 1px solid $grey-text;
+            input[type=number]{
+                background-color: transparent;
+                border: none;
+                padding: 9px 5px 7px 10px;
+                caret-color:$white-text;
+                color:$white-text;
+                font-family: 'Raleway', sans-serif;
+                font-weight: 600;
+                border-radius: 11px;
+                width: 40px;
+                &::-webkit-inner-spin-button, &::-webkit-outer-spin-button{
+                    -webkit-appearance: none;
+                    margin: 0;
+                  }
+                &:focus{
+                    outline: none;
+                }
+            }
+
+            button{
+                border: none;
+                background: none;
+                position: absolute;
+                right: 2px;
+                top: 6px;
+                cursor: pointer;
+                transition: .1s ease-in-out;
+                color: $white-text;
+                padding: 6px;
+                border-radius: 6px;
+                font-weight: 600;
+                font-size: 10px
+            }
+        }
+
+        // Mode de connexion WIFI / USB Style checkbox
         .connect-mode{
             display: flex;
             flex-wrap: nowrap;
@@ -198,18 +258,43 @@
     }
 }
 
-// Disconnect-link
-.disconnect-link{
-    background-image: url('../images/icon/link-disconnect.png');
-    background-size: contain;
+// Load spinner
+.lds-ring {
+    display: none;
+    position: relative;
+    width: 40px;
+    height: 40px;
+  }
+  .lds-ring div {
+    box-sizing: border-box;
     display: block;
-    width: 23px;
-    height: 23px;
-    transition: 0.2s ease-in-out;
-    &:hover{
-        transform: scale(0.93)
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    margin: 6px;
+    border: 4px solid #fff;
+    border-radius: 50%;
+    animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    border-color: #fff transparent transparent transparent;
+  }
+  .lds-ring div:nth-child(1) {
+    animation-delay: -0.45s;
+  }
+  .lds-ring div:nth-child(2) {
+    animation-delay: -0.3s;
+  }
+  .lds-ring div:nth-child(3) {
+    animation-delay: -0.15s;
+  }
+  @keyframes lds-ring {
+    0% {
+      transform: rotate(0deg);
     }
-}
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
 
 // Switch Button
 .switch-button{

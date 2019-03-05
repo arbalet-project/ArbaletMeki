@@ -16,10 +16,9 @@ ipcRenderer.on('addUser',function(event,arg){
     $('#nbConnected').text(nbConnect);
     $('#clientsList').append(`
         <div class="list-result">
-        <label class="switch-button"><input type="checkbox" id="${arg.id}" /><span></span></label>
         <p>${arg.login}</p>
         <p>${arg.ip}</p>
-        <a href="#" class="disconnect-link"></a>
+        <label class="switch-button"><input type="checkbox" id="${arg.id}" /><span></span></label>
         </div>
     `);
 
@@ -44,23 +43,28 @@ ipcRenderer.on('addUser',function(event,arg){
 });
 
 
-// Disconnect from Server
-$('.list-content').on('click', '.disconnect-link', function(){
-    var arg = $(this).siblings('label').children('input').attr('id') 
-    ipcRenderer.send('disconnectUser', arg);
-    $(this).parent().fadeOut(150, function(){
-        $(this).remove()
+// Connect To Arbalet Table Front Animation
+
+    //Show Choice Pin of Arbalet Table
+    $('.button-connect').on('click', function(){
+        $(this).fadeOut(200, function(){
+            $('.info-span').hide()
+            $('.choice-pin').fadeIn(200)
+        })
     })
-})
 
-// Disconnect from Client
-ipcRenderer.on('removeUser',function(event,arg){
-    var nbConnect = $('#nbConnected').text();
-    nbConnect--;
-    $('#nbConnected').text(nbConnect);
-    $('#' + arg).remove();
-})
-
+    //Verify if connection is a succes
+    $('.input-connection button').on('click', function(){
+        $('.choice-pin').fadeOut(200, function(){
+            // Loader Spinner
+            $('.lds-ring').fadeIn(200).delay(2000).fadeOut(200, function(){
+                // If connection is a success
+                $('.connect-style').fadeIn(200)
+                // Else "faire apparaitre le boutton se connecter avec un message d'erreur"
+                //$('.button-connect').fadeIn(200).before('<span class="info-span">Une erreur est survenue</span>')
+            })     
+        })
+    })
 
 
 

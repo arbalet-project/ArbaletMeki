@@ -78,14 +78,6 @@ function stop() {
 }
 
 /**
- * Stop the current running program and restart it
- */
-function restart() {
-    stop();
-    run();
-}
-
-/**
  * Save the current workspace on a downloadable file (.xml)
  * @param {String} name File name of the exported workspace
  */

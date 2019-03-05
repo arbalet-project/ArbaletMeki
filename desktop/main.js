@@ -179,10 +179,6 @@ function initEvents() {
     grantedUser = '';
   })
 
-  ipcMain.on('disconnectUser', function(event,arg){
-    clientsLogged.get(arg).socket.emit('disconnectUser');
-    clientsLogged.delete(arg);
-  })
 }
 
 /**
