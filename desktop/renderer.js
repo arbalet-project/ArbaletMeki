@@ -42,6 +42,19 @@ ipcRenderer.on('addUser',function(event,arg){
     })
 });
 
+ipcRenderer.on('boardReady',function(){
+    $('.lds-ring').fadeOut(200, function(){
+        // If connection is a success
+        $('.connect-style').fadeIn(200);
+    });   
+});
+
+ipcRenderer.on('boardFailed',function(){
+    $('.lds-ring').fadeOut(200, function(){
+        $('.button-connect').fadeIn(200).before('<span class="info-span">Connexion impossible. Veuillez vérifier vos branchements.</span>');
+    }); 
+});
+
 
 // Connect To Arbalet Table Front Animation
 
@@ -55,14 +68,10 @@ ipcRenderer.on('addUser',function(event,arg){
 
     //Verify if connection is a succes
     $('.input-connection button').on('click', function(){
+        ipcRenderer.send('connectBoard',$('#pinNB').val());
         $('.choice-pin').fadeOut(200, function(){
             // Loader Spinner
-            $('.lds-ring').fadeIn(200).delay(2000).fadeOut(200, function(){
-                // If connection is a success
-                $('.connect-style').fadeIn(200)
-                // Else "faire apparaitre le boutton se connecter avec un message d'erreur"
-                //$('.button-connect').fadeIn(200).before('<span class="info-span">Une erreur est survenue</span>')
-            })     
+            $('.lds-ring').fadeIn(200);     
         })
     })
 

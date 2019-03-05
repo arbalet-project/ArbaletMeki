@@ -14,7 +14,6 @@ const expressServer = express();
 const http = require('http').Server(expressServer);
 const port = 3000;
 const io = require('socket.io')(http);
-//require('electron-reload')(__dirname);
 
 let mainWindow;
 
@@ -34,7 +33,6 @@ app.on('ready', function () {
   initServer();
   initSocket();
   initEvents();
-  initBoard(8);
 });
 
 // Quit when all windows are closed.
@@ -149,12 +147,10 @@ function initSocket() {
         mainWindow.webContents.send('addUser', clientsLogged.get(socket.handshake.session.id));
       }
     });
+    
     socket.on('updateGrid',function(pixelsToUpdate){
       if(boardConnected && (grantedUser === clientsLogged.get(socket.handshake.session.id) )){
-        console.log('updateGrid received');
         pixelsToUpdate.forEach(function(currentPixel){
-          console.log(currentPixel);
-          console.log(coordToIndex(currentPixel));
           strip.pixel(coordToIndex(currentPixel)).color(currentPixel.color);
         });
         strip.show();
@@ -177,7 +173,11 @@ function initEvents() {
   ipcMain.on('ungrantUser', function(event,arg){
     clientsLogged.get(arg).socket.emit('ungranted');
     grantedUser = '';
-  })
+  });
+
+  ipcMain.on('connectBoard',function(event,pin){
+    initBoard(pin);
+  });
 
 }
 
@@ -185,16 +185,26 @@ function initEvents() {
  * Init the connection with Arduino (with firmata software) and the LED Strip
  */
 function initBoard(stripPin){
-  board = new five.Board();
-  board.on("ready", function() {
-    strip = new pixel.Strip({
-        board: this,
-        controller: "FIRMATA",
-        strips: [{pin: stripPin, length: 150}], // this is preferred form for definition
-        gamma: 2.8, // set to a gamma that works nicely for WS2812
+  try{
+    board = new five.Board({repl:false});
+    board.on("ready", function() {
+      strip = new pixel.Strip({
+          board: this,
+          controller: "FIRMATA",
+          strips: [{pin: stripPin, length: 150}]
+      });
+      boardConnected = true;
+      mainWindow.webContents.send('boardReady');
     });
-    boardConnected = true;
-  });
+    board.on("fail",function(){
+      mainWindow.webContents.send('boardFailed');
+    });
+  }
+  catch(e){
+    mainWindow.webContents.send('boardFailed'); 
+  }
+
+
 }
 
 
