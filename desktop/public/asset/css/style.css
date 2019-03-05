@@ -203,24 +203,25 @@ body {
   .right-pan .led-header {
     display: flex;
     flex-flow: row nowrap;
+    justify-content: space-between;
     margin-top: 15px;
     margin-bottom: 25px; }
     .right-pan .led-header a {
       background-size: contain;
       width: 16px;
       height: 16px;
-      opacity: .7; }
+      opacity: .7;
+      display: inline-block; }
     .right-pan .led-header a#play {
       background-image: url("../images/icon/play_green.png");
       margin-right: 15px; }
     .right-pan .led-header a#stop {
-      background-image: url("../images/icon/stop.png");
+      background-image: url("../images/icon/stop.png"); }
+    .right-pan .led-header a#turn-led {
+      background-image: url("../images/icon/reload.png");
       margin-right: 15px; }
-    .right-pan .led-header a#reload {
-      background-image: url("../images/icon/reload.png"); }
     .right-pan .led-header a#full-screen {
-      background-image: url("../images/icon/full-screen.png");
-      margin-left: auto; }
+      background-image: url("../images/icon/full-screen.png"); }
   .right-pan table#led-table {
     width: 90%;
     margin: auto; }
@@ -238,6 +239,12 @@ body {
     left: 0;
     right: 0;
     background: black; }
+
+.active-rotate {
+  transform: rotate(-90deg); }
+
+.active-rotate-button {
+  transform: rotate(90deg) scaleX(-1) !important; }
 
 .setting-menu {
   visibility: hidden;
@@ -276,12 +283,12 @@ body {
     display: block;
     background-color: transparent;
     position: absolute;
-    width: 58px;
-    height: 56px;
-    top: -34px;
-    right: 29px;
-    border-radius: 38px;
-    cursor: pointer; }
+    width: 66px;
+    height: 66px;
+    top: -31px;
+    right: 23px;
+    cursor: pointer;
+    transform: rotate(45deg); }
 
 #setting:hover ~ .setting-menu, .setting-menu:hover {
   visibility: visible;

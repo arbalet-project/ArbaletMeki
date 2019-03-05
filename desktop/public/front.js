@@ -64,11 +64,6 @@ $('#stop').on('click', function (e) {
     stop();
 });
 
-$('#reload').on('click', function (e) {
-    e.preventDefault();
-    restart();
-})
-
 $('#import').on('click', function (e) {
     e.preventDefault();
     $('#fileImport').click();
@@ -129,6 +124,12 @@ $('#user-name-input').keypress(function (event) {
     if (event.which == 13) {
         $('#send-name').click();
     }
+})
+
+$('#turn-led').on('click', function(e){
+    e.preventDefault();
+    $('#led-table').toggleClass('active-rotate')
+    $(this).toggleClass('active-rotate-button')
 })
 
 function hideLoginScreen(){
