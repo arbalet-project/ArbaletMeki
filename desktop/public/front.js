@@ -108,10 +108,22 @@ $('#file').on('click',function(){
     mainBlock.moveBy(300,30);
 });
 
+$('#challenges').on('click', function () {
+    $('.overlay-popup3').fadeIn(200)
+    $('#challenges-module').fadeIn(200)
+})
+
+$('#informations').on('click', function () {
+    $('.overlay-popup3').fadeIn(200)
+    $('#informations-module').fadeIn(200)
+})
+
 $('.overlay-popup3').on('click', function () {
     $(this).fadeOut(200, function () {
-        $('#example-module').fadeOut(200);
-        $('#export-module').fadeOut(200);
+        $('#example-module').fadeOut(200)
+        $('#export-module').fadeOut(200)
+        $('#informations-module').fadeOut(200)
+        $('#challenges-module').fadeOut(200)
     })
 });
 

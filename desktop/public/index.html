@@ -23,6 +23,9 @@
                 </div>
                 <div id="blocklyDiv" style="height: 100%; width: 100%;">
                 </div>
+                <div class="autor" id="informations">
+                  <a></a>
+                </div>
             </div>
 
             <xml xmlns="http://www.w3.org/1999/xhtml" id="toolbox" style="display: none;">
@@ -308,12 +311,12 @@
             <div class="right-pan">
                 <div>
                     <div class="head-menu">
-                        <a href="#file" id="file" title="Nouveau"></a>
-                        <a href="#setting" id="setting"></a>
+                        <a id="file" title="Nouveau"></a>
+                        <a id="setting"></a>
                         <div class="setting-menu">
-                          <a href="#" id="import">Importer</a>
-                          <a href="#" id="export">Exporter</a>
-                          <a href="#" id="example">Exemples</a>
+                          <a id="import">Importer</a>
+                          <a id="export">Exporter</a>
+                          <a id="example">Exemples</a>
                         </div>
                     </div>
                     <div class="info-user">
@@ -334,12 +337,12 @@
                 <div class="led-content">
                     <div class="led-header">
                         <div>
-                            <a href="" id="play" title="Play"></a>
-                            <a href="" id="stop" title="Stop"></a>
+                            <a id="play" title="Play"></a>
+                            <a id="stop" title="Stop"></a>
                         </div>
                         <div>
-                            <a href="" id="turn-led" title="Rotation" class="active-rotate-button"></a>
-                            <a href="" id="full-screen" title="Plein Écran"></a>  
+                            <a id="turn-led" title="Rotation" class="active-rotate-button"></a>
+                            <a id="full-screen" title="Plein Écran"></a>  
                         </div>
                     </div>
                     <table id="led-table" border="0" cellspacing="0" cellpadding="0">
@@ -366,7 +369,7 @@
                   <button type="submit" id="send-name"></button>
               </div>
           </div>
-      </div>
+      </div> 
       <!-- End Start module -->
 
       <!-- Modules Background -->
@@ -391,11 +394,11 @@
                     </a>
                     <a data-name="randomFill.xml" class="example-item">
                         <p>Remplissage aléatoire</p>
-                        <div class="example-difficulty middle"></div>
+                        <div class="example-difficulty easy"></div>
                       </a>
                     <a data-name="scrollingText.xml" class="example-item">
                         <p>Texte défilant</p>
-                        <div class="example-difficulty hard"></div>
+                        <div class="example-difficulty middle"></div>
                     </a>
                     <a data-name="drawByKey.xml" class="example-item">
                         <p>Dessin par touches</p>
@@ -411,22 +414,71 @@
       <!-- End Example module-->
 
       <!-- Export module -->
-          <div class="window-popup" id="export-module">
-              <div class="head-popup">
-                  <img src="asset/images/icon.png" alt="">
-                  <h1>Exporter votre projet</h1>
-              </div>
-              <div class="content">
-                <p>Entrez le nom de votre projet</p>
-                <div class="input-window">
-                    <input type="text" id="export-input" value="monProjetArbalet">
-                    <button type="submit" id="export-file"></button>
-                </div>
-              </div>
+      <div class="window-popup" id="export-module">
+          <div class="head-popup">
+              <img src="asset/images/icon.png" alt="">
+              <h1>Exporter votre projet</h1>
           </div>
-        
+          <div class="content">
+            <p>Entrez le nom de votre projet</p>
+            <div class="input-window">
+                <input type="text" id="export-input" value="myApplication.xml">
+                <button type="submit" id="export-file"></button>
+            </div>
+          </div>
+      </div>
       <!-- End Export module -->
 
+      <!-- Information module-->
+      <div class="window-popup" id="informations-module">
+          <div class="head-popup">
+              <img src="asset/images/icon.png" alt="">
+              <h1>Informations</h1>
+          </div>
+          <div class="info-content">
+            <p>Arbalet Meki Live est un projet open source développé par les étudiants de la <a href="https://www.iut.u-bordeaux.fr/info/">licence DAWIN</a> de l'IUT informatique de Bordeaux (33). Ce projet fait partie de l'ensemble du <a href="http://www.arbalet-project.org"> projet Arbalet</a></p><br>  
+            <p>L'accès aux sources et aux informations sont disponibles sur le dépot suivant: <a href="https://github.com/arbalet-project/ArbaletMeki">https://github.com/arbalet-project/ArbaletMeki</a></p><br> 
+            <p>Les étudiants ayant participé à la création de cette application sont :</p>
+            <div class="info-autor">
+              <div>
+                <p>Lucas Demarais</p>
+                <div>
+                  <a target="_blank" href="https://github.com/lucdems"></a>
+                  <a target="_blank" href="https://www.linkedin.com/in/lucas-demarais/"></a>
+                </div>
+              </div>
+              <div>
+                <p>William Jacob</p>
+                <div>
+                    <a target="_blank" href="https://github.com/william4456"></a>
+                    <a target="_blank" href="https://www.linkedin.com/in/williamjacobnantes/"></a>
+                </div>
+              </div>
+              <div>
+              <p>Nicolas Diot</p>
+                <div>
+                  <a target="_blank" href="https://github.com/Spooky65"></a>
+                  <a target="_blank" href="https://www.linkedin.com/in/nicolas-diot/"></a>
+                </div>
+              </div>
+              <div>
+                <p>Léo-Paul Dubourg</p>
+                <div>
+                  <a target="_blank" href="https://github.com/LeoPaulD"></a>
+                  <a target="_blank" href="https://www.linkedin.com/in/l%C3%A9o-paul-dubourg/"></a>
+                </div>
+              </div>
+              <div>
+                <p>Simon Paillassa</p>
+                <div>
+                  <a target="_blank" href="https://github.com/SimonPail"></a>
+                  <a target="_blank" href="https://www.linkedin.com/in/simon-paillassa"></a>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+      <!-- End Information module-->
     <!-- End Modules -->
 
     <script src="blockly/blockly_compressed.js"></script>

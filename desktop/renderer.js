@@ -61,7 +61,7 @@ ipcRenderer.on('boardFailed',function(){
     //Show Choice Pin of Arbalet Table
     $('.button-connect').on('click', function(){
         $(this).fadeOut(200, function(){
-            $('.info-span').hide()
+            $('#error-message').hide()
             $('.choice-pin').fadeIn(200)
         })
     })
@@ -75,6 +75,19 @@ ipcRenderer.on('boardFailed',function(){
         })
     })
 
+
+// Show information module
+
+$('#informations').on('click', function () {
+    $('.overlay-popup').fadeIn(200)
+    $('#informations-module').fadeIn(200)
+})
+
+$('.overlay-popup').on('click', function () {
+    $(this).fadeOut(200, function () {
+        $('#informations-module').fadeOut(200)
+    })
+})
 
 
 

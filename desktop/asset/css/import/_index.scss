@@ -16,13 +16,32 @@
     display: flex;
     align-items: center;
     flex-direction: column;
+    justify-content: space-between;
     width: 90px;
     background-color: $color-background-2;
     padding: 40px 0;
     .logo{
         width: 36px ; height: 36px;;
     }
-
+    .info-link{
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        justify-content: space-between;
+        width: 23px;
+        height: 20px;
+        transition: .2s ease-in-out;
+        cursor: pointer;
+        &:hover{
+            transform: scale(.96)
+        }
+        div{
+            width: 5px;
+            height: 5px;
+            border-radius: 29px;
+            background-color: $grey-text;
+        }
+    }
 }
 
 // Container
