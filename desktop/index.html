@@ -93,43 +93,43 @@
             <h1>Informations</h1>
         </div>
         <div class="info-content">
-          <p>Arbalet Meki Live est un projet open source développé par les étudiants de la <a href="https://www.iut.u-bordeaux.fr/info/">licence DAWIN</a> de l'IUT informatique de Bordeaux (33). Ce projet fait partie de l'ensemble du <a href="www.arbalet-project.org"> projet Arbalet</a></p><br>  
-          <p>L'accès aux sources et aux informations sont disponibles sur le dépot suivant: <a href="https://github.com/arbalet-project/ArbaletMeki">https://github.com/arbalet-project/ArbaletMeki</a></p><br> 
+          <p>Arbalet Meki Live est un projet open source développé par les étudiants de la <a class="external-link" href="https://www.iut.u-bordeaux.fr/info/">licence DAWIN</a> de l'IUT informatique de Bordeaux (33). Ce projet fait partie de l'ensemble du <a class="external-link" href="http://www.arbalet-project.org"> projet Arbalet</a></p><br>  
+          <p>L'accès aux sources et aux informations sont disponibles sur le dépot suivant: <a class="external-link" href="https://github.com/arbalet-project/ArbaletMeki">https://github.com/arbalet-project/ArbaletMeki</a></p><br> 
           <p>Les étudiants ayant participé à la création de cette application sont :</p>
           <div class="info-autor">
             <div>
               <p>Lucas Demarais</p>
               <div>
-                <a target="_blank" href="https://github.com/lucdems"></a>
-                <a target="_blank" href="https://www.linkedin.com/in/lucas-demarais/"></a>
+                <a class="external-link" href="https://github.com/lucdems"></a>
+                <a class="external-link" href="https://www.linkedin.com/in/lucas-demarais/"></a>
               </div>
             </div>
             <div>
               <p>William Jacob</p>
               <div>
-                  <a target="_blank" href="https://github.com/william4456"></a>
-                  <a target="_blank" href="https://www.linkedin.com/in/williamjacobnantes/"></a>
+                  <a class="external-link" href="https://github.com/william4456"></a>
+                  <a class="external-link" href="https://www.linkedin.com/in/williamjacobnantes/"></a>
               </div>
             </div>
             <div>
             <p>Nicolas Diot</p>
               <div>
-                <a target="_blank" href="https://github.com/Spooky65"></a>
-                <a target="_blank" href="https://www.linkedin.com/in/nicolas-diot/"></a>
+                <a class="external-link" href="https://github.com/Spooky65"></a>
+                <a class="external-link" href="https://www.linkedin.com/in/nicolas-diot/"></a>
               </div>
             </div>
             <div>
               <p>Léo-Paul Dubourg</p>
               <div>
-                <a target="_blank" href="https://github.com/LeoPaulD"></a>
-                <a target="_blank" href="https://www.linkedin.com/in/l%C3%A9o-paul-dubourg/"></a>
+                <a class="external-link" href="https://github.com/LeoPaulD"></a>
+                <a class="external-link" href="https://www.linkedin.com/in/l%C3%A9o-paul-dubourg/"></a>
               </div>
             </div>
             <div>
               <p>Simon Paillassa</p>
               <div>
-                <a target="_blank" href="https://github.com/SimonPail"></a>
-                <a target="_blank" href="https://www.linkedin.com/in/simon-paillassa"></a>
+                <a class="external-link" href="https://github.com/SimonPail"></a>
+                <a class="external-link" href="https://www.linkedin.com/in/simon-paillassa"></a>
               </div>
             </div>
           </div>
@@ -140,7 +140,13 @@
     <script>
       // You can also require other files to run in this process
       window.$ = window.jQuery = require('jquery');
-      require('./renderer.js')
+      require('./renderer.js');
+      $('body').on('click', '.external-link', (event) => {
+        event.preventDefault();
+        let link = event.target.href;
+        require("electron").shell.openExternal(link);
+      });
+
     </script>
   </body>
 </html>
