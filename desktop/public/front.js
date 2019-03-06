@@ -11,8 +11,8 @@ initWorkspace();
 // Management of the received messages on websockets
 
 socket.on('logged',(user) => {
-    $('#user-name').append(user.name);
-    $('#user-ip').append(user.ip);
+    $('#user-name').text(user.name);
+    $('#user-ip').text(user.ip);
     //hideLoginScreen();
     $('.overlay-popup').hide();
 });
