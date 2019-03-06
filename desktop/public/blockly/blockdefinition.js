@@ -213,6 +213,10 @@ Blockly.defineBlocksWithJsonArray([{
           [
             "←",
             "left"
+          ],
+          [
+            "espace",
+            "space"
           ]
         ]
       },

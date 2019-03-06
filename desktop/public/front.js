@@ -33,6 +33,7 @@ socket.on('ungranted', function () {
 // Event keys for Blockly, stores the corresponding event in a sharedArray to be read by the worker (disabled for non-chrome browsers)
 if(isChrome()){
     $(document).on('keydown', function (e) {
+        console.log(e.which);
         if (isRunning) {
             switch (e.which) {
                 case 38: // UP
@@ -46,6 +47,9 @@ if(isChrome()){
                     break;
                 case 37: // LEFT
                     Atomics.store(sharedArray, 0, 4);
+                    break;
+                case 32: // SPACE
+                    Atomics.store(sharedArray, 0, 5);
                     break;
             }
         }

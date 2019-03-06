@@ -161,6 +161,10 @@ function catchEvent() {
                 break;
             case 4:
                 eval(scripts["left"]);
+                break;
+            case 5:
+                eval(scripts["space"]);
+                break;
         }
     }
 }
