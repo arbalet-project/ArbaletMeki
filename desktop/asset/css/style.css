@@ -67,12 +67,29 @@ p, h5, label {
   display: flex;
   align-items: center;
   flex-direction: column;
+  justify-content: space-between;
   width: 90px;
   background-color: #1B2024;
   padding: 40px 0; }
   .toolbar .logo {
     width: 36px;
     height: 36px; }
+  .toolbar .info-link {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    width: 23px;
+    height: 20px;
+    transition: .2s ease-in-out;
+    cursor: pointer; }
+    .toolbar .info-link:hover {
+      transform: scale(0.96); }
+    .toolbar .info-link div {
+      width: 5px;
+      height: 5px;
+      border-radius: 29px;
+      background-color: #7A7B7D; }
 
 .container {
   background-color: #20262C;
@@ -317,5 +334,79 @@ p, h5, label {
     transform: translateX(-100%); }
   .switch-button span:active:after {
     width: 35px; }
+
+.overlay-popup {
+  position: fixed;
+  display: none;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(27, 32, 36, 0.6);
+  z-index: 1000;
+  cursor: pointer; }
+
+.window-popup {
+  display: flex;
+  flex-direction: column;
+  z-index: 20000;
+  width: 500px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  padding: 60px;
+  transform: translate(-50%, -50%);
+  background-color: #20262C;
+  -webkit-box-shadow: 0px 6px 30px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 6px 30px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 6px 30px rgba(0, 0, 0, 0.3);
+  border-radius: 10px; }
+
+.head-popup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px; }
+  .head-popup h1 {
+    color: #D5D4D3; }
+  .head-popup img {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px; }
+
+.info-content {
+  color: #7A7B7D;
+  line-height: 16px;
+  text-align: justify; }
+  .info-content a {
+    color: #D5D4D3;
+    text-decoration: none; }
+    .info-content a:hover {
+      opacity: .9; }
+  .info-content .info-autor {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px; }
+    .info-content .info-autor > div {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px; }
+      .info-content .info-autor > div > div {
+        display: flex;
+        justify-content: space-between; }
+        .info-content .info-autor > div > div a {
+          width: 15px;
+          height: 15px;
+          display: block;
+          background-size: cover;
+          margin-left: 5px;
+          opacity: .7; }
+          .info-content .info-autor > div > div a:first-child {
+            background-image: url("../images/icon/github.png"); }
+          .info-content .info-autor > div > div a:last-child {
+            background-image: url("../images/icon/linkedin.png"); }
+
+#informations-module {
+  display: none; }
 
 /*# sourceMappingURL=style.css.map */

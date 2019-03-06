@@ -33,7 +33,6 @@
     flex-direction: column;
     z-index: 20000;
     width: 500px;
-    height: 400px;
     position: absolute;
     top: 50%; left: 50%;
     padding: 60px;
@@ -51,7 +50,7 @@
     justify-content:center;
     margin-bottom: 30px;
     h1{color: $white-text;}
-    img{width: 20px; height: 20px; margin-right: 5px;}
+    img{width: 20px; height: 20px; margin-right: 10px;}
 }
 
 // Popup Input Style
@@ -98,9 +97,10 @@
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
+    height: 400px;
     img{
-        width: 65px;
-        height: 65px;
+        width: 55px;
+        height: 55px;
         margin-bottom: 40px;
     }
     h1{
@@ -110,7 +110,7 @@
 }
 
 //Example Module Style
-.window-popup#example-module{
+.window-popup#example-module , .window-popup#challenges-module{
     display: none;
     .head-example, .list-example > a{
         display: flex;
@@ -135,7 +135,7 @@
             background-color: $red-error
         }
         &.middle{
-            background-color: orangered
+            background-color: #FF6C00;
         }
         &.easy{
             background-color: $green-succes
@@ -180,4 +180,50 @@
 }
 .full-screen .led-header a#full-screen{
     background-image: url('../images/icon/close.png')
+}
+
+
+//Informations Module Style
+#informations-module{
+    display: none;
+    .info-content{
+        color: $grey-text;
+        line-height: 16px;
+        text-align: justify;
+        a{
+            color: $white-text;
+            text-decoration: none;
+            &:hover{
+                opacity: .9;
+            }
+        }
+        .info-autor{
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;
+            &>div{
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 10px;
+                &>div{
+                    display: flex;
+                    justify-content: space-between;  
+                    a{
+                        width: 15px;
+                        height: 15px;
+                        display: block;
+                        background-size: cover;
+                        margin-left: 5px;
+                        opacity: .7;
+                        &:first-child{
+                            background-image: url('../images/icon/github.png')
+                        }
+                        &:last-child{
+                            background-image: url('../images/icon/linkedin.png')
+                        }  
+                        }
+                    }
+                }
+            }
+        }
 }

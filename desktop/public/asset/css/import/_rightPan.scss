@@ -102,6 +102,7 @@
         a#turn-led{
             background-image: url('../images/icon/reload.png');
             margin-right: 15px;
+            transform: scaleX(-1);
         }
         a#full-screen{
             background-image: url('../images/icon/full-screen.png');
@@ -136,7 +137,7 @@
     transform: rotate(-90deg)
 }
 .active-rotate-button{
-    transform: rotate(90deg) scaleX(-1) !important;
+    transform: rotate(-90deg) !important;
 }
 
 // Menu Setting

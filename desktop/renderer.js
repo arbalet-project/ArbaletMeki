@@ -48,7 +48,7 @@ ipcRenderer.on('addUser',function(event,arg){
     //Show Choice Pin of Arbalet Table
     $('.button-connect').on('click', function(){
         $(this).fadeOut(200, function(){
-            $('.info-span').hide()
+            $('#error-message').hide()
             $('.choice-pin').fadeIn(200)
         })
     })
@@ -59,13 +59,26 @@ ipcRenderer.on('addUser',function(event,arg){
             // Loader Spinner
             $('.lds-ring').fadeIn(200).delay(2000).fadeOut(200, function(){
                 // If connection is a success
-                $('.connect-style').fadeIn(200)
+                //$('.connect-style').fadeIn(200)
                 // Else "faire apparaitre le boutton se connecter avec un message d'erreur"
-                //$('.button-connect').fadeIn(200).before('<span class="info-span">Une erreur est survenue</span>')
+                $('.button-connect').fadeIn(200).before('<span class="info-span" id="error-message">Une erreur est survenue</span>')
             })     
         })
     })
 
+
+// Show information module
+
+$('#informations').on('click', function () {
+    $('.overlay-popup').fadeIn(200)
+    $('#informations-module').fadeIn(200)
+})
+
+$('.overlay-popup').on('click', function () {
+    $(this).fadeOut(200, function () {
+        $('#informations-module').fadeOut(200)
+    })
+})
 
 
 

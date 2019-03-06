@@ -93,4 +93,18 @@
         transition: .1s ease-in-out
     }
 
+    .autor{
+        position: absolute;
+        bottom: 35px;
+        left: 23px;
+        z-index: 1000;
+        a{
+            background-image: url('../images/icon/info.png');
+            width: 25px;
+            height: 25px;
+            background-size: cover;
+            display: block;
+            opacity: .7;
+        }
+    }
 }
