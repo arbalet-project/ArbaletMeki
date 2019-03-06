@@ -1,6 +1,6 @@
 {
   "name": "arbalet_meki_live",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Desktop Application for Arbalet Meki Live",
   "main": "main.js",
   "homepage": "http://www.arbalet-project.org/",
@@ -18,6 +18,35 @@
     "Art"
   ],
   "author": "Lucas Demarais <lucdems@gmail.com>",
+  "contributors": [
+    {
+      "name": "Simon Paillassa",
+      "email": "simon.paillassa@gmail.com",
+      "url": "https://github.com/SimonPail"
+    },
+    {
+      "name": "William Jacob",
+      "email": "william4456@gmail.com",
+      "url": "https://www.linkedin.com/in/williamjacobnantes/"
+    },
+    {
+      "name": "Nicolas Diot",
+      "email": "nicolasdiot65@gmail.com",
+      "url": "https://github.com/Spooky65"
+    },
+    {
+      "name": "Léo-Paul Dubourg",
+      "email": "leopauldubourg@gmail.com",
+      "url": "https://github.com/LeoPaulD"
+    },
+    {
+      "name": "Lucas Demarais",
+      "email": "lucdems@gmail.com",
+      "url": "https://github.com/lucdems"
+    }
+    
+
+  ],
   "devDependencies": {
     "electron": "^4.0.3",
     "electron-builder": "^20.38.5",
@@ -64,7 +93,7 @@
       ]
     },
     "win": {
-      "target": "squirrel",
+      "target": "portable",
       "icon": "build/icon.ico"
     }
   }
