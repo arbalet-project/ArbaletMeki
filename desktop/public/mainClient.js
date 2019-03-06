@@ -115,6 +115,7 @@ function loadExemple(fileName){
         processData: false
     }).done(data => {
         Blockly.Xml.clearWorkspaceAndLoadFromXml(data.firstChild,workspace);
+        stop();
     });
 }
 
