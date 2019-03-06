@@ -22,7 +22,7 @@ let sharedArray;
  */
 function run() {
     if (!isRunning) {
-        updateTimer = setInterval(updateArbalet, 500);
+        updateTimer = setInterval(updateArbalet, 100);
         blocklyWorker = new Worker('/blocklyWorker.js');
 
         blocklyWorker.postMessage({

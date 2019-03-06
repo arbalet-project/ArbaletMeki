@@ -109,7 +109,13 @@ function setAllPixels(color) {
  * @returns {String} 
  */
 function getPixelColor(row, column) {
-    return gridState[row][column];
+    if(row < 0 || column < 0 || row >= nbRows || column >= nbColumns){
+        return '#000000';
+    }
+    else{
+        return gridState[row][column];
+    }
+
 }
 
 /**
