@@ -6,45 +6,32 @@
   <br>
 </h1>
 
+<div align="center">
+
+[![twitter](https://img.shields.io/twitter/follow/arbalet_project.svg?style=social)](https://twitter.com/arbalet_project)
+</div>
+
 <h4 align="center">Documentation utilisateur</h4>
 
 <p align="center">
-  <a href="https://gitter.im/amitmerchant1990/electron-markdownify"><img src="https://badges.gitter.im/amitmerchant1990/electron-markdownify.svg"></a>
-  <a href="https://saythanks.io/to/amitmerchant1990">
-      <img src="https://img.shields.io/badge/SayThanks.io-%E2%98%BC-1EAEDB.svg">
-  </a>
-  <a href="https://www.paypal.me/AmitMerchant">
-    <img src="https://img.shields.io/badge/$-donate-ff69b4.svg?maxAge=2592000&amp;style=flat">
-  </a>
-</p>
-
-<p align="center">
   <a href="#présentation">Présentation</a> •
-  <a href="#how-to-use">How To Use</a> •
-  <a href="#download">Download</a> •
+  <a href="#installation">Installation</a> •
+  <a href="#utilisation">Utilisation</a> •
   <a href="#credits">Credits</a> •
-  <a href="#related">Related</a> •
   <a href="#support">Support</a>
 </p>
 
 <div align="center" >
+
 ![screenshot](arbalet.png)
+
 </div>
 
 # Présentation 
 
 Cette documentation s'adresse aux professeurs d'écoles souhaitant mettre en place l'application Arbalet Meki Live.
 
-Le point d'entrée vers la doc utilisateur en markdown :
-Indiquez les différentes étapes pour démontrer chaque fonctionnalité de votre projet à l'utilisateur
-
-Soyez brefs mais clairs : évitez les longs textes, les listes à puces sont idéales
-
-Ne détaillez pas excessivement : votre doc doit illustrer vos fonctionnalités, pas comment ouvrir le menu Windows
-
----
-
-# Installation Arbalet Meki Live
+# Installation 
 
 ## Windows
 - Téléchargez le fichier .exe
@@ -99,59 +86,19 @@ L'icone a droite permet de créer un nouveau projet, l'icone de gauche permet :
 - Exporter le projet 
 - Accéder aux exemples de programmes
 
+### Compilation du code 
+Play / Stop / Rotate
+
+
 ### Aperçu du code
 ![Alt Text](blockly.gif) 
 
+# Support
 
+- <img src="site.png" style="vertical-align:middle" width ="20px"> Website at [`arbaletproject.org`](http://www.arbalet-project.org/)
 
-## Support
+- <img src="twitter.svg" style="vertical-align:middle"  width ="22px">Twitter at [`@arbalet_project`](https://twitter.com/arbalet_project)
 
-<img src="site.png" width ="20px"> Website at <a href="http://www.arbalet-project.org/" target="_blank">`arbaletproject.org`</a>
-
-<img src="twitter.svg" width ="20px">Twitter at <a href="https://twitter.com/arbalet_project" target="_blank">`@arbalet_project`</a>
-
-- Linkedin at <a href="https://www.linkedin.com/company/arbalet/" target="_blank">`arbalet`</a>
-
-- Blog at <a href="http://talk.arbalet-project.org/" target="_blank">`arbalet-blog`</a>
-
----
-
-
-## Contributing
-### Step 1
-
-- **Option 1**
-    - 🍴 Fork this repo!
-
-- **Option 2**
-    - 👯 Clone this repo to your local machine using `https://github.com/joanaz/HireDot2.git`
-
-### Step 2
-
-- **HACK AWAY!** 🔨🔨🔨
-
-### Step 3
-
-- 🔃 Create a new pull request using <a href="https://github.com/joanaz/HireDot2/compare/" target="_blank">`https://github.com/joanaz/HireDot2/compare/`</a>.
-
-
-# Repository Title Goes Here
-
-> Subtitle or Short Description Goes Here
-
-> ideally one sentence
-
-> include terms/tags that can be searched
-
-> GIF Tools
-
-- For terminal sessions, there's <a href="https://github.com/chjj/ttystudio" target="_blank">**ttystudio**</a> which also supports exporting `GIF`s.
-
----
----
-
-## FAQ
-
-- **How do I do *specifically* so and so?**
-    - No problem! Just do this.
+- <img src="linkedin.svg" style="vertical-align:middle" width ="20px"> Linkedin at [`arbalet`](https://www.linkedin.com/company/arbalet/)
+- <img src="blog.png" style="vertical-align:middle" width ="20px"> Blog at [`arbalet-blog`](http://talk.arbalet-project.org/)
 ---
