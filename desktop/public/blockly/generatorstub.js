@@ -113,3 +113,13 @@ Blockly.JavaScript['colour_blend'] = function(block) {
   var code = `colourBlend(${c1},${c2},${ratio})`;
   return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
 };
+
+Blockly.JavaScript['math_random_int'] = function(block) {
+  // Random integer between [X] and [Y].
+  var argument0 = Blockly.JavaScript.valueToCode(block, 'FROM',
+      Blockly.JavaScript.ORDER_COMMA) || '0';
+  var argument1 = Blockly.JavaScript.valueToCode(block, 'TO',
+      Blockly.JavaScript.ORDER_COMMA) || '0';
+  var code = `mathRandomInt(${argument0},${argument1})`;
+  return [code, Blockly.JavaScript.ORDER_FUNCTION_CALL];
+};

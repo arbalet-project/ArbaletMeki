@@ -219,7 +219,7 @@ function colourRgb(red, green, blue) {
  * @param {Number} c1 The first color to blend
  * @param {Number} c2 The second color to blend
  * @param {Number} ratio The ratio of "blending" of the two colors
- * @returns {String}
+ * @returns {String} The generated colour
  */
 function colourBlend(c1, c2, ratio) {
     ratio = Math.max(Math.min(Number(ratio), 1), 0);
@@ -237,3 +237,20 @@ function colourBlend(c1, c2, ratio) {
     b = ('0' + (b || 0).toString(16)).slice(-2);
     return '#' + r + g + b;
 }
+
+/**
+ * Generate a random integer between a and b
+ * This function is natively in Blockly but needs to be redefined in that use
+ * @param {Number} a 
+ * @param {Number} b
+ * @returns {String} The generated number
+ */
+function mathRandomInt(a, b) {
+    if (a > b) {
+      // Swap a and b to ensure a is smaller.
+      var c = a;
+      a = b;
+      b = c;
+    }
+    return Math.floor(Math.random() * (b - a + 1) + a);
+  }
