@@ -7,6 +7,7 @@ import { BluetoothSerial } from '@ionic-native/bluetooth-serial';
 import * as $ from 'jquery';
 import { Subscription, Observable } from 'rxjs/Rx';
 import { Insomnia } from '@ionic-native/insomnia';
+import { InfosPage } from '../infos/infos';
 
 @Component({
   selector: 'page-home',
@@ -234,6 +235,10 @@ export class HomePage {
 
   showAbout() {
     this.navCtrl.push(AboutPage);
+  }
+
+  showInfos() {
+    this.navCtrl.push(InfosPage);
   }
 
   freeBluetooth() {

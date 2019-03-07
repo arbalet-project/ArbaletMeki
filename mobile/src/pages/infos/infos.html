@@ -1,0 +1,47 @@
+<!--
+  Generated template for the InfosPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>
+      <p>Informations</p>
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding class="bg">
+  <ion-grid>
+    <ion-row *ngFor="let item of datas">
+      <ion-col text-center>
+        <ion-card>
+          <ion-card-content>
+            <h2>{{item.name}}</h2>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col col-4>
+        <ion-card>
+          <ion-card-content>
+            <ion-input text-center type="number" value="{{item.data}}" class="text-input"></ion-input>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col col-3 *ngFor="let item of arrayImg" >
+        <img src="{{item.src}}">
+            <ion-checkbox slot="end" checked="{{item.isChecked}}"></ion-checkbox>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div text-center>
+    <button ion-button color="light">Valider</button>
+  </div>
+</ion-content>
+<!-- branchement des leds checked="{{item.isChecked}}"-->

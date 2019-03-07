@@ -1,4 +1,4 @@
-page-about {
+page-infos {
     ion-card.card {
         box-shadow: none;
         background: rgba(0,0,0,0.5);
@@ -27,5 +27,13 @@ page-about {
             color : #fff;
         }
     }
-   
+    input, select, textarea{
+        color: #fff;
+    }
+    textarea:focus, input:focus {
+        color: #fff;
+    }
+
+    img {
+    }
 }

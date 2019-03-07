@@ -7,18 +7,23 @@ import { IonicApp, IonicErrorHandler, IonicModule, ToastController } from 'ionic
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
+import { CommonModule } from '@angular/common';
+
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { AboutPage } from './../pages/about/about';
+import { InfosPage } from '../pages/infos/infos';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    AboutPage
+    AboutPage,
+    InfosPage
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     IonicModule.forRoot(MyApp)
   ],
@@ -26,7 +31,8 @@ import { AboutPage } from './../pages/about/about';
   entryComponents: [
     MyApp,
     HomePage,
-    AboutPage
+    AboutPage,
+    InfosPage
   ],
   providers: [
     StatusBar,
