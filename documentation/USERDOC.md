@@ -1,157 +1,110 @@
 <h1 align="center">
   <br>
-  <a href="http://www.amitmerchant.com/electron-markdownify"><img src="icon.png" alt="Markdownify" width="200"></a>
+  <a href="http://www.arbalet-project.org/"><img src="img/icon.png" alt="Arbalet" width="200"></a>
 
   Arbalet Meki Live
   <br>
 </h1>
 
+<div align="center">
 
-<h4 align="center">A minimal Markdown Editor desktop app built on top of <a href="http://electron.atom.io" target="_blank">Electron</a>.</h4>
+[![twitter](https://img.shields.io/twitter/follow/arbalet_project.svg?style=social)](https://twitter.com/arbalet_project)
+</div>
 
-<p align="center">
-  <a href="https://badge.fury.io/js/electron-markdownify">
-    <img src="https://badge.fury.io/js/electron-markdownify.svg"
-         alt="Gitter">
-  </a>
-  <a href="https://gitter.im/amitmerchant1990/electron-markdownify"><img src="https://badges.gitter.im/amitmerchant1990/electron-markdownify.svg"></a>
-  <a href="https://saythanks.io/to/amitmerchant1990">
-      <img src="https://img.shields.io/badge/SayThanks.io-%E2%98%BC-1EAEDB.svg">
-  </a>
-  <a href="https://www.paypal.me/AmitMerchant">
-    <img src="https://img.shields.io/badge/$-donate-ff69b4.svg?maxAge=2592000&amp;style=flat">
-  </a>
-</p>
+<h4 align="center">Documentation utilisateur</h4>
 
 <p align="center">
-  <a href="#key-features">Key Features</a> •
-  <a href="#how-to-use">How To Use</a> •
-  <a href="#download">Download</a> •
-  <a href="#credits">Credits</a> •
-  <a href="#related">Related</a> •
-  <a href="#license">License</a>
+  <a href="#présentation">Présentation</a> •
+  <a href="#installation">Installation</a> •
+  <a href="#utilisation">Utilisation</a> •
+  <a href="#support">Support</a>
 </p>
 
-# Documentation Utilisateur
+# Présentation 
 
-Le point d'entrée vers la doc utilisateur en markdown :
-Indiquez les différentes étapes pour démontrer chaque fonctionnalité de votre projet à l'utilisateur
+Cette documentation s'adresse aux enseignants et animateurs d'atelier souhaitant utiliser l'application Arbalet Meki Live.
 
-Soyez brefs mais clairs : évitez les longs textes, les listes à puces sont idéales
+# Installation
 
-Ne détaillez pas excessivement : votre doc doit illustrer vos fonctionnalités, pas comment ouvrir le menu Windows
+## Arbalet
+Si vous êtes équipé(e) d'une table Arbalet Lack ou Lava (comprenant un Arduino), il vous faut installer un firmware spécifique sur celui-ci:
 
-## Installation Arbalet Meki Live
-
-* Téléchargez le fichier
-* blabla
-
-## Utilisation de l'interface "Professeur"
-
-
-## Utilisation de l'interface "Élève"
+1. Branchez votre Arduino à l'ordinateur via USB.
+2. Ouvrez Arduino IDE.
+3. Allez dans le menu Fichier > Exemples > Exemples pour toute carte > Firmata > StandardFirmata
+4. Dans l'éditeur qui s'ouvre, cliquez sur "Téléverser"
+<!-- -->
+Si votre table est équipée du duo Arduino/Rasperry Pi vous ne devez laisser que l'Arduino et brancher celui-ci à votre ordinateur.
 
 
+## Windows/Mac/Linux
+Téléchargez l'exécutable correspondant à votre système et installez le. Il existe une version portable et un installeur pour chacun des systèmes.
+  
+# Utilisation 
+## Application Desktop - Interface Enseignant
+Après avoir lancé l'application, vous arrivez sur l'interface administrateur d'Arbalet Meki Live.
+L'application est découpée en deux catégories :
 
-# Repository Title Goes Here
+#### Utilisateurs connectés
+* `ORDINATEUR` : nom de l'élève 
+* `ADRESSE` : adresse IP de l'élève
+* `ETAT` :  autoriser l'accès à la table à un élève
 
-> Subtitle or Short Description Goes Here
+#### Connexion
+* `STATUS` : connexion à la table Arbalet
+* `VOTRE ADRESSE` : adresse qui permet aux élèves de se connecter à l'application (il faut la rentrer dans l'url de votre navigateur)
 
-> ideally one sentence
+## Fonctionnement
+1. Branchez la table sur un des ports USB de votre ordinateur
+2. Cliquez sur le bouton "Se connecter" à droite de votre écran
+3. Entrez le numéro de PIN sur lequel la broche data de la bande de LED est connectée (numéro 8 par défaut) puis cliquez sur OK
+4. Après chargement l'application vous indique si la table est bien connectée, le cas échéant vous invitant à vérifier vos branchements
+5. Donner votre adresse aux élèves/participants et invitez les à la rentrer dans leur navigateur. Il est primordial que leurs postes soient connectés au même réseau local que le votre. Pour des raisons de performances nous vous conseillons une connexion filaire (le wifi pouvant augmenter la latence).
+6. Les élèves/utilisateurs connectés s'affichent sur la partie centrale de l'écran. Vous pouvez choisir à tout moment lequel a le contrôle sur la table.
 
-> include terms/tags that can be searched
+## Interface Élève - Navigateur
+Comme mentionné ci-dessus l'élève doit rentrer votre adresse complète dans son navigateur. Nous conseillons l'utilisation du navigateur <a href="https://www.google.com/chrome/">Google Chrome</a> (ou sa version open-source <a href="https://chromium.woolyss.com/download/fr/">Chromium</a>) afin de pouvoir bénéficier de toutes les fonctionnalités proposées par Arbalet Meki Live. <br/><br/>
+Après que l'élève ai rentré l'adresse pour accéder à l'application, la fenêtre d'accueil lui permet d'écrire son nom. L'élève arrive ensuite sur l'interface de programmation qui est composée de plusieurs catégories : 
 
+### Blocs de programmation
+Les blocs de programmation sont rangés par catégories (Texte, Fonctions, Arbalet, etc..) sur la gauche de l'interface.
 
-[![INSERT YOUR GRAPHIC HERE](http://i.imgur.com/dt8AUb6.png)]()
+<div align="center">
+  <img src="img/bloc.gif" width="80%">
+</div>
 
+### Espace de travail
+L'espace de travail au centre, permet de contenir les blocs de programmation et d'écrire des algorithmes.
 
-> GIF Tools
+### Configuration 
+<img src="img/live.gif" width="40%"> 
 
-- Use <a href="http://recordit.co/" target="_blank">**Recordit**</a> to create quicks screencasts of your desktop and export them as `GIF`s.
-- For terminal sessions, there's <a href="https://github.com/chjj/ttystudio" target="_blank">**ttystudio**</a> which also supports exporting `GIF`s.
+Quand l'utilisateur est connecté à la table, le status devient rouge clignotant avec écrit `LIVE`. </br> L'exécution du programme se fait en parallèle dans la simulation du navigateur et sur la table.
 
-**Recordit**
+### Menu projet 
+![Alt Text](img/config.png)
 
-![Recordit GIF](http://g.recordit.co/iLN6A0vSD8.gif)
+L'icône a droite permet de créer un nouveau projet, l'icône de gauche permet :
+- Importer un ancien projet
+- Exporter le projet 
+- Accéder aux exemples de programmes
 
----
+### Exécution du programme
+Vous trouverez à droite de l'écran, au dessus de la simulation différents boutons permettant:
+* l'exécution du code
+* l'arrêt de l'exécution
+* la rotation de la simulation
+* l'affichage de la simulation en plein écran
 
+### Aperçu du code
+![Alt Text](img/blockly.gif) 
 
-## Installation
+# Support
 
-- All the `code` required to get started
-- Images of what it should look like
+- <img src="img/site.png" style="vertical-align:middle" width ="20px"> Website at [`arbaletproject.org`](http://www.arbalet-project.org/)
 
-### Clone
+- <img src="img/twitter.svg" style="vertical-align:middle"  width ="22px">Twitter at [`@arbalet_project`](https://twitter.com/arbalet_project)
 
-- Clone this repo to your local machine using `https://github.com/fvcproductions/SOMEREPO`
-
-### Setup
-
-- If you want more syntax highlighting, format your code like this:
-
-> update and install this package first
-
-```shell
-$ brew update
-$ brew install fvcproductions
-```
-
-> now install npm and bower packages
-
-```shell
-$ npm install
-$ bower install
-```
-
-- For all the possible languages that support syntax highlithing on GitHub (which is basically all of them), refer <a href="https://github.com/github/linguist/blob/master/lib/linguist/languages.yml" target="_blank">here</a>.
-
----
-
-## Features
-## Usage (Optional)
-## Documentation (Optional)
-## Tests (Optional)
-
-- Going into more detail on code and technologies used
-- I utilized this nifty <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet" target="_blank">Markdown Cheatsheet</a> for this sample `README`.
-
----
-
-## Contributing
-
-> To get started...
-
-### Step 1
-
-- **Option 1**
-    - 🍴 Fork this repo!
-
-- **Option 2**
-    - 👯 Clone this repo to your local machine using `https://github.com/joanaz/HireDot2.git`
-
-### Step 2
-
-- **HACK AWAY!** 🔨🔨🔨
-
-### Step 3
-
-- 🔃 Create a new pull request using <a href="https://github.com/joanaz/HireDot2/compare/" target="_blank">`https://github.com/joanaz/HireDot2/compare/`</a>.
-
----
-
-## FAQ
-
-- **How do I do *specifically* so and so?**
-    - No problem! Just do this.
----
-
-## Support
-
-Reach out to me at one of the following places!
-
-- Website at <a href="http://www.arbalet-project.org/" target="_blank">`arbaletproject.org`</a>
-- Twitter at <a href="https://twitter.com/arbalet_project" target="_blank">`@arbalet_project`</a>
-- Linkedin at
-
+- <img src="img/linkedin.svg" style="vertical-align:middle" width ="20px"> Linkedin at [`arbalet`](https://www.linkedin.com/company/arbalet/)
+- <img src="img/blog.png" style="vertical-align:middle" width ="20px"> Blog at [`arbalet-blog`](http://talk.arbalet-project.org/)
 ---
