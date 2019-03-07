@@ -29,13 +29,22 @@
 
 # Présentation 
 
-Cette documentation s'adresse aux professeurs d'écoles souhaitant mettre en place l'application Arbalet Meki Live.
+Cette documentation s'adresse aux enseignants et animateurs d'atelier souhaitant mettre en place l'application Arbalet Meki Live.
 
-# Installation 
+# Installation
 
-## Windows
-- Téléchargez le fichier .exe
-- Double-Cliquer sur le fichier .exe
+## Arbalet
+Si vous êtes équipé(e) d'une table Arbalet Lack ou Lava (comprenant un Arduino), il vous faut installer un firmware spécifique sur celui-ci:
+
+1. Branchez votre Arduino à l'ordinateur via USB.
+2. Ouvrez Arduino IDE.
+3. Allez dans le menu Fichier > Exemples > Exemples pour toute carte > Firmata > StandardFirmata
+4. Dans l'éditeur qui s'ouvrer, cliquez sur "Téléverser"
+
+
+## Windows/Mac/Linux
+Téléchargez l'exécutable correspondant à votre système et installez le. Il existe une version portable et un installeur pour chacun des systèmes.
+  
 
 ## MacOS
 ????
@@ -47,8 +56,8 @@ $ brew install fvcproductions
 ```
 # Utilisation 
 ## Interface Professeur
-Après avoir executé l'application, vous arrivez sur l'interface administrateur d'Arbalet Meki Live.
-L'application est découpé en deux catégories :
+Après avoir lancé l'application, vous arrivez sur l'interface administrateur d'Arbalet Meki Live.
+L'application est découpée en deux catégories :
 
 ### Utilisateurs connectés
 * `ORDINATEUR` : nom de l'élève 
@@ -56,9 +65,8 @@ L'application est découpé en deux catégories :
 * `ETAT` :  autoriser l'accès à la table à un élève
 
 ### Connexion
-* `STATUS` : 
+* `STATUS` : connexion à la table Arbalet
 * `VOTRE ADRESSE` : adresse qui permet aux élèves de se connecter à l'application (il faut la rentrer dans l'url de votre navigateur)
-* `MODE CONNEXION` : USB
 
 ## Interface Élève
 Après que l'élève est rentré l'adresse pour accéder à l'application, la fenêtre d'accueil permet d'écrire son nom. L'élève arrive ensuite sur l'interface de programmation qui est composé de plusieurs catégories : 
