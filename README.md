@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <a href="http://www.arbalet-project.org/"><img src="documentation/icon.png" alt="Arbalet" width="200"></a>
+  <a href="http://www.arbalet-project.org/"><img src="documentation/img/icon.png" alt="Arbalet" width="200"></a>
 
   Arbalet Meki Live
   <br>
@@ -18,7 +18,7 @@
 
 <div align="center" >
 
-![screenshot](documentation/arbalet.png)
+![screenshot](documentation/img/arbalet.png)
 
 </div>
 
@@ -35,10 +35,10 @@ https://github.com/adafruit/Adafruit_NeoPixel
 ```
 # Support
 
-- <img src="documentation/site.png" style="vertical-align:middle" width ="20px"> Website at [`arbaletproject.org`](http://www.arbalet-project.org/)
+- <img src="documentation/img/site.png" style="vertical-align:middle" width ="20px"> Website at [`arbaletproject.org`](http://www.arbalet-project.org/)
 
-- <img src="documentation/twitter.svg" style="vertical-align:middle"  width ="22px">Twitter at [`@arbalet_project`](https://twitter.com/arbalet_project)
+- <img src="documentation/img/twitter.svg" style="vertical-align:middle"  width ="22px">Twitter at [`@arbalet_project`](https://twitter.com/arbalet_project)
 
-- <img src="documentation/linkedin.svg" style="vertical-align:middle" width ="20px"> Linkedin at [`arbalet`](https://www.linkedin.com/company/arbalet/)
-- <img src="documentation/blog.png" style="vertical-align:middle" width ="20px"> Blog at [`arbalet-blog`](http://talk.arbalet-project.org/)
+- <img src="documentation/img/linkedin.svg" style="vertical-align:middle" width ="20px"> Linkedin at [`arbalet`](https://www.linkedin.com/company/arbalet/)
+- <img src="documentation/img/blog.png" style="vertical-align:middle" width ="20px"> Blog at [`arbalet-blog`](http://talk.arbalet-project.org/)
 ---

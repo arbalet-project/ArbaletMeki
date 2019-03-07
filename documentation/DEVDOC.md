@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <a href="http://www.arbalet-project.org/"><img src="icon.png" alt="Arbalet" width="200"></a>
+  <a href="http://www.arbalet-project.org/"><img src="img/icon.png" alt="Arbalet" width="200"></a>
 
   Arbalet Meki Live
   <br>
@@ -24,16 +24,16 @@
 
 <div align="center" >
 
-![screenshot](arbalet.png)
+![screenshot](img/arbalet.png)
 
 </div>
 
 # Présentation 
-Cette documentation s'adresse aux développeurs
+Cette documentation s'adresse aux développeurs.
 
 # Schéma 
 <div align="center" >
-<img src="schema.png" alt="schema" width="50%">
+<img src="img/schema.png" alt="schema" width="50%">
 </div>
 Explication 
 
@@ -71,12 +71,13 @@ Les blocs créés sont stockés dans différents fichiers :
 
 # Dépannages
 
+
 # Support
 
-- <img src="site.png" style="vertical-align:middle" width ="20px"> Website at [`arbaletproject.org`](http://www.arbalet-project.org/)
+- <img src="img/site.png" style="vertical-align:middle" width ="20px"> Website at [`arbaletproject.org`](http://www.arbalet-project.org/)
 
-- <img src="twitter.svg" style="vertical-align:middle"  width ="22px">Twitter at [`@arbalet_project`](https://twitter.com/arbalet_project)
+- <img src="img/twitter.svg" style="vertical-align:middle"  width ="22px">Twitter at [`@arbalet_project`](https://twitter.com/arbalet_project)
 
-- <img src="linkedin.svg" style="vertical-align:middle" width ="20px"> Linkedin at [`arbalet`](https://www.linkedin.com/company/arbalet/)
-- <img src="blog.png" style="vertical-align:middle" width ="20px"> Blog at [`arbalet-blog`](http://talk.arbalet-project.org/)
+- <img src="img/linkedin.svg" style="vertical-align:middle" width ="20px"> Linkedin at [`arbalet`](https://www.linkedin.com/company/arbalet/)
+- <img src="img/blog.png" style="vertical-align:middle" width ="20px"> Blog at [`arbalet-blog`](http://talk.arbalet-project.org/)
 ---

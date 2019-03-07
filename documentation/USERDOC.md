@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <a href="http://www.arbalet-project.org/"><img src="icon.png" alt="Arbalet" width="200"></a>
+  <a href="http://www.arbalet-project.org/"><img src="img/icon.png" alt="Arbalet" width="200"></a>
 
   Arbalet Meki Live
   <br>
@@ -23,7 +23,7 @@
 
 <div align="center" >
 
-![screenshot](arbalet.png)
+![screenshot](img/arbalet.png)
 
 </div>
 
@@ -47,7 +47,7 @@ $ brew install fvcproductions
 ```
 # Utilisation 
 ## Interface Professeur
-Après avoir executer l'application, vous arrivez sur l'interface administrateur d'Arbalet Meki Live.
+Après avoir executé l'application, vous arrivez sur l'interface administrateur d'Arbalet Meki Live.
 L'application est découpé en deux catégories :
 
 ### Utilisateurs connectés
@@ -57,31 +57,31 @@ L'application est découpé en deux catégories :
 
 ### Connexion
 * `STATUS` : 
-* `VOTRE ADRESSE` : adresse qui permet aux élèves de se connecter à l'application 
+* `VOTRE ADRESSE` : adresse qui permet aux élèves de se connecter à l'application (il faut la rentrer dans l'url de votre navigateur)
 * `MODE CONNEXION` : USB
 
 ## Interface Élève
-Après que l'élève est rentré l'adresse pour accéder à l'application, la fenêtre d'accueil permet d'écrire son nom. L'élève arrive ensuite sur l'interface de programmation qui se découpe en plusieurs catégories : 
+Après que l'élève est rentré l'adresse pour accéder à l'application, la fenêtre d'accueil permet d'écrire son nom. L'élève arrive ensuite sur l'interface de programmation qui est composé de plusieurs catégories : 
 
 ### Blocs de programmation
 Les blocs de programmation sont rangés par catégories (Texte, Fonctions, Arbalet, etc..) sur la gauche de l'interface.
 
 <div align="center">
-  <img src="bloc.gif" width="80%">
+  <img src="img/bloc.gif" width="80%">
 </div>
 
 ### Espace de travail
-L'espace de travail au centre, permet de contenir les blocs de programmation et d'effectuer des algorithmes.
+L'espace de travail au centre, permet de contenir les blocs de programmation et d'écrire des algorithmes.
 
 ### Configuration 
-<img src="live.gif" width="40%"> 
+<img src="img/live.gif" width="40%"> 
 
 Quand on est connecté à la table, le status devient rouge clignotant avec écrit `LIVE`.
 
 ### Nouveau projet 
-![Alt Text](config.png)
+![Alt Text](img/config.png)
 
-L'icone a droite permet de créer un nouveau projet, l'icone de gauche permet :
+L'icône a droite permet de créer un nouveau projet, l'icône de gauche permet :
 - Importer un ancien projet
 - Exporter le projet 
 - Accéder aux exemples de programmes
@@ -89,16 +89,15 @@ L'icone a droite permet de créer un nouveau projet, l'icone de gauche permet :
 ### Compilation du code 
 Play / Stop / Rotate
 
-
 ### Aperçu du code
-![Alt Text](blockly.gif) 
+![Alt Text](img/blockly.gif) 
 
 # Support
 
-- <img src="site.png" style="vertical-align:middle" width ="20px"> Website at [`arbaletproject.org`](http://www.arbalet-project.org/)
+- <img src="img/site.png" style="vertical-align:middle" width ="20px"> Website at [`arbaletproject.org`](http://www.arbalet-project.org/)
 
-- <img src="twitter.svg" style="vertical-align:middle"  width ="22px">Twitter at [`@arbalet_project`](https://twitter.com/arbalet_project)
+- <img src="img/twitter.svg" style="vertical-align:middle"  width ="22px">Twitter at [`@arbalet_project`](https://twitter.com/arbalet_project)
 
-- <img src="linkedin.svg" style="vertical-align:middle" width ="20px"> Linkedin at [`arbalet`](https://www.linkedin.com/company/arbalet/)
-- <img src="blog.png" style="vertical-align:middle" width ="20px"> Blog at [`arbalet-blog`](http://talk.arbalet-project.org/)
+- <img src="img/linkedin.svg" style="vertical-align:middle" width ="20px"> Linkedin at [`arbalet`](https://www.linkedin.com/company/arbalet/)
+- <img src="img/blog.png" style="vertical-align:middle" width ="20px"> Blog at [`arbalet-blog`](http://talk.arbalet-project.org/)
 ---
