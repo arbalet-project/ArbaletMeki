@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Arbalet Meki Live</title>
+
+    <link rel="stylesheet" href="asset/css/style.css">
+  </head>
+  <body>
+
+      <div class="content">
+          <div class="toolbar">
+              <img src="asset/images/logo.png" alt="Logo Arbalet" class="logo">
+              <a href="#" class="info-link" title="Informations" id='informations'>
+                <div></div>
+                <div></div>
+                <div></div>
+              </a>
+          </div>
+            <div class="container">
+  
+              <div class="title-app">
+                  <h1>Arbalet Meki Live</h1>
+              </div>
+  
+              <div class="bord-content">
+
+                  <div class="left-content">
+                        <div class="header-list">
+                          <div>
+                            <h2>Utilisateurs connectés</h2>
+                            <p>connectés à votre poste :</p>
+                          </div>
+                          <div>
+                            <p>Total</p>
+                            <p class="result-connect-user" id="nbConnected">0</p>
+                          </div>
+                        </div>
+                        <div class="list-content" > <!-- Here the result list-->
+                          <div class="list-result-header"> <!-- It's a result box-->
+                              <h5>ordinateur</h5>
+                              <h5>adresse</h5>
+                              <h5>état</h5>
+                          </div>   
+                          <div id="clientsList">
+
+                          </div>
+                        </div>   
+                  </div>
+
+                  <div class="right-content">
+                    <h2>Connexion</h2>
+                    <div class="connexion-content">
+                      <div>
+                          <p class="text-header">Status</p>
+                          <p class="connect-style">connecté à Arbalet</p>
+                          <button class="button-connect">Se connecter</button>
+                          <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+                          <div class="choice-pin">
+                          <span class="info-span">Entrez le pin de connexion de votre table</span>
+                            <div class="input-connection">
+                              <input id="pinNB" type="number" value="8" max="99">
+                              <button>OK</button>
+                            </div>
+                         </div>
+                      </div>
+                      <div>
+                          <p class="text-header">Votre adresse</p>
+                          <p id="myIp"></p>
+                      </div>
+                      <!-- Wifi / USB choice-->
+                      <!-- <div>
+                          <p class="text-header">Mode de connexion</p>
+                          <div class="connect-mode">
+                              <div><input type="radio" name="connect-type" value="wifi" id="wifi" ><label for="wifi">Wifi</label></div>
+                              <div><input type="radio" name="connect-type" value="usb" id="usb"><label for="usb">Usb</label></div>
+                          </div>
+                      </div> -->
+                    </div>
+                  </div>
+              </div>
+
+            </div>
+      </div>
+
+    <!-- Modules Background -->
+    <div class="overlay-popup"></div>
+
+    <!-- Module Informations-->
+    <div class="window-popup" id="informations-module">
+        <div class="head-popup">
+            <img src="asset/images/logo.png" alt="">
+            <h1>Informations</h1>
+        </div>
+        <div class="info-content">
+          <p>Arbalet Meki Live est un projet open source développé par les étudiants de la <a class="external-link" href="https://www.iut.u-bordeaux.fr/info/">licence DAWIN</a> de l'IUT informatique de Bordeaux (33). Ce projet fait partie de l'ensemble du <a class="external-link" href="http://www.arbalet-project.org"> projet Arbalet</a></p><br>  
+          <p>L'accès aux sources et aux informations sont disponibles sur le dépot suivant: <a class="external-link" href="https://github.com/arbalet-project/ArbaletMeki">https://github.com/arbalet-project/ArbaletMeki</a></p><br> 
+          <p>Les étudiants ayant participé à la création de cette application sont :</p>
+          <div class="info-autor">
+            <div>
+              <p>Lucas Demarais</p>
+              <div>
+                <a class="external-link" href="https://github.com/lucdems"></a>
+                <a class="external-link" href="https://www.linkedin.com/in/lucas-demarais/"></a>
+              </div>
+            </div>
+            <div>
+              <p>William Jacob</p>
+              <div>
+                  <a class="external-link" href="https://github.com/william4456"></a>
+                  <a class="external-link" href="https://www.linkedin.com/in/williamjacobnantes/"></a>
+              </div>
+            </div>
+            <div>
+            <p>Nicolas Diot</p>
+              <div>
+                <a class="external-link" href="https://github.com/Spooky65"></a>
+                <a class="external-link" href="https://www.linkedin.com/in/nicolas-diot/"></a>
+              </div>
+            </div>
+            <div>
+              <p>Léo-Paul Dubourg</p>
+              <div>
+                <a class="external-link" href="https://github.com/LeoPaulD"></a>
+                <a class="external-link" href="https://www.linkedin.com/in/l%C3%A9o-paul-dubourg/"></a>
+              </div>
+            </div>
+            <div>
+              <p>Simon Paillassa</p>
+              <div>
+                <a class="external-link" href="https://github.com/SimonPail"></a>
+                <a class="external-link" href="https://www.linkedin.com/in/simon-paillassa"></a>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+
+    <script>
+      // You can also require other files to run in this process
+      window.$ = window.jQuery = require('jquery');
+      require('./renderer.js');
+      $('body').on('click', '.external-link', (event) => {
+        event.preventDefault();
+        let link = event.target.href;
+        require("electron").shell.openExternal(link);
+      });
+
+    </script>
+  </body>
+</html>

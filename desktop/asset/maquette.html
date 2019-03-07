@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Arbalet Meki Live</title>
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+
+  <body>
+    <div class="content">
+        <div class="toolbar">
+            <img src="images/icon.png" alt="Logo Arbalet" class="logo">
+        </div>
+          <div class="container">
+
+            <div class="title-app">
+                <h1>Arbalet Meki Live</h1>
+            </div>
+
+            <div class="bord-content">
+                <div class="left-content">
+                      <div class="header-list">
+                        <div>
+                          <h2>Utilisateurs connectés</h2>
+                          <p>connectés à votre poste :</p>
+                        </div>
+                        <div>
+                          <p>Total</p>
+                          <p class="result-connect-user">5</p>
+                        </div>
+                      </div>
+                      <div class="list-content">
+                        <div class="list-result-header">
+                            <h5>état</h5>
+                            <h5>ordinateur</h5>
+                            <h5>adresse</h5>
+                            <h5>déconnecter</h5>
+                        </div>
+                        <div class="list-result">
+                          <label class="switch-button"><input id="1" type="checkbox" :checked/><span></span></label>
+                          <p>Carl Delaroche</p>
+                          <p>127.0.0.1</p>
+                          <a href="#" class="disconnect-link"></a>
+                        </div>
+                        <div class="list-result">
+                            <label class="switch-button"><input id="2" type="checkbox"/><span></span></label>
+                            <p>Carl Delaroche</p>
+                            <p>127.0.0.1</p>
+                            <a href="#" class="disconnect-link"></a>
+                          </div>
+                          <div class="list-result">
+                              <label class="switch-button"><input id="3" type="checkbox"/><span></span></label>
+                              <p>Carl Delaroche</p>
+                              <p>127.0.0.1</p>
+                              <a href="#" class="disconnect-link"></a>
+                            </div>
+                         
+                      </div>
+                     
+                      
+                </div>
+                <div class="right-content">
+                  <h2>Connexion</h2>
+                  <div class="connexion-content">
+                    <div>
+                        <p class="text-header">Status</p>
+                        <p class="connect-style">connecté à Arbalet</p> <!-- Utiliser la class disconnect-style dans le cas inverse-->
+                    </div>
+                    <div>
+                        <p class="text-header">Votre adresse</p>
+                        <p>127.0.0.0</p>
+                    </div>
+                    <div>
+                        <p class="text-header">Mode de connexion</p>
+                        <div class="connect-mode">
+                            <div><input type="radio" name="connect-type" value="wifi" id="wifi" ><label for="wifi">Wifi</label></div>
+                            <div><input type="radio" name="connect-type" value="usb" id="usb"><label for="usb">Usb</label></div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+            
+          </div>
+      
+    </div>
+   
+ 
+  </body>
+</html>
