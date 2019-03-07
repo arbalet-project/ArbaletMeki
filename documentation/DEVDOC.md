@@ -95,6 +95,10 @@ Les blocs créés sont stockés dans différents fichiers :
 - Définition du code JavaScript correspondant aux blocs dans [`generatorstub.js`](../desktop/public/blockly/generatorstub.js)
 - Affichage des blocs dans la balise xml présente dans [`index.html`](../desktop/public/index.html)
 
+## Internationalisation
+Arbalet Meki Live est pour l'instant uniquement disponible en français. Seuls les blocs Blockly bénéficient d'une traduction s'adaptant à la langue de l'ordinateur serveur.<br/>
+Il faudrait mettre en place un système de traduction performant. Une piste qui nous paraissait intéressante est celle du module npm [i18n](https://www.npmjs.com/package/i18n).
+
 # Dépannages
 ## Erreur de module au lancement
 Certains modules nécessitent une recompilation afin d'être compatibles avec Electron. Cela peut générer un message d'erreur lors du lancement du projet en développement. C'est notamment le cas du module `serial-port`.</br>

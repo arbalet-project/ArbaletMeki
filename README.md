@@ -13,7 +13,7 @@
 
 
 <p align="center">
-  <a href="USERDOC.md">Documentation Utilisateur</a> •  <a href="DEVDOC.md">Documentation Développeur</a> 
+  <a href="documentation/USERDOC.md">Documentation Utilisateur</a> •  <a href="documentation/DEVDOC.md">Documentation Développeur</a> 
 </p>
 
 # Qu'est-ce qu'Arbalet Meki Live ?
