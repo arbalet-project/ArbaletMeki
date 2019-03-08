@@ -34,7 +34,7 @@ L'équipe de développement est composée de:
 * Léo-Paul Dubourg - leopauldubourg@gmail.com - [<img src="documentation/img/linkedin.svg" style="vertical-align:middle" width ="20px">](https://www.linkedin.com/in/l%C3%A9o-paul-dubourg/) [<img src="documentation/img/github.png" style="vertical-align:middle" width ="20px">](https://github.com/LeoPaulD)
 
 # Remerciements
-Nous souhaitons vivement remercié les personnes suivantes:
+Nous souhaitons vivement remercier les personnes suivantes:
 * [Yoan Mollard](https://github.com/ymollard) - Créateur et fondateur du projet Arbalet
 * [Nicholas Journet](http://njournet.com/) - Enseignant-chercheur à l'IUT de Bordeaux
 * Benoît Defrance - Enseignant à l'IUT de Bordeaux
