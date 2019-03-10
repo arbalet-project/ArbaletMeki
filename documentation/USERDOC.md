@@ -30,9 +30,14 @@ Cette documentation s'adresse aux enseignants et animateurs d'atelier souhaitant
 Si vous êtes équipé(e) d'une table Arbalet Lack ou Lava (comprenant un Arduino), il vous faut installer un firmware spécifique sur celui-ci:
 
 1. Branchez votre Arduino à l'ordinateur via USB.
-2. Ouvrez Arduino IDE.
-3. Allez dans le menu Fichier > Exemples > Exemples pour toute carte > Firmata > StandardFirmata
-4. Dans l'éditeur qui s'ouvre, cliquez sur "Téléverser"
+2. Installez le module de gestion de firmware Interchange:
+   ```shell
+   $ npm install -g nodebots-interchange
+   ```
+3. Chargez le custom firmware sur l'Arduino:
+    ```shell
+    $ interchange install git+https://github.com/ajfisher/node-pixel -a uno --firmata
+    ```
 <!-- -->
 Si votre table est équipée du duo Arduino/Rasperry Pi vous ne devez laisser que l'Arduino et brancher celui-ci à votre ordinateur.
 
