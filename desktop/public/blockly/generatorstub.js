@@ -49,7 +49,7 @@ Blockly.JavaScript['sleep'] = function(block) {
   var text_time = block.getFieldValue('time');
   var dropdown_list = block.getFieldValue('list');
 
-  var code = `sleep(${text_time},${dropdown_list});`;
+  var code = `await sleep(${text_time},${dropdown_list});`;
   return code;
 };
 

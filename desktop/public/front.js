@@ -27,33 +27,29 @@ socket.on('ungranted', function () {
     $('.live').replaceWith('<p class="connect-style">Connecté au poste</p>');
 });
 
-
-
-
-// Event keys for Blockly, stores the corresponding event in a sharedArray to be read by the worker (disabled for non-chrome browsers)
-if(isChrome()){
+// Event keys for Blockly, stores the corresponding event in a sharedArray to be read by the worker
     $(document).on('keydown', function (e) {
         if (isRunning) {
             switch (e.which) {
                 case 38: // UP
-                    Atomics.store(sharedArray, 0, 1);
+                    blocklyWorker.postMessage({message:'keyEvent', key: 'up'});
                     break;
                 case 39: // RIGHT
-                    Atomics.store(sharedArray, 0, 2);
+                    blocklyWorker.postMessage({message:'keyEvent', key: 'right'});
                     break;
                 case 40: // DOWN
-                    Atomics.store(sharedArray, 0, 3);
+                    blocklyWorker.postMessage({message:'keyEvent', key: 'down'});
                     break;
                 case 37: // LEFT
-                    Atomics.store(sharedArray, 0, 4);
+                    blocklyWorker.postMessage({message:'keyEvent', key: 'left'});
                     break;
                 case 32: // SPACE
-                    Atomics.store(sharedArray, 0, 5);
+                    blocklyWorker.postMessage({message:'keyEvent', key: 'space'});
                     break;
             }
         }
     });
-}
+
 
 
 // Animations and clicking behaviour definitions
@@ -175,16 +171,6 @@ function hideLoginScreen(){
  */
 function initWorkspace() {
     let toolbox = document.getElementById('toolbox');
-
-    // The event functionnality is not compatible with others browsers than Chrome, so we delete the event blocks on these browsers
-    if (!isChrome()) {
-        for (let blockNode of toolbox.getElementsByTagName("block")) {
-            if (blockNode.getAttribute("type") == "event_key") {
-                blockNode.remove();
-                break;
-            }
-        }
-    }
 
     // Creating the workspace
     workspace = Blockly.inject('blocklyDiv', {

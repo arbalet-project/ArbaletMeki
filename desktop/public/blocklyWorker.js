@@ -8,14 +8,11 @@ let nbRows;
 let nbColumns;
 let gridState = [];
 
-let sharedBuffer;
-let sharedArray;
 let scripts;
 
 /**
  * Event listener for message reception, it handles 4 types of message:
  * - gridLength setting the number of rows and columns
- * - sharedBuffer receiving the sharedBuffer used to communicate events from the main thread
  * - scripts reveiving the different code to execute (5 max: 1 main script and 4 event scripts)
  * - run executing the main script, the worker can't handle more messages after receiving this one
  */
@@ -29,9 +26,8 @@ onmessage = function (e) {
             }
             break;
 
-        case 'sharedBuffer':
-            sharedBuffer = e.data.buffer;
-            sharedArray = new Int32Array(sharedBuffer);
+        case 'keyEvent':
+            run(scripts[e.data.key]);
             break;
 
         case 'scripts':
@@ -39,16 +35,10 @@ onmessage = function (e) {
             break;
 
         case 'run':
-            try {
-                eval(scripts['main']);
-            } catch (error) {
-                console.error(error);
-            } finally {
-                self.postMessage({
-                    message: "close"
-                });
-                close();
-            }
+            run(scripts['main']);
+            break;
+
+        default:
             break;
     }
 }
@@ -143,46 +133,19 @@ function drawLetter(inputLetter, rowX, columnY, color, direction) {
 }
 
 /**
- * Check if a "key-pressed" event has been sent and run the corresponding code
- */
-function catchEvent() {
-    let eventCatched = Atomics.load(sharedArray, 0);
-    if (eventCatched != 0) {
-        Atomics.store(sharedArray, 0, 0);
-        switch (eventCatched) {
-            case 1: //up
-                eval(scripts["up"]);
-                break;
-            case 2: //right
-                eval(scripts["right"]);
-                break;
-            case 3: //down
-                eval(scripts["down"]);
-                break;
-            case 4:
-                eval(scripts["left"]);
-                break;
-            case 5:
-                eval(scripts["space"]);
-                break;
-        }
-    }
-}
-/**
  * Sleep the program for the given time
  * @param {Number} time The quantity of time to sleep (in seconds or milliseconds)
  * @param {String} unit The unit of time to sleep (s or ms)
  */
 function sleep(time, unit) {
-    if (unit === 's') {
-        time = time * 1000;
-    }
-    var start = new Date().getTime();
-    for (var i = 0; i < 1e7; i++) {
-        if ((new Date().getTime() - start) > time) {
-            break;
-        }
-    }
+    time = ((unit == 's') ? time*1000 : time);
+    return new Promise(resolve => setTimeout(resolve, time));
+  }
+
+async function run(script){
+    var AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
+    let functionScript = new AsyncFunction(script);
+    functionScript();
 }
 
 /**

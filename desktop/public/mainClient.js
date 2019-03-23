@@ -31,16 +31,6 @@ function run() {
             nbColumns: nbColumns
         });
 
-        if (isChrome()) {
-            // Create a shared buffer
-            sharedBuffer = new SharedArrayBuffer(10 * Int32Array.BYTES_PER_ELEMENT);
-            blocklyWorker.postMessage({
-                message: 'sharedBuffer',
-                buffer: sharedBuffer
-            });
-            sharedArray = new Int32Array(sharedBuffer);
-        }
-
         // Send the different scripts to the worker
         blocklyWorker.postMessage({
             message: 'scripts',
@@ -98,7 +88,6 @@ function importWorkspace() {
     reader.onload = function (event) {
         try {
             let parsedFile = Blockly.Xml.textToDom(reader.result);
-            console.log(parsedFile);
             Blockly.Xml.clearWorkspaceAndLoadFromXml(parsedFile, workspace);
             stop();
         } catch (error) {
@@ -163,8 +152,6 @@ function generateScripts() {
         scripts[key] = functionsDefinition + code;
     });
 
-    Blockly.JavaScript.INFINITE_LOOP_TRAP = (Blockly.mainWorkspace.getBlocksByType("event_key").length > 0 ? 'catchEvent();\n' : '');
-
     scripts["main"] = functionsDefinition + Blockly.JavaScript.blockToCode(
         Blockly.mainWorkspace.getBlocksByType("main_script")[0]);
     return scripts;
@@ -182,20 +169,20 @@ function generateFunctions() {
     functionsBlocs.push(...Blockly.mainWorkspace.getBlocksByType("procedures_defnoreturn"));
 
     functionsBlocs.forEach((bloc) => {
+        bloc.comment = '';
         Blockly.JavaScript.blockToCode(bloc);
     });
 
     // Variables declarations are deleted, so they will be global and shared between the main script and event scripts
-    Blockly.JavaScript.definitions_.variables = '';
+    delete Blockly.JavaScript.definitions_.variables;
 
-    functionsCode = Object.values(Blockly.JavaScript.definitions_).join('');
+    let arrayFunctions = Object.values(Blockly.JavaScript.definitions_);
+    arrayFunctions = arrayFunctions.map((x) => {
+        if(x != ''){
+            return 'async ' + x;
+        }
+    });
+
+    functionsCode = arrayFunctions.join('');
     return functionsCode;
-}
-
-/**
- * Test if the browser is Google Chrome (or Chromium)
- * @returns {Boolean} True if chrome, false else
- */
-function isChrome() {
-    return (navigator.userAgent.indexOf("Chrome") != -1);
 }
