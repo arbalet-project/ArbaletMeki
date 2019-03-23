@@ -54,19 +54,20 @@ En cas d'erreur lors du lancement, consulter la section [Dépannages](#dépannag
 # Structure de fichiers
 ## Desktop
 L'application desktop comprend deux fichiers JavaScript principaux:
-* [main.js](./main.md) composant le programme principal
+* [main.js](main.md) composant le programme principal
 * [renderer.js](./renderer.js) comprenant le code s'exécutant dans la vue d'ElectronJS
-</br>
-<!-- -->
+
 Les deux communiquent via un système de "messages" sous la forme d'évènements.
+
 ## Navigateur
-Tout le code relatif à l'interface élève se trouve dans le dossier `public`.</br>
+Tout le code relatif à l'interface élève se trouve dans le dossier `public`.
 On y distingue deux fichiers principaux:
 * [mainClient.js](./mainClient.md) comprenant les fonctionnalités principales de l'application
 * [front.js](./front.md) comprenant toutes les méthodes relatives à l'affichage et l'intéraction de la page web
-  <!-- -->
- Les différents fichiers utilisés par Blockly se trouvent dans le dossier `blockly`. <br/>
- Le fichier [blocklyWorker.js](./blocklyWorker.md) comprend le code du web-worker interprétant le code généré par Blockly. Ce système de worker permet d'exécuter ce code dans un thread différent du thread principal empechant tout bloquage. Cela permet aussi de stopper l'exécution du code à tout moment. </br>
+
+Les différents fichiers utilisés par Blockly se trouvent dans le dossier `blockly`.
+
+Le fichier [blocklyWorker.js](./blocklyWorker.md) comprend le code du web-worker interprétant le code généré par Blockly. Ce système de worker permet d'exécuter ce code dans un thread différent du thread principal empechant tout bloquage. Cela permet aussi de stopper l'exécution du code à tout moment. </br>
  Vous trouverez plus d'informations sur les Web-Workers <a href="https://developer.mozilla.org/fr/docs/Web/API/Web_Workers_API/Utilisation_des_web_workers">ici</a>. 
 
 # Compilation
