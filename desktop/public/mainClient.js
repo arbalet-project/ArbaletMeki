@@ -145,16 +145,22 @@ function generateScripts() {
     Blockly.JavaScript.init(workspace);
     let scripts = {};
     let functionsDefinition = generateFunctions();
+    let noEventProgram = true;
 
     Blockly.mainWorkspace.getBlocksByType("event_key").forEach(function (bloc) {
         let key = bloc.inputList[0].fieldRow[1].value_;
         let code = Blockly.JavaScript.blockToCode(bloc);
         scripts[key] = functionsDefinition + code;
+        noEventProgram = false;
     });
 
     scripts["main"] = functionsDefinition + Blockly.JavaScript.blockToCode(
         Blockly.mainWorkspace.getBlocksByType("main_script")[0]);
+    if(noEventProgram){
+        scripts["main"] += 'self.postMessage({message: "close"});close();' ;
+    }
     return scripts;
+    
 }
 
 /**
