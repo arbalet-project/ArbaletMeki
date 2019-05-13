@@ -1,91 +1,94 @@
 #include <avr/wdt.h>
 #include <EEPROM.h>
-#include "Adafruit_NeoPixel.h"
+#include "Adafruit_WS2801.h"
 #include "SPI.h"
-#include <Ethernet.h>
-#include <EthernetUdp.h>
 #include <StandardCplusplus.h>
 #include <list>
 
 #define DEBUG_SERIAL 1      
-#define PROTOCOL_VERSION 2  // Protocol version over UDP
-#define NUM_PIXELS 150
+#define PROTOCOL_VERSION 3  // Protocol for Live mode in NodeJS app (pixel by pixel)
 
-Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_PIXELS, 23);
-
+const int NUM_PIXELS = 300;
 const unsigned long DURATION_ANIMATION_MS = 120000UL;
-const unsigned long LIVE_TIMEOUT_MS = 5000UL;
+const unsigned long LIVE_TIMEOUT_MS = 16000UL;
 int NUM_ANIMATIONS = 4;
-
 unsigned long last_animation_switch = 0;
 unsigned long lastKeyPressed = millis();
 unsigned long lastLiveFrameReceived = 0;
+
 int current_animation = 0;
 boolean isGame = false;
 boolean isLiveControl = false;
 char sens_tableau = '3';
 
+Adafruit_WS2801 strip = Adafruit_WS2801(NUM_PIXELS);
 
-/*********************************************************************** ETHERNET *************************************************************/
+/*********************************************************************** SERIAL LIVE *************************************************************/
 
-#define UDP_DGRAM_SIZE 470        // Lower than 508 https://stackoverflow.com/questions/14993000/the-most-reliable-and-efficient-udp-packet-size
-#define NUM_PIXELS_PER_DGRAM 150  // Sending 150*(r, g, b) = 450 Bytes in each datagram
+#define HEADER_SIZE 5
 #define PROTOCOL_RECEIVE_FRAME 'F'
+#define PROTOCOL_RECEIVE_LIVE 'L'
 #define PROTOCOL_SEND_DISCOVERY 'H'
+#define BUFFER_SIZE 64
 
-byte mac[] = {0xDE, 0xAD, 0xBE, 0x0, 0x33, 0x47};
-IPAddress ip(192, 168, 1, 50);
-unsigned int localPort = 33407;
+byte liveR, liveG, liveB;
+uint16_t pixelId;
+const int FRAME_SIZE = HEADER_SIZE + 3 + 2 + 1;  // 3 color components + 2 for the pixel ID + 1 for Frame type
 
-byte packetBuffer[UDP_DGRAM_SIZE];
-byte liveR, liveG, liveB, subFrameId;
-EthernetUDP Udp;
+byte frameBuffer[BUFFER_SIZE];
+byte frameBufferIndex = 0;
+byte header[HEADER_SIZE] = {'A', 'R', 'B', 'A', (char)PROTOCOL_VERSION};
 
-int readUDPFrame() {
-  int packetSize = Udp.parsePacket();
-  if (packetSize) {
-    Udp.read(packetBuffer, UDP_DGRAM_SIZE);
-
-    const byte HEADER_SIZE = 6;
-    byte header[HEADER_SIZE] = {'A', 'R', 'B', 'A', (char)PROTOCOL_VERSION, (char)PROTOCOL_RECEIVE_FRAME};
-    for (int i = 0; i < HEADER_SIZE; ++i) {
-      if(header[i] != packetBuffer[i]) {
-        #if DEBUG_SERIAL
-        Serial.println("Ignoring LIVE pixel: Incorrect header or protocol version");
-        #endif
+byte readSerialFrame() {
+  bool dataAvailable = false;
+  while(Serial.available() > 0 && frameBufferIndex < BUFFER_SIZE) {
+    dataAvailable = true;
+    frameBuffer[frameBufferIndex++] = Serial.read(); Serial.println(".");
+    if(frameBufferIndex > HEADER_SIZE) {
+      for (int i = 0; i < HEADER_SIZE; ++i) {
+        if(header[i] != frameBuffer[i]) {
+          frameBufferIndex = 0;
+          Serial.println("Invalid frame header or protocol version");
+          break;
+        }
+      }
+      char frameType = frameBuffer[5];
+      if (frameType == PROTOCOL_RECEIVE_LIVE) {
+        frameBufferIndex = 0;  // Command recognized and cleaned
+        lastLiveFrameReceived = millis();
+        Serial.println("Heartbeat received");
+        return frameType;
+      }
+      else if(frameType == PROTOCOL_RECEIVE_FRAME) {
+        Serial.println("Frame received");
+        if(frameBufferIndex == FRAME_SIZE) {
+          updateLiveFrame();   // Command recognized and processed
+          lastLiveFrameReceived = millis();
+          return frameType;
+        }
+      }
+      else {
+        frameBufferIndex = 0;
+        Serial.print("Invalid frame type: "); Serial.println(int(frameType));
         return 0;
       }
     }
-    
-    if(isLiveControl) { // No need to parse the rest of the datagram if we're not in live mode
-      byte packet_index = HEADER_SIZE;
-      subFrameId = packetBuffer[packet_index++];
-      int offset = subFrameId == 0? 0:NUM_PIXELS_PER_DGRAM;
-  
-      for (int i = 0; i < NUM_PIXELS_PER_DGRAM; ++i) {
-        liveR = packetBuffer[packet_index++];
-        liveG = packetBuffer[packet_index++];
-        liveB = packetBuffer[packet_index++];
-        strip.setPixelColor(i + offset, liveR, liveG, liveB);
-        #if DEBUG_SERIAL
-          //Serial.print(i + offset); Serial.print(" ");
-          //Serial.print(liveR); Serial.print(" ");
-          //Serial.print(liveG); Serial.print(" ");
-          //Serial.println(liveB);
-        #endif
-      }
-      if(subFrameId > 0) strip.show();
-    }
   }
-  return packetSize;
+  return 0;
 }
 
-void setupEthernet() {
-  Ethernet.begin(mac, ip);
-  Udp.begin(localPort);
+void updateLiveFrame() {
+    pixelId = *(uint16_t*)(frameBuffer + 6);
+    liveR = frameBuffer[8];
+    liveG = frameBuffer[9];
+    liveB = frameBuffer[10];
+    frameBufferIndex = 0;
+    strip.setPixelColor(pixelId, liveR, liveG, liveB);
+    if(1) strip.show();  // TODO
 }
 
-/***************************************************************** CONVERSION TOOLS *******************************************************/
+
+/***************************************************************** OUTILS DE CONVERSION *******************************************************/
 
 // Create a 24 bit color value from R,G,B
 uint32_t ColorToInt(byte r, byte g, byte b)
@@ -201,7 +204,7 @@ int calculer(int ligne, int colonne) {
 }
 
 
-/******************* Read/Write EEPROM ******************/
+/******************* Lecture/écriture EEPROM ******************/
 void write_int_EEPROM(int addr, unsigned long value) {
   byte b[4];
   memcpy(b, &value, sizeof value);
@@ -221,7 +224,7 @@ void increment_int_EEPROM(int addr) {
    write_int_EEPROM(addr, i+1);
 }
 
-/***************************************************************** COLOR WHEEL *******************************************************/
+/***************************************************************** ROUE DES COULEURS *******************************************************/
 
 float *hue; 
 
@@ -412,7 +415,7 @@ void updateBluetoothCommands() {
   }
 }
 
-/******************************* Tetris ****************************/
+/******************************* Tetris lui-meme ****************************/
 #include "tetris_letters.h"
 #include "tetris_pieces.h"
 
@@ -801,8 +804,9 @@ void displayFrame() {
 }
 /***************************************************************** SNAKE **************************************************************/
 
-#define LARGEUR 14
-#define HAUTEUR 9
+#define TAILLE NUM_PIXELS
+#define LARGEUR 19
+#define HAUTEUR 14
 #define T_HAUT 8
 #define T_BAS 2
 #define T_GAUCHE 4
@@ -847,11 +851,11 @@ std::list <Position*> snakeUtil;
 unsigned int compteur;
 
 void nouveauFruit(){
-    int alea = random(NUM_PIXELS - snakeUtil.size());
+    int alea = random(TAILLE - snakeUtil.size());
     int i = 0;
     int compteurNew = 0;
     boolean fini = false;
-    while(compteurNew <= alea && i < NUM_PIXELS && !fini){
+    while(compteurNew <= alea && i < TAILLE && !fini){
       if(positionspossibles[i] == 's'){
         i++;
       }else if(compteurNew == alea){
@@ -1098,13 +1102,12 @@ void setup() {
 
 #if DEBUG_SERIAL
   while(!Serial);
-  Serial.begin(9600);
+  Serial.begin(115200);
   Serial.println("Booting");
   Serial.print("Nombre d'utilisateurs: ");
   Serial.println(read_int_EEPROM(0));
 #endif
   setupBluetooth();
-  setupEthernet();
   setupAnimation(0);
 }
 
@@ -1182,9 +1185,9 @@ void initiateAnimationSwitch() {
 
 void loop() {
   if(millis() > 4300000UL) {
-    // In case program runs more than 50 days, which is very unlikely...
-    // ... millis() function will overflow
-    // ... Reboot by triggering the watchdog manually
+    // Gérer le cas improbable où l'exécution dure plus de 50 jours
+    // Overflow de millis()
+    // Rebooter par déclenchement du chien de garde
     fadeOut();
     wdt_enable(WDTO_15MS);
     while(1);
@@ -1192,7 +1195,7 @@ void loop() {
 
   // Check LIVE Control first
   // During live control, the sequenced animation is not destroyed
-  int udp_frame_size = readUDPFrame();
+  byte frameTypeReceived = readSerialFrame();
 
   if(isLiveControl && millis() > lastLiveFrameReceived + LIVE_TIMEOUT_MS) {
     // Leaving LIVE Control mode
@@ -1203,32 +1206,30 @@ void loop() {
     last_animation_switch = 0; // Force animation switch
     isGame = false;
   }
-  else if(udp_frame_size > 0) {
+  else if(frameTypeReceived == PROTOCOL_RECEIVE_LIVE) {
     if(!isLiveControl) {
       // Entering LIVE Control mode
       #if DEBUG_SERIAL
       Serial.println("Received Live Control request...");
       #endif
       fadeOut();
+      //while(Serial.available() > 0) Serial.read();   // Clear the input buffer
       #if DEBUG_SERIAL
       Serial.println("Switching mode to LIVE now");
       #endif
-    } 
-    isLiveControl = true;
-    lastLiveFrameReceived = millis();
+      isLiveControl = true;
+    }
   }
 
   // Regular animation management
   if(!isLiveControl) {
-    // Is the current animation a game?
+    // Changer d'animation quand le jeu est fini si c'est un jeu ou au bout de DURATION_ANIMATION sinon
     if(isGame == false) {
-      // If not, switch to next animation when DURATION_ANIMATION secs have passed
       if(millis() > last_animation_switch + DURATION_ANIMATION_MS) {
         initiateAnimationSwitch();
         current_animation = (current_animation + 1)%NUM_ANIMATIONS;
         setupAnimation(current_animation);
       }
-      // If not, any button pressed meanwhile a non-game animation will drop the user to a game
       else if(AnyButtonPressed()) {
         initiateAnimationSwitch();
         // Drop them to some game
@@ -1236,21 +1237,18 @@ void loop() {
         setupAnimation(current_animation);
       }
     }
-    // The current animation is a game
-    else {
-      // If game is over, switch to next animation
+    else { // isGame == true
       if(gameRunning == false) {
+        // They've lost
         initiateAnimationSwitch();
         current_animation = (current_animation + 1)%NUM_ANIMATIONS;
         setupAnimation(current_animation);
       }
-      // "Next" button will switch to next animation 
       else if(NextGameButtonPressed()) {
         initiateAnimationSwitch();
         current_animation = (current_animation + 1)%NUM_ANIMATIONS;
         setupAnimation(current_animation);
       }
-      // "Reset" button will re-initialize the current animation
       else if(ResetButtonPressed()) {
         initiateAnimationSwitch();
         setupAnimation(current_animation);

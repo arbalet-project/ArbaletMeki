@@ -5,8 +5,8 @@ const {
   ipcMain
 } = require('electron');
 
-const pixel = require("node-pixel");
-const five = require("johnny-five");
+const SerialPort = require('serialport')
+const Readline = require('@serialport/parser-readline')
 const path = require('path');
 const ipParser = require('ip6addr');
 const express = require('express');
@@ -14,16 +14,16 @@ const expressServer = express();
 const http = require('http').Server(expressServer);
 const port = 3000;
 const io = require('socket.io')(http);
+const ReadWriteLock = require('rwlock');
 
 let mainWindow;
-
+const serialProtocolVersion = 3;
 let clientsLogged = new Map();
 let grantedUser;
 let boardConnected = false;
 
-let board;
-var strip = null; 
-
+var serialport = null;
+var lock = new ReadWriteLock();
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -149,11 +149,26 @@ function initSocket() {
     });
     
     socket.on('updateGrid',function(pixelsToUpdate){
-      if(boardConnected && (grantedUser === clientsLogged.get(socket.handshake.session.id) )){
+      if(serialport !== null && boardConnected && (grantedUser === clientsLogged.get(socket.handshake.session.id))){
         pixelsToUpdate.forEach(function(currentPixel){
-          strip.pixel(coordToIndex(currentPixel)).color(currentPixel.color);
+          let data = Buffer.allocUnsafe(11);  // Frames are 11 Byte-long e.g. ARBA3F00RGB
+          data.write("ARBA");
+          data.writeUInt8(serialProtocolVersion, 4);
+          data.write("F", 5);
+          data.writeUInt16LE(coordToIndex(currentPixel), 6);
+          var bigint = parseInt(currentPixel.color.substring(1), 16);
+          var r = (bigint >> 16) & 255;
+          var g = (bigint >> 8) & 255;
+          var b = bigint & 255;
+          console.log(coordToIndex(currentPixel), currentPixel.color.substring(1), parseInt(currentPixel.color.substring(1), 16), r, g, b);
+          data.writeUInt8(r, 8);
+          data.writeUInt8(g, 9);
+          data.writeUInt8(b, 10);
+          lock.writeLock(function (release) {
+              serialport.write(data);
+              release();
+          });
         });
-        strip.show();
       }
     });
   });
@@ -181,13 +196,33 @@ function initEvents() {
 
 }
 
+function sendHeartbeat() {
+  if(serialport !== null && boardConnected) {
+      let data = Buffer.allocUnsafe(6);  // Frames are 6 Byte-long e.g. ARBA3L
+      data.write("ARBA");
+      data.writeUInt8(serialProtocolVersion, 4);
+      data.write("L", 5);
+      lock.writeLock(function (release) {
+          serialport.write(data);
+          release();
+      });
+   }
+}
+
 /**
- * Init the connection with Arduino (with firmata software) and the LED Strip
+ * Init the connection with Arduino
  */
 function initBoard(stripPin){
   try{
-    board = new five.Board({repl:false});
-    board.on("ready", function() {
+    serialport = new SerialPort("/dev/ttyACM0", {
+      baudRate: 115200
+    });
+
+    const parser = serialport.pipe(new Readline({ delimiter: '\r\n' }));
+    parser.on('data', processSerialInput);
+
+    setInterval(sendHeartbeat, 5000);
+    /*board.on("ready", function() {
       strip = new pixel.Strip({
           board: this,
           controller: "FIRMATA",
@@ -198,15 +233,22 @@ function initBoard(stripPin){
     });
     board.on("fail",function(){
       mainWindow.webContents.send('boardFailed');
-    });
+    });*/
   }
   catch(e){
     mainWindow.webContents.send('boardFailed'); 
   }
-
-
 }
 
+/**
+ * Process the input serial data
+ * @param {String} data 
+ */
+function processSerialInput(data) {
+   boardConnected = true;
+   mainWindow.webContents.send('boardReady');
+   console.log(data);
+}
 
 /**
  * Format the given ip adress to the ipv4 format
