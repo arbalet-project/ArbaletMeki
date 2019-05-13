@@ -10,7 +10,7 @@ let updateTimer;
 let pixelsToUpdate = [];
 let blocklyWorker;
 let nbRows = 15;
-let nbColumns = 10;
+let nbColumns = 20;
 let sharedBuffer;
 let sharedArray;
 

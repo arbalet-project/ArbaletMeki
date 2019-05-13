@@ -17,7 +17,6 @@ const io = require('socket.io')(http);
 const ReadWriteLock = require('rwlock');
 
 let mainWindow;
-const serialProtocolVersion = 3;
 let clientsLogged = new Map();
 let grantedUser;
 let boardConnected = false;
@@ -151,19 +150,17 @@ function initSocket() {
     socket.on('updateGrid',function(pixelsToUpdate){
       if(serialport !== null && boardConnected && (grantedUser === clientsLogged.get(socket.handshake.session.id))){
         pixelsToUpdate.forEach(function(currentPixel){
-          let data = Buffer.allocUnsafe(11);  // Frames are 11 Byte-long e.g. ARBA3F00RGB
-          data.write("ARBA");
-          data.writeUInt8(serialProtocolVersion, 4);
-          data.write("F", 5);
-          data.writeUInt16LE(coordToIndex(currentPixel), 6);
+          let data = Buffer.allocUnsafe(6);  // Frames are 6 Byte-long e.g. F00RGB
+          data.write("F", 0);
+          data.writeUInt16LE(coordToIndex(currentPixel), 1);
           var bigint = parseInt(currentPixel.color.substring(1), 16);
           var r = (bigint >> 16) & 255;
           var g = (bigint >> 8) & 255;
           var b = bigint & 255;
           console.log(coordToIndex(currentPixel), currentPixel.color.substring(1), parseInt(currentPixel.color.substring(1), 16), r, g, b);
-          data.writeUInt8(r, 8);
-          data.writeUInt8(g, 9);
-          data.writeUInt8(b, 10);
+          data.writeUInt8(r, 3);
+          data.writeUInt8(g, 4);
+          data.writeUInt8(b, 5);
           lock.writeLock(function (release) {
               serialport.write(data);
               release();
@@ -198,10 +195,8 @@ function initEvents() {
 
 function sendHeartbeat() {
   if(serialport !== null && boardConnected) {
-      let data = Buffer.allocUnsafe(6);  // Frames are 6 Byte-long e.g. ARBA3L
-      data.write("ARBA");
-      data.writeUInt8(serialProtocolVersion, 4);
-      data.write("L", 5);
+      let data = Buffer.allocUnsafe(1);  // Frames are 1 Byte-long e.g. L
+      data.write("L");
       lock.writeLock(function (release) {
           serialport.write(data);
           release();
@@ -215,7 +210,7 @@ function sendHeartbeat() {
 function initBoard(stripPin){
   try{
     serialport = new SerialPort("/dev/ttyACM0", {
-      baudRate: 115200
+      baudRate: 57600
     });
 
     const parser = serialport.pipe(new Readline({ delimiter: '\r\n' }));
