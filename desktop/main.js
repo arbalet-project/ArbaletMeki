@@ -270,11 +270,11 @@ function getIPV4(ip) {
 function coordToIndex(pixel){
   let index;
     // If even
-    if(pixel.columnY % 2 == 0){
-      index = (14 + 15*pixel.columnY) - pixel.rowX; 
+    if(pixel.rowX % 2 == 0){
+      index = index = (14-pixel.rowX)*20 + 19 - pixel.columnY; //(15 - pixel.rowX)*20 - pixel.rowX - 1; 
     }
     else {
-      index = pixel.columnY*15 + pixel.rowX;
+      index = (14-pixel.rowX)*20 + pixel.columnY;
     }
   
     return index;
