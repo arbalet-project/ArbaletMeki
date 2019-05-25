@@ -20,33 +20,45 @@
   <a href="#support">Support</a>
 </p>
 
-# Présentation 
+# 1. Présentation 
 
 Cette documentation s'adresse aux enseignants et animateurs d'atelier souhaitant utiliser l'application Arbalet Meki Live.
 
-# Installation
+# 2. Arbalet Meki Live en ligne
+Si vous souhaitez utiliser Arbalet Meki Live exclusivement en simulation, exploitez directement la version en ligne sur [live.arbalet-project.org/](http://live.arbalet-project.org/).
 
-## Arbalet
-Si vous êtes équipé(e) d'une table Arbalet Lack ou Lava (comprenant un Arduino), il vous faut installer un firmware spécifique sur celui-ci:
+Optionnellement, vous pouvez personnaliser le nombre de lignes et de colonnes en changeant les paramètres de l'URL, par exemple pour 15 lignes et 20 colonnes : [live.arbalet-project.org/?rows=15&cols=20](http://live.arbalet-project.org/?rows=15&cols=20).
 
-1. Branchez votre Arduino à l'ordinateur via USB.
-2. Installez le module de gestion de firmware Interchange:
+Consultez ensuite le titre 4.2 ci-dessous pour découvrir le fonctionnement de l'interface en ligne.
+
+# 3. Installation sur matériel
+
+## 3.1. Préparation de l'Arduino
+Si vous êtes équipé(e) d'une table Arbalet Lack ou Lava (comprenant un Arduino), il vous faut installer un firmware spécifique sur celui-ci. Cette procédure est à réaliser une seule fois pour votre Arduino.
+
+1. installez [NodeJS](https://nodejs.org/fr/download/) ainsi que [Git (64 bit for Windows Setup)](https://git-scm.com/download/win)
+2. Redémarrez votre ordinateur
+3. Ouvrez le terminal `Git Bash`
+4. Branchez votre Arduino à l'ordinateur via USB.
+5. Installez le module de gestion de firmware Interchange:
    ```shell
    $ npm install -g nodebots-interchange
    ```
-3. Chargez le custom firmware sur l'Arduino:
+6. Chargez le firmware sur l'Arduino:
     ```shell
     $ interchange install git+https://github.com/ajfisher/node-pixel -a uno --firmata
     ```
 <!-- -->
-Si votre table est équipée du duo Arduino/Rasperry Pi vous ne devez laisser que l'Arduino et brancher celui-ci à votre ordinateur.
 
+Une fois le téléversement du firmware effectué sur votre Arduino, vous n'avez plus besoin de Git Bash ni NodeJS que vous pouvez désinstaller si vous le souhaitez.
 
-## Windows/Mac/Linux
-Téléchargez l'exécutable correspondant à votre système et installez le. Il existe une version portable et un installeur pour chacun des systèmes.
+## 3.2. Démarrer Meki Live sur Windows/Mac/Linux
+Téléchargez la version "Setup" la plus récente d'Arbalet Meki Live correspondant à votre système depuis [cet emplacement](https://github.com/arbalet-project/ArbaletMeki/releases) et installez-la.
+
+Si vous n'avez pas l'autorisation d'installer de logiciel (par ex sur un ordinateur en classe), sélectionnez plutôt la version "Portable".
   
-# Utilisation 
-## Application Desktop - Interface Enseignant
+# 4. Utilisation 
+## 4.1. Application Desktop - Interface Enseignant
 Après avoir lancé l'application, vous arrivez sur l'interface administrateur d'Arbalet Meki Live.
 L'application est découpée en deux catégories :
 
@@ -67,8 +79,9 @@ L'application est découpée en deux catégories :
 5. Donner votre adresse aux élèves/participants et invitez les à la rentrer dans leur navigateur. Il est primordial que leurs postes soient connectés au même réseau local que le votre. Pour des raisons de performances nous vous conseillons une connexion filaire (le wifi pouvant augmenter la latence).
 6. Les élèves/utilisateurs connectés s'affichent sur la partie centrale de l'écran. Vous pouvez choisir à tout moment lequel a le contrôle sur la table.
 
-## Interface Élève - Navigateur
-Comme mentionné ci-dessus l'élève doit rentrer votre adresse complète dans son navigateur. Nous conseillons l'utilisation du navigateur <a href="https://www.google.com/chrome/">Google Chrome</a> (ou sa version open-source <a href="https://chromium.woolyss.com/download/fr/">Chromium</a>) afin de pouvoir bénéficier de toutes les fonctionnalités proposées par Arbalet Meki Live. <br/><br/>
+## 4.2. Interface Élève - Navigateur
+Comme mentionné ci-dessus l'élève doit rentrer votre adresse complète dans son navigateur. Nous conseillons l'utilisation du navigateur <a href="https://www.mozilla.org/fr/firefox">Mozilla Firefox</a> ou bien <a href="https://chromium.woolyss.com/download/fr/">Chromium</a>.
+
 Après que l'élève ai rentré l'adresse pour accéder à l'application, la fenêtre d'accueil lui permet d'écrire son nom. L'élève arrive ensuite sur l'interface de programmation qui est composée de plusieurs catégories : 
 
 ### Blocs de programmation
@@ -104,12 +117,29 @@ Vous trouverez à droite de l'écran, au dessus de la simulation différents bou
 ### Aperçu du code
 ![Alt Text](img/blockly.gif) 
 
+### Sauvegarder et restaurer
+Chaque utilisateur peut sauvegarder et restaurer son travail en cliquant sur la molette en haut à droite de l'écran pour sélectionner Importer ou Exporter. La sauvegarde est effectuée dans un fichier XML qu'il faut enregistrer sur son disque dur.
+
+Note : il n'est pas actuellement possible d'unifier plusieurs fichiers sauvegardés en un seul.
+
+### Exemples de programme
+Plusieurs exemples de programmes sont disponible en cliquant sur la molette en haut à droite de l'écran puis en sélectionnant Exemples :
+
+* **Drapeau Français** : dessine un drapeau bleu-blanc-rouge horizontal (exercice idéal pour débuter)
+* **Remplissage aléatoire** : attribue une couleur aléatoire à chaque pixel progressivement
+* **Texte défilant** : Fait défiler du texte
+* **Dessin par touches** : Déplace un pixel selon l'appui sur les flèches et laisse la trace de son passage
+* **Tir de couleurs** : Tire des pixels depuis le bas selon l'appui sur les flèches
+
 # Support
+
+Veuillez laisser un mesage sur le blog dans la catégorie [Software help](http://talk.arbalet-project.org/c/help/python-software-help) en cas de problème. 
 
 - <img src="img/site.png" style="vertical-align:middle" width ="20px"> Website at [`arbaletproject.org`](http://www.arbalet-project.org/)
 
 - <img src="img/twitter.svg" style="vertical-align:middle"  width ="22px">Twitter at [`@arbalet_project`](https://twitter.com/arbalet_project)
 
 - <img src="img/linkedin.svg" style="vertical-align:middle" width ="20px"> Linkedin at [`arbalet`](https://www.linkedin.com/company/arbalet/)
+
 - <img src="img/blog.png" style="vertical-align:middle" width ="20px"> Blog at [`arbalet-blog`](http://talk.arbalet-project.org/)
 ---
