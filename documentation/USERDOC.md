@@ -33,24 +33,27 @@ Consultez ensuite le titre 4.2 ci-dessous pour découvrir le fonctionnement de l
 
 # 3. Installation sur matériel
 
-## 3.1. Préparation de l'Arduino
-Si vous êtes équipé(e) d'une table Arbalet Lack ou Lava (comprenant un Arduino), il vous faut installer un firmware spécifique sur celui-ci. Cette procédure est à réaliser une seule fois pour votre Arduino.
+## 3.0. Prérequis : Fabrication
+La suite de cette procédure suppose que vous avez construit Arbalet Lava ou Arbalet Lack en suivant [l'un des guides de montage à cet emplacement](https://github.com/arbalet-project/arbadoc/wiki/Build-your-own) (non disponible en français). Vous pouvez ignorer toutes les étapes faisant référence au logiciel dans ce guide (firmware Arduino et Python), car la partie logicielle est remplacée par Meki Live en suivant la présente documentation.
 
-1. installez [NodeJS](https://nodejs.org/fr/download/) ainsi que [Git (64 bit for Windows Setup)](https://git-scm.com/download/win)
+## 3.1. Préparation de l'Arduino
+Si vous êtes équipé(e) d'une table Arbalet Lack ou Lava équipée d'un Arduino Uno, il vous faut installer un firmware spécifique sur celui-ci. Cette procédure est à réaliser une seule fois pour votre Arduino.
+
+1. Installez [NodeJS](https://nodejs.org/fr/download/) ainsi que [Git (64 bit for Windows Setup)](https://git-scm.com/download/win)
 2. Redémarrez votre ordinateur
-3. Ouvrez le terminal `Git Bash`
-4. Branchez votre Arduino à l'ordinateur via USB.
-5. Installez le module de gestion de firmware Interchange:
+3. Branchez votre Arduino à l'ordinateur via USB.
+4. Ouvrez le terminal `Git Bash`
+5. Installez le module de gestion de firmware `Interchange` en tapant cette commande dans Git Bash :
    ```shell
    $ npm install -g nodebots-interchange
    ```
-6. Chargez le firmware sur l'Arduino:
+6. Chargez le firmware sur l'Arduino en tapant cette commande dans Git Bash :
     ```shell
     $ interchange install git+https://github.com/ajfisher/node-pixel -a uno --firmata
     ```
 <!-- -->
 
-Une fois le téléversement du firmware effectué sur votre Arduino, vous n'avez plus besoin de Git Bash ni NodeJS que vous pouvez désinstaller si vous le souhaitez.
+Une fois le téléversement du firmware effectué sur votre Arduino, vous n'avez plus besoin de Git Bash ni NodeJS que vous pouvez désinstaller si vous le souhaitez, et votre Arduino pourra fonctionner avec Meki Live sur n'importe quel ordinateur.
 
 ## 3.2. Démarrer Meki Live sur Windows/Mac/Linux
 Téléchargez la version "Setup" la plus récente d'Arbalet Meki Live correspondant à votre système depuis [cet emplacement](https://github.com/arbalet-project/ArbaletMeki/releases) et installez-la.
