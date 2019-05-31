@@ -18,7 +18,7 @@ const ReadWriteLock = require('rwlock');
 
 let mainWindow;
 let clientsLogged = new Map();
-let grantedUser;
+let grantedUser = "";
 let boardConnected = false;
 
 var serialport = null;
@@ -157,7 +157,7 @@ function initSocket() {
           var r = (bigint >> 16) & 255;
           var g = (bigint >> 8) & 255;
           var b = bigint & 255;
-          console.log(coordToIndex(currentPixel), currentPixel.color.substring(1), parseInt(currentPixel.color.substring(1), 16), r, g, b);
+          //console.log(coordToIndex(currentPixel), currentPixel.color.substring(1), parseInt(currentPixel.color.substring(1), 16), r, g, b);
           data.writeUInt8(r, 3);
           data.writeUInt8(g, 4);
           data.writeUInt8(b, 5);
@@ -187,14 +187,14 @@ function initEvents() {
     grantedUser = '';
   });
 
-  ipcMain.on('connectBoard',function(event,pin){
-    initBoard(pin);
+  ipcMain.on('connectBoard',function(event){
+    initBoard();
   });
 
 }
 
 function sendHeartbeat() {
-  if(serialport !== null && boardConnected) {
+  if(serialport !== null && boardConnected && grantedUser != '') {
       let data = Buffer.allocUnsafe(1);  // Frames are 1 Byte-long e.g. L
       data.write("L");
       lock.writeLock(function (release) {
@@ -207,7 +207,7 @@ function sendHeartbeat() {
 /**
  * Init the connection with Arduino
  */
-function initBoard(stripPin){
+function initBoard(){
   try{
     serialport = new SerialPort("/dev/ttyACM0", {
       baudRate: 57600
@@ -216,7 +216,7 @@ function initBoard(stripPin){
     const parser = serialport.pipe(new Readline({ delimiter: '\r\n' }));
     parser.on('data', processSerialInput);
 
-    setInterval(sendHeartbeat, 5000);
+    setInterval(sendHeartbeat, 2000);
     /*board.on("ready", function() {
       strip = new pixel.Strip({
           board: this,
