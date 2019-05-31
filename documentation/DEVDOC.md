@@ -120,6 +120,9 @@ Lancez ensuite la compilation de cette manière:
 $ yarn dist
 ```
 
+# Dépannage rapide
+### Erreur `serialport was compiled against a different Node.js version`
+Exécuter `./node_modules/.bin/electron-rebuild`, merci https://stackoverflow.com/a/52796884/3884647
 
 # Support
 
