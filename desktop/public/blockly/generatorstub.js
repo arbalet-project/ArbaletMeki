@@ -131,7 +131,7 @@ Blockly.JavaScript['note_on_list'] = function(block) {
     var vel = Blockly.JavaScript.valueToCode(block, 'VELOCITE', Blockly.JavaScript.ORDER_ATOMIC);
 		if (vel == "") {vel = "100";}
     var pitch = String(note + 12 * oct);
-    var dataRoute = "http://192.168.1.100:5000/note_on/" + chan + "&" + pitch + "&" + vel;    
+    var dataRoute = "http://127.0.0.1:5000/note_on/" + chan + "&" + pitch + "&" + vel;    
 		var code = 'req = new XMLHttpRequest();';
     code += 'req.open("GET", "'+ dataRoute + '"); req.send(null);';   
 		// boucle pour laisser à la requête le temps de partir		
@@ -148,7 +148,7 @@ Blockly.JavaScript['note_off_list'] = function(block) {
     var oct = Number(block.getFieldValue('OCTAVE'));
     var vel = "100";
     var pitch = String(note + 12 * oct);
-    var dataRoute = "http://192.168.1.100:5000/note_off/" + chan + "&" + pitch + "&" + vel;
+    var dataRoute = "http://127.0.0.1:5000/note_off/" + chan + "&" + pitch + "&" + vel;
     var code = 'req = new XMLHttpRequest();';
     code += 'req.open("GET", "'+ dataRoute + '"); req.send(null);';		
 		code += 'var i = 1;';
@@ -160,7 +160,7 @@ Blockly.JavaScript['prgm_change'] = function(block) {
     var chan = block.getFieldValue('CHANNEL');
     var prgm = Blockly.JavaScript.valueToCode(block, 'PRGM_CHANGE', Blockly.JavaScript.ORDER_ATOMIC);   
 		if (prgm == "") {prgm = "1";}
-    var dataRoute = "http://192.168.1.100:5000/prgm_ch/" + chan + "&" + prgm;
+    var dataRoute = "http://127.0.0.1:5000/prgm_ch/" + chan + "&" + prgm;
     var code = 'req = new XMLHttpRequest(); ';
     code += 'req.open("GET", "'+ dataRoute + '"); req.send(null);';
 		//code += 'var i = 1;';
@@ -172,7 +172,7 @@ Blockly.JavaScript['volume'] = function(block) {
     var chan = block.getFieldValue('CHANNEL');
     var vol = Blockly.JavaScript.valueToCode(block, 'VOLUME', Blockly.JavaScript.ORDER_ATOMIC);   
 		if (vol == "") {vol = "100";}
-    var dataRoute = "http://192.168.1.100:5000/vol_ch/" + chan + "&" + vol;
+    var dataRoute = "http://127.0.0.1:5000/vol_ch/" + chan + "&" + vol;
     var code = 'req = new XMLHttpRequest(); ';
     code += 'req.open("GET", "'+ dataRoute + '"); req.send(null);';
 		//code += 'var i = 1;'
