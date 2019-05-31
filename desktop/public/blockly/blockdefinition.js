@@ -248,5 +248,222 @@ Blockly.defineBlocksWithJsonArray([{
     "colour": 270,
     "tooltip": "C'est ici que s'écrit le programme principal. Les blocs en dehors de celui-ci ne seront pas exécutés",
     "helpUrl": ""
+  },
+	{
+    "type": "note_on_list",
+    "message0": "Jouer %1 %2 %3 %4",
+    "args0": [      
+			{
+        "type": "field_dropdown",
+        "name": "CHANNEL",
+        "options": [
+          ["can 1", "1"],
+          ["can 2", "2"],
+          ["can 3", "3"],
+					["can 4", "4"],
+					["can 5", "5"],
+					["can 6", "6"],
+					["can 7", "7"],
+					["can 8", "8"],
+					["can 9", "9"],		
+					["can 10", "10"],
+					["can 11", "11"],
+					["can 12", "12"],
+					["can 13", "13"],
+					["can14", "14"],
+					["can 15", "15"],
+					["can 16", "16"],
+        ]
+      },
+			{
+        "type": "field_dropdown",
+        "name": "NOTE",
+        "options": [
+          ["do", "0"],
+          ["do#/déb", "1"],
+          ["ré", "2"],
+					["ré#/mib", "3"],
+					["mi", "4"],
+					["fa", "5"],
+					["fa#/solb", "6"],
+					["sol", "7"],
+					["sol#/lab", "8"],
+					["la", "9"],
+					["la#/sib", "10"],
+					["si", "11"]
+        ]
+      },
+		  {
+				"type": "field_dropdown",
+        "name": "OCTAVE",
+				"options": [
+					["3", "4"],										
+					["-1", "0"],
+					["0", "1"],
+					["1", "2"],
+					["2", "3"],
+					["3", "4"],
+					["4", "5"],
+					["5", "6"],
+					["6", "7"],
+					["7", "8"],
+					["8", "9"],					
+        ]
+			},
+			 {
+        "type": "input_value",
+        "name": "VELOCITE",
+        "check": "Number"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 50,
+    "tooltip": "jouer une note",
+    "helpUrl": ""
+  },
+	{
+    "type": "note_off_list",
+    "message0": "Arrêter %1 %2 %3",
+    "args0": [      
+			{
+        "type": "field_dropdown",
+        "name": "CHANNEL",
+        "options": [
+          ["can 1", "1"],
+          ["can 2", "2"],
+          ["can 3", "3"],
+					["can 4", "4"],
+					["can 5", "5"],
+					["can 6", "6"],
+					["can 7", "7"],
+					["can 8", "8"],
+					["can 9", "9"],		
+					["can 10", "10"],
+					["can 11", "11"],
+					["can 12", "12"],
+					["can 13", "13"],
+					["can 14", "14"],
+					["can 15", "15"],
+					["can 16", "16"],
+        ]
+      },
+			{
+        "type": "field_dropdown",
+        "name": "NOTE",
+        "options": [
+          ["do", "0"],
+          ["do#/déb", "1"],
+          ["ré", "2"],
+					["ré#/mib", "3"],
+					["mi", "4"],
+					["fa", "5"],
+					["fa#/solb", "6"],
+					["sol", "7"],
+					["sol#/lab", "8"],
+					["la", "9"],
+					["la#/sib", "10"],
+					["si", "11"]
+        ]
+      },
+		  {
+				"type": "field_dropdown",
+        "name": "OCTAVE",
+				"options": [
+					["3", "4"],
+          ["-1", "0"],
+          ["0", "1"],
+          ["1", "2"],
+					["2", "3"],
+					["3", "4"],
+					["4", "5"],
+					["5", "6"],
+					["6", "7"],
+					["7", "8"],
+					["8", "9"],					
+        ]
+			}			
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 50,
+    "tooltip": "stopper une note",
+    "helpUrl": ""
+  },
+	{
+    "type": "prgm_change",
+    "message0": "Intrument %1 %2",
+    "args0": [      
+			{
+        "type": "field_dropdown",
+        "name": "CHANNEL",
+        "options": [
+          ["can 1", "1"],
+          ["can 2", "2"],
+          ["can 3", "3"],
+					["can 4", "4"],
+					["can 5", "5"],
+					["can 6", "6"],
+					["can 7", "7"],
+					["can 8", "8"],
+					["can 9", "9"],		
+					["can 10", "10"],
+					["can 11", "11"],
+					["can 12", "12"],
+					["can 13", "13"],
+					["can14", "14"],
+					["can 15", "15"],
+					["can 16", "16"],
+        ]
+      },
+			{
+        "type": "input_value",
+        "name": "PRGM_CHANGE",
+        "check": "Number"
+			}
+			],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 50,
+    "tooltip": "Choisir l'instrument n°",
+    "helpUrl": ""
+  },
+	{
+    "type": "volume",
+    "message0": "Volume %1 %2",
+    "args0": [
+			{
+        "type": "field_dropdown",
+        "name": "CHANNEL",
+        "options": [
+          ["can 1", "1"],
+          ["can 2", "2"],
+          ["can 3", "3"],
+					["can 4", "4"],
+					["can 5", "5"],
+					["can 6", "6"],
+					["can 7", "7"],
+					["can 8", "8"],
+					["can 9", "9"],		
+					["can 10", "10"],
+					["can 11", "11"],
+					["can 12", "12"],
+					["can 13", "13"],
+					["can14", "14"],
+					["can 15", "15"],
+					["can 16", "16"],
+        ]
+      },
+			{
+        "type": "input_value",
+        "name": "VOLUME",
+        "check": "Number"
+			}
+			],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 50,
+    "tooltip": "Mettre le volume sonore à",
+    "helpUrl": ""
   }
 ]);
